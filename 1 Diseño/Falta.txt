@@ -1,0 +1,4 @@
+- Diagrama de Actividades
+- Diagrama de Componentes
+- Diagrama de Estados
+- Diagrama de Clases
