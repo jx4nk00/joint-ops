@@ -131,58 +131,61 @@
 							<h2><i class="icon-pencil"></i> Liquidación</h2>
 						</div>
 					<div class="box-content">
-						<form class="form-horizontal">
-							 <fieldset>
+						<form class="form-horizontal" method="POST" action="#">
+						<fieldset>
 						<div class="row-fluid">
 							<legend>Plantilla de Liquidación de Servicios OPServices</legend>
+
 							<div class="span12">Liquidación Numero: <span>12345</span></div>
 							<div class="span12">Fecha: <?php echo date('d-m-Y'); ?></div>
-							<div class="span12 center">Plantilla de Liquidación OPSERVICES</div>
-							<div class="span12">1.- Datos Generales de Servicio</div>
+							<div class="span12 center"><h2>Plantilla de Liquidación OPSERVICES</h2></div>
+							<div class="span12"><h4>1.- Datos Generales de Servicio</h4></div>
+							
 
 							<div class="span3">Nombre de la Nave o Servicio</div>
 							<div class="span8">
-								<input type="text" placeholder="Nombre de la Nave o Servicio"/>
+								<input type="text" name="nombreNave" placeholder="Nombre de la Nave o Servicio"/>
 							</div>
+							<div class="clear"></div>
 							<div class="span3">N° de Informe</div>
 							<div class="span8">
-								<input type="text" placeholder="N° de Informe"/>
+								<input type="text" name="numInforme" placeholder="N° de Informe"/>
 							</div>
 							<div class="span3">Referencia al Cliente</div>
 							<div class="span8">
-								<input type="text" placeholder="Referencia al Cliente"/>
+								<input type="text" name="referenciaCliente" placeholder="Referencia al Cliente"/>
 							</div>
 							<div class="span3">Lugar de Servicio</div>
 							<div class="span8">
-								<input type="text" placeholder="Lugar de Servicio"/>
+								<input type="text" name="lugarServicio" placeholder="Lugar de Servicio"/>
 							</div>
 							<div class="span3">Nombre de Inspector(es) a cargo</div>
 							<div class="span8">
-								<input type="text" placeholder="Insp cargo"/>
+								<input type="text" name="InspCargo" placeholder="Insp cargo"/>
 							</div>
 							<div class="span3">Nombre de Inspector(es) Partcipantes</div>
 							<div class="span8">
-								<input type="text" placeholder="Insp part"/>
+								<input type="text" name="InspParticipantes" placeholder="Insp part"/>
 							</div>
 							<div class="span3">Servicio Realizado</div>
 							<div class="span8">
-								<input type="text" placeholder="Servicios Realizados"/>
+								<textarea name="servicioRealizado" cols="30" rows="3"></textarea>
 							</div>
 							<div class="span3">Numero de Contenedores</div>
 							<div class="span8">
-								<input type="text" placeholder="Contenedores"/>
+								<input type="number" min="0" name="numContenedores" value="0"/>
 							</div>
 							<div class="span3">Turnos Totales Trabajados</div>
 							<div class="span8">
-								<input type="text" placeholder="Turnos"/>
+								<input type="number" min="0" name="turnosTrabajados" value="0"/>
 							</div>
 							<div class="span3">Tarifado</div>
 							<div class="span8">
-								<input type="text" placeholder="Tarifado"/>
+								<input type="text" name="tarifado" placeholder="Tarifado"/>
 							</div>
 
-							<div class="span8"></div>
-							<div class="span3">
+							<div class="span6"></div>
+							<div class="span5">
 								<div class="span3">NETO</div>
 								<div class="span3">IVA/RET</div>
 								<div class="span3">TOTAL</div>
@@ -190,79 +193,79 @@
 						
 							<div class="span3">Valor Facturado</div>
 							
-							<div class="span5">Factura Excenta</div>
-							<div class="span3">
+							<div class="span3">Factura Excenta</div>
+							<div class="span5">
 								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-small" name="FENeto" min="0" type="number" value="0">
 								</div>
 								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-small" name="FEIva" min="0" type="number" value="0">
 								</div>
 								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-small" name="FETotal" type="text" value="0" disabled>
 								</div>
 							</div>
 
 							<div class="span3"></div>
 							
-							<div class="span5">Factura Afecta</div>
-							<div class="span3">
+							<div class="span3">Factura Afecta</div>
+							<div class="span5">
 								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
+									<input id="FANeto" class="input-small" name="FANeto" min="0" type="number" value="0">
 								</div>
 								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
+									<input id="FAIva" class="input-small" name="FAIva" type="text" value="0" disabled>
 								</div>
 								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
-								</div>
-							</div>
-							
-							<div class="span3"></div>
-							
-							<div class="span5">Boleta Honorarios</div>
-							<div class="span3">
-								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
-								</div>
-								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
-								</div>
-								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
+									<input id="FATotal" class="input-small" name="FATotal" type="text" value="0" disabled>
 								</div>
 							</div>
 							
 							<div class="span3"></div>
 							
-							<div class="span5">Invoice</div>
-							<div class="span3">
+							<div class="span3">Boleta Honorarios</div>
+							<div class="span5">
 								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-small" name="BHNeto" min="0" type="number" value="0">
 								</div>
 								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-small" name="BHIva" type="text" value="0" disabled>
 								</div>
 								<div class="span3">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-small" name="BHTotal" type="text" value="0" disabled>
+								</div>
+							</div>
+							
+							<div class="span3"></div>
+							
+							<div class="span3">Invoice</div>
+							<div class="span5">
+								<div class="span3">
+									<input class="input-small" name="InNeto" min="0" type="number" value="0">
+								</div>
+								<div class="span3">
+									<input class="input-small" name="InIva" min="0" type="number" value="0">
+								</div>
+								<div class="span3">
+									<input class="input-small" name="InTotal" type="text" value="0" disabled>
 								</div>
 							</div>
 
 							<div class="span3">Tasa de Cambio</div>
 							<div class="span8">
-								<input class="" type="text" placeholder="475,20" disabled />
+								<input class="" type="text" placeholder="515,99" disabled />
 							</div>
 
 							<div class="span12"></div>
 
-							<div class="span12">2.- Gastos Generales Incurridos</div>
-							<div class="span9">2.1- Gastos De Inspección</div>
+							<div class="span12"><h4>2.- Gastos Generales Incurridos</h4></div>
+							<div class="span9"><h4>2.1- Gastos De Inspección</h4></div>
 							<div class="span2">TOTAL</div>
 
 							<div class="span3">Total Rend. Gastos</div>
-							<div class="span6">hola</div>
+							<div class="span6">Aquí debe ir un código</div>
 							<div class="span2">
-								<input class="input-small" type="text" placeholder="ad">
+								<input class="input-small" name="totalRendicion" type="number" min="0" value="0">
 							</div>
 
 							<div class="span3"></div>
@@ -277,64 +280,71 @@
 							<div class="span3">Impresión Informe</div>
 							<div class="span6">
 								<div class="span2">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-mini" name="IIValorHoja" type="number" min="0" value="0">
 								</div>
 								<div class="span2">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-mini" name="IICantHoja" type="number" min="0"  value="0">
 								</div>
 								<div class="span2">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-mini" name="IINumcopias" type="number" min="0"  value="0">
 								</div>
 								<div class="span4">
-									<input class="" type="text" placeholder="abcs">
+									<input class="" type="text" name="IIDetalle" placeholder="IIDetalle">
 								</div>
 							</div>
 							<div class="span2">$123-</div>
 
 							<div class="span3">Gastos Confección de Informes</div>
 							<div class="span6">
-								<input class="input-mini-large" type="text" placeholder="hihihih" />
+								<textarea name="gastosConfeccion" cols="30" rows="3"></textarea>
 							</div>
 							<div class="span2">
-								<input class="input-small" type="text" placeholder="$123.-" />
+								<input class="input-small" name="GastosConfTotal" type="number" min="0" value="0" />
 							</div>
 					
 							<div class="span3">Pago Inspectores Ayudantes</div>
 							<div class="span6">
+								<?php // Nombre de Inspectores a Cargo ?>
 								<div class="span2">INSP1</div>
 								<div class="span2">INSP2</div>
 								<div class="span2">INSP3</div>
 								<div class="span2">INSP4</div>
-								<div class="span2">INSP5</div>
+								<div class="span2">INSP5</div> 
+								<div class="span2">INSP6</div> 
 							</div>
 							<div class="span2"></div>
 
 							<div class="span3"></div>
 							<div class="span6">
+
+								<?php // Valor a pagar Inspectores a Cargo ?>
 								<div class="span2">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-mini" type="number" min="0" value="0">
 								</div>
 								<div class="span2">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-mini" type="number" min="0"  value="0">
 								</div>
 								<div class="span2">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-mini" type="number" min="0" value="0">
 								</div>
 								<div class="span2">
-									<input class="input-mini" type="text" placeholder="123">
+									<input class="input-mini" type="number" min="0"  value="0">
 								</div>
 								<div class="span2">
-									<input class="input-mini" type="text" placeholder="123">
-								</div>
+									<input class="input-mini" type="number" min="0"  value="0">
+								</div> 
+								<div class="span2">
+									<input class="input-mini" type="number" min="0"  value="0">
+								</div> 
 							</div>
 							<div class="span2">$123-</div>
 
 							<div class="span3">Otros Gastos</div>
 							<div class="span6">
-								<input class="input" type="text" placeholder="Detalle">
+								<textarea name="otrosGastos" cols="30" rows="3"></textarea>
 							</div>
 							<div class="span2">
-								<input class="input-mini" type="text" placeholder="123">
+								<input class="input-mini" name="OtrosGastosDetalle" type="number" min="0"  value="0">
 							</div>
 
 							<div class="span9"></div>
@@ -444,6 +454,27 @@
 	<script src="js/jquery.history.js"></script>
 	<!-- application script for Charisma demo -->
 	<script src="js/charisma.js"></script>
+
+	<!-- Nuestros Scripts -->
+	<script>
+		$(document).ready(function() {
+
+
+			$('#FANeto').keyup(function(){
+
+				var faneto = $(this).val();
+				var faiva = faneto * 0.19;
+				var fatotal = parseInt(faiva) + parseInt(faneto);
+
+				$('#FAIva').val(faiva);
+
+				$('#FATotal').val(fatotal);
+
+			});
+
+
+		});
+	</script>
 	
 		
 </body>

@@ -1,5 +1,5 @@
 <?php 
-include ('funciones.php');
+include ('clases/informes.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -170,7 +170,10 @@ include ('funciones.php');
 							        $destino =  "informes/".$prefijo."-".$fecha."-".$archivo;
 							        if (copy ($_FILES['archivo']['tmp_name'],$destino)) {
 							            $status = "Archivo subido: <b>".$archivo."</b> Exitosamente";
-							            subir_informe($destino, "CodigoPrueba");
+
+							            $informe = new Informes;
+
+							            $informe->subir_informe($destino, "CodigoPrueba");
 
 							        } else {
 							            $status = "Error al subir el archivo";
