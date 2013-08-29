@@ -1,19 +1,22 @@
 <?php 
 
-include ('funciones.php');
+include ('clases/revisarUsuario.php');
 
 if( isset($_POST['enviar'])){
 	session_start();
+	$revisar = new RevisarUsuario;
 	$u = $_POST['username'];
 	$p = $_POST['password'];
-	$validar = logear($u,$p);
-	
 
+
+	$validar = $revisar->rUsuario($u, $p);
+	
 	if ($validar) {
 		$_SESSION['login'] = "exito";
 		header('location: main.php');
 	}
 }
+
 
  ?>
 
@@ -28,7 +31,7 @@ if( isset($_POST['enviar'])){
 	<meta name="author" content="Joint Ops">
 
 	<!-- The styles -->
-	<link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
+	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
 	<style type="text/css">
 	  body {
 		padding-bottom: 40px;
@@ -93,7 +96,7 @@ if( isset($_POST['enviar'])){
 
 							<div class="input-prepend">
 							<label class="remember" for="remember"><input type="checkbox" id="remember" />Recordar</label>
-							</div>
+							</div>							
 							<div class="clearfix"></div>
 
 							<p class="center span5">

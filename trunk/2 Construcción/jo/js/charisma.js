@@ -286,6 +286,17 @@ function docReady(){
 	});
 
 
+	// Juanka 
+	$('.nuevoP').click(function(e){
+		e.preventDefault();
+		$('#nuevoProyecto').modal('show');
+	});
+
+	$('#informacionProyecto').hide();
+	$('#botonesProyecto').hide();
+	// Fin Juanka
+
+
 
 		
 	//initialize the external events for calender
@@ -495,12 +506,10 @@ function docReady(){
 
 	//pie chart
 	var data = [
-	{ label: "Internet Explorer",  data: 12},
-	{ label: "Mobile",  data: 27},
-	{ label: "Safari",  data: 85},
-	{ label: "Opera",  data: 64},
-	{ label: "Firefox",  data: 90},
-	{ label: "Chrome",  data: 112}
+	{ label: "Proyecto de Titulo I",  data: 10},
+	{ label: "Proyecto de Título II",  data: 20},
+	{ label: "Roborts Moviles",  data: 30},
+	{ label: "Taller de Emprendimiento",  data: 40}
 	];
 	
 	if($("#piechart").length)

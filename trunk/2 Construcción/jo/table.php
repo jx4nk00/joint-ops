@@ -1,17 +1,14 @@
-<?php 
-include ('funciones.php');
- ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Free HTML5 Bootstrap Admin Template</title>
+	<title>Estado de Proyectos</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
 	<meta name="author" content="Muhammad Usman">
 
 	<!-- The styles -->
-	<link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
+	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
 	<style type="text/css">
 	  body {
 		padding-bottom: 40px;
@@ -57,52 +54,23 @@ include ('funciones.php');
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Charisma</span></a>
+				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Joint Ops</span></a>
 				
-				<!-- theme selector starts -->
-				<div class="btn-group pull-right theme-container" >
-					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-tint"></i><span class="hidden-phone"> Change Theme / Skin</span>
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu" id="themes">
-						<li><a data-value="classic" href="#"><i class="icon-blank"></i> Classic</a></li>
-						<li><a data-value="cerulean" href="#"><i class="icon-blank"></i> Cerulean</a></li>
-						<li><a data-value="cyborg" href="#"><i class="icon-blank"></i> Cyborg</a></li>
-						<li><a data-value="redy" href="#"><i class="icon-blank"></i> Redy</a></li>
-						<li><a data-value="journal" href="#"><i class="icon-blank"></i> Journal</a></li>
-						<li><a data-value="simplex" href="#"><i class="icon-blank"></i> Simplex</a></li>
-						<li><a data-value="slate" href="#"><i class="icon-blank"></i> Slate</a></li>
-						<li><a data-value="spacelab" href="#"><i class="icon-blank"></i> Spacelab</a></li>
-						<li><a data-value="united" href="#"><i class="icon-blank"></i> United</a></li>
-					</ul>
-				</div>
-				<!-- theme selector ends -->
 				
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-user"></i><span class="hidden-phone"> admin</span>
+						<i class="icon-user"></i><span class="hidden-phone"> Usted</span>
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Profile</a></li>
+						<li><a href="#">Perfil</a></li>
 						<li class="divider"></li>
-						<li><a href="login.html">Logout</a></li>
+						<li><a href="login.html">Salir</a></li>
 					</ul>
 				</div>
 				<!-- user dropdown ends -->
 				
-				<div class="top-nav nav-collapse">
-					<ul class="nav">
-						<li><a href="#">Visit Site</a></li>
-						<li>
-							<form class="navbar-search pull-left">
-								<input placeholder="Search" class="search-query span2" name="query" type="text">
-							</form>
-						</li>
-					</ul>
-				</div><!--/.nav-collapse -->
 			</div>
 		</div>
 	</div>
@@ -139,73 +107,78 @@ include ('funciones.php');
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
-					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
+					<p>Necesitas tener <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> activado para utilizar este sitio.</p>
 				</div>
 			</noscript>
+
+
 			
 			<div id="content" class="span10">
-			<!-- content starts -->
-			
 
-			<div>
-				<ul class="breadcrumb">
-					<li>
-						<a href="#">Home</a> <span class="divider">/</span>
-					</li>
-					<li>
-						<a href="#">Tables</a>
-					</li>
-				</ul>
+					<div class="row-fluid">
+				<a data-rel="tooltip" title="2 nuevos miembros." class="well span3 top-block" href="#">
+					<span class="icon32 icon-red icon-user"></span>
+					<div>Miembros Totales</div>
+					<div>12</div>
+					<span class="notification">2</span>
+				</a>
+
+				<a data-rel="tooltip" title="4 Nuevos proyectos." class="well span3 top-block" href="#">
+					<span class="icon32 icon-color icon-star-on"></span>
+					<div>Proyectos en Curso</div>
+					<div>28</div>
+					<span class="notification green">4</span>
+				</a>
+
+				<a data-rel="tooltip" title="56 Proyectos Terminados." class="well span3 top-block" href="#">
+					<span class="icon32 icon-color icon-pin"></span>
+					<div>Proyectos Terminados</div>
+					<div>56</div>
+					<span class="notification yellow">56</span>
+				</a>
+				
+				<a data-rel="tooltip" title="12 nuevos mensajes." class="well span3 top-block" href="#">
+					<span class="icon32 icon-color icon-envelope-closed"></span>
+					<div>Mensajes</div>
+					<div>25</div>
+					<span class="notification red">12</span>
+				</a>
 			</div>
-			
+			<!-- content starts -->
 			<div class="row-fluid sortable">		
 				<div class="box span12">
 					<div class="box-header well" data-original-title>
-						<h2><i class="icon-user"></i> Members</h2>
+						<h2><i class="icon-user"></i> Proyectos</h2>
 						<div class="box-icon">
-							<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
 							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
 						</div>
 					</div>
 					<div class="box-content">
-						<table class="table table-striped table-bordered bootstrap-datatable">
+						<table class="table table-striped table-bordered bootstrap-datatable datatable">
+						<div class="control-group">
+							<a class="btn btn-success nuevoP" href="#">
+								<i class="icon-plus icon-white"></i>  
+								Nuevo Proyecto                                            
+							</a>
+						</div>
 						  <thead>
 							  <tr>
-								  <th>Nombre</th>
-								  <th>Apellido</th>
-								  <th>Tipo</th>
-								  <th>Correo</th>
+								  <th>Proyecto</th>
+								  <th>Fecha de Inicio</th>
+								  <th>Encargado</th>
 								  <th>Estado</th>
 								  <th>Acción</th>
 							  </tr>
 						  </thead>   
 						  <tbody>
-						  	<tr>
-							<?php 
-
-							$datos = ver_usuarios();
-							while ($row = mysql_fetch_array ($datos))
-							{  
-							 echo "<td>".$row['p_nombre']." ".$row['s_nombre']."</td>";
-							 echo "<td class='center'>".$row['apellido_p']." ".$row['apellido_m']."</td>";
-							 echo "<td class='center'>".$row['nombre_privilegio']."</td>";
-							 echo "<td class='center'>".$row['correo']."</td>";
-							 echo "<td class='center'>";
-							 	if ($row['activo']==1){echo "<span class='label label-success'>Active</span>";}
-							 	else{echo "<span class='label'>Inactive</span>";}
-							 echo "</td>";
-
-							echo "<td class='center'>";
-
-
-
-							}  
-
-
-							?>
-
-								
+							<tr>
+								<td>Bismark</td>
+								<td class="center">2012/01/01</td>
+								<td class="center">Jack Sparrow</td>
+								<td class="center">
+									<span class="label label-success">Finalizado</span>
+								</td>
+								<td class="center">
 									<a class="btn btn-success" href="#">
 										<i class="icon-zoom-in icon-white"></i>  
 										Ver                                            
@@ -221,7 +194,74 @@ include ('funciones.php');
 								</td>
 							</tr>
 							
-
+							
+							<tr>
+								<td>Queen</td>
+								<td class="center">2012/06/01</td>
+								<td class="center">Juanito Perez</td>
+								<td class="center">
+									<span class="label">Cancelado</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="icon-zoom-in icon-white"></i>  
+										Ver                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="icon-edit icon-white"></i>  
+										Editar                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="icon-trash icon-white"></i> 
+										Borrar
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Titanic</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Raul Mella</td>
+								<td class="center">
+									<span class="label label-important">Fuera de Plazo</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="icon-zoom-in icon-white"></i>  
+										Ver                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="icon-edit icon-white"></i>  
+										Editar                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="icon-trash icon-white"></i> 
+										Borrar
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Nautilus</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Alvaro Salas</td>
+								<td class="center">
+									<span class="label label-warning">En Curso</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="icon-zoom-in icon-white"></i>  
+										Ver                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="icon-edit icon-white"></i>  
+										Editar                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="icon-trash icon-white"></i> 
+										Borrar
+									</a>
+								</td>
+							</tr>
+							
 						  </tbody>
 					  </table>            
 					</div>
@@ -229,11 +269,22 @@ include ('funciones.php');
 			
 			</div><!--/row-->
 
-						
-			
-			
-			
-    
+
+
+			<div class="row-fluid sortable">
+				<div class="box span5">
+					<div class="box-header well" data-original-title>
+						<h2><i class="icon-list-alt"></i> Ejemplo de Grafico de "pie"</h2>
+						<div class="box-icon">
+							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+							<div id="piechart" style="height:300px"></div>
+					</div>
+				</div>
+		</div><!--/row-->
+
 					<!-- content ends -->
 			</div><!--/#content.span10-->
 				</div><!--/fluid-row-->
@@ -253,6 +304,127 @@ include ('funciones.php');
 				<a href="#" class="btn btn-primary">Save changes</a>
 			</div>
 		</div>
+
+
+
+
+		<div class="modal hide fade" id="nuevoProyecto">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Nuevo Proyecto</h3>
+			</div>
+			<div class="modal-body">
+
+				<form action="" class="form-horizontal">
+
+					<div class="control-group">
+						<label class="control-label">Nombre: </label>
+						<div class="controls">
+							<input type="text" placeholder="Nombre aquí"  required/> 				
+							<a class="btn btn-success" href="#" onclick="$('#informacionProyecto').show('slow'); $('#botonesProyecto').show('slow');">
+								<i class="icon-plus icon-white"></i>  
+								Verificar                                            
+							</a>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="verificador">
+							<label class="control-label">Validación</label>
+						</div>
+					</div>
+						
+					<div id="informacionProyecto">
+					<legend>Información del Proyecto</legend>
+
+					<div class="row-fluid">
+						<div class="span6">
+
+							<div class="control-group">
+								<h3>Responsables</h3>
+									<select id="insp">
+										<option>Omar Pizarro</option>
+										<option>Juan Carlos Garcés</option>
+										<option>Juan Pablo Soto</option>
+										<option>Sthephany Rojas</option>
+										<option>Matias Alonso</option>
+									</select>
+							</div>
+
+
+							<div class="control-group">
+								<h3>Ayudantes</h3>
+									<select id="insp">
+										<option>Juan Pablo Soto</option>
+										<option>Omar Pizarro</option>
+										<option>Juan Carlos Garcés</option>
+										<option>Sthephany Rojas</option>
+										<option>Matias Alonso</option>
+									</select>
+							</div>
+
+							<div class="control-group">
+								<select id="insp">
+										<option>Juan Carlos Garcés</option>
+										<option>Omar Pizarro</option>
+										<option>Juan Pablo Soto</option>
+										<option>Sthephany Rojas</option>
+										<option>Matias Alonso</option>
+									</select>
+							</div>
+							<div class="control-group">
+								<select id="insp">
+										<option>Sthephany Rojas</option>
+										<option>Omar Pizarro</option>
+										<option>Juan Carlos Garcés</option>
+										<option>Juan Pablo Soto</option>
+										<option>Matias Alonso</option>
+									</select>
+							</div>
+
+							
+						</div>
+
+						<div class="span6">
+							<div class="control-group">
+							<h3>Descripción del Proyecto</h3>
+								<textarea id="descP" rows="5" cols="50" placeholder="Descripción del Proyecto" required></textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="row-fluid">
+						<div class="span6">
+							<div class="control-group">
+								<h3>Fecha de Inicio</h3>
+									<input type="text" class="input datepicker" id="date01" value="02/16/12" required />
+							</div>
+						</div>
+
+						<div class="span6">
+							<div class="control-group">
+								<h3>Fecha de Termino</h3>
+									<input type="text" class="input datepicker" id="date02" value="02/16/12" required />
+							</div>
+							
+						</div>
+					</div>
+
+				
+				</div><!-- Cierre de informaciones -->
+				</div><!-- Cierre del Modal Body -->
+
+				<div id="botonesProyecto"class="modal-footer">
+					<input type="submit" class="btn btn-info noty" data-noty-options='{"text":"Proyecto Creado con Éxito","layout":"top","type":"information"}' data-dismiss="modal" value="Crear Proyecto" />
+				</div>
+				</form>
+			
+
+
+		</div> <!-- Cierre del Modal -->
+
+
+
 
 		<footer>
 			<p class="pull-left">&copy; <a href="http://usman.it" target="_blank">Muhammad Usman</a> 2012</p>
