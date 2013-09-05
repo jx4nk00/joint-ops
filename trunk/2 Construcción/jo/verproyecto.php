@@ -1,17 +1,14 @@
-<?php 
-include ('clases/informes.php');
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Importar Informe</title>
+	<title>Ver Proyectos</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="Joint OPS">
+	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
+	<meta name="author" content="Muhammad Usman">
 
 	<!-- The styles -->
-	<link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
+	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
 	<style type="text/css">
 	  body {
 		padding-bottom: 40px;
@@ -57,7 +54,8 @@ include ('clases/informes.php');
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Joint Ops - OPServices</span></a>
+				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Joint Ops</span></a>
+				
 				
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
@@ -68,21 +66,11 @@ include ('clases/informes.php');
 					<ul class="dropdown-menu">
 						<li><a href="#">Perfil</a></li>
 						<li class="divider"></li>
-						<li><a href="#">Salir</a></li>
+						<li><a href="login.html">Salir</a></li>
 					</ul>
 				</div>
 				<!-- user dropdown ends -->
 				
-				<div class="top-nav nav-collapse">
-					<ul class="nav">
-						<li><a href="#">Volver a la WEB</a></li>
-						<li>
-							<form class="navbar-search pull-left">
-								<input placeholder="Buscar" class="search-query span2" name="query" type="text">
-							</form>
-						</li>
-					</ul>
-				</div><!--/.nav-collapse -->
 			</div>
 		</div>
 	</div>
@@ -94,10 +82,9 @@ include ('clases/informes.php');
 			<div class="span2 main-menu-span">
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-
 						<li class="nav-header hidden-tablet">Administración</li>
-						<li><a class="ajax-link" href="#"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-ok"></i><span class="hidden-tablet"> Estadisticas</span></a></li>
+						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
+						<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-ok"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li>
 						<li><a class="ajax-link" href="#"><i class="icon-time"></i><span class="hidden-tablet"> Trabajos</span></a></li>
 
 						<li class="nav-header hidden-tablet">Inspección</li>
@@ -120,91 +107,173 @@ include ('clases/informes.php');
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
-					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
+					<p>Necesitas tener <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> activado para utilizar este sitio.</p>
 				</div>
 			</noscript>
+
+
 			
 			<div id="content" class="span10">
 			<!-- content starts -->
-			
-			<div class="row-fluid sortable">
+			<div class="row-fluid sortable">		
 				<div class="box span12">
 					<div class="box-header well" data-original-title>
-						<h2><i class="icon-edit"></i> Importar Imporfe</h2>
+						<h2><i class="icon-user"></i> Ver Proyecto</h2>
+						<div class="box-icon">
+							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+						</div>
 					</div>
 					<div class="box-content">
+						<legend>Información del Proyecto</legend>
 
-						<form class="form-horizontal" method="POST" action="informe.php" enctype="multipart/form-data">
-						  <fieldset>
-							  <div class="row-fluid">
-								  <div class="span12">
-									<h2>Importar Informe</h2>
-									<p>Carga de Archivos OPServices</p>
-									<div class="tooltip-demo well">
-									  <p class="muted" style="margin-bottom: 0;">Estimado Inspector, le regamos que revise bien sus datos, ya que serán almacenados en nuestras memorias, además de que una vez que esté cargado su archivo, no podrá volver a modificarlo.
-									  </p>
-									</div>                                  
-								  </div>
-							  </div>
 
-							<div class="control-group">
-							  <label class="control-label" for="fileInput">Seleccione su Informe</label>
-							  <div class="controls">
-								<input name="archivo"class="input-file uniform_on" id="fileInput" type="file" required />
-							  </div>
-							</div>          
-							
-							<?php 
-							$status = "";
-							if (isset($_POST["enviar"])) {
-							    // obtenemos los datos del archivo
-							    $tamano = $_FILES["archivo"]['size'];
-							    $tipo = $_FILES["archivo"]['type'];
-							    $archivo = $_FILES["archivo"]['name'];
-							    $fecha = date('d-m-Y');
-							    $prefijo = substr(md5(uniqid(rand())),0,6);
-							   
-							    if ($archivo != "") {
-							        // guardamos el archivo a la carpeta files
-							        $destino =  "informes/".$prefijo."-".$fecha."-".$archivo;
-							        if (copy ($_FILES['archivo']['tmp_name'],$destino)) {
-							            $status = "Archivo subido: <b>".$archivo."</b> Exitosamente";
 
-							            $informe = new Informes;
-
-							            $informe->subir_informe($destino, "CodigoPrueba");
-
-							        } else {
-							            $status = "Error al subir el archivo";
-							        }
-							    } else {
-							        $status = "Error al subir archivo";
-							    }
-
-							    echo $status;
-							}
-
-							 ?>
-							<div class="form-actions">
-							  <input  name="enviar" class="btn btn-primary" type="submit" value="Subir Informe" />
-							  <button type="reset" class="btn">Cancelar</button>
+						<div class="row-fluid">
+							<div class="span4">
+								<div class="control-group">
+									<h3>Nombre del Proyecto</h3> 
+									Nombre
+								</div>
 							</div>
-						  </fieldset>
-						</form>   
+
+							<div class="span4">
+								<div class="control-group">
+									<h3>Código</h3>
+									 OPS-###YY-1-2/3-Valparaiso
+								</div>
+							</div>
+
+							<div class="span4">
+								<div class="control-group">
+									<h3>Estado</h3>
+									<span class="label label-warning">En Curso</span>
+								</div>
+							</div>
+						</div>
+
+
+
+
+						<br>
+						<div class="row-fluid">
+							<div class="span12">
+								<div class="control-group">
+									<legend>Descripción del proyecto</legend>
+									<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic, quod, sint est neque eligendi nisi mollitia adipisci doloremque aperiam fugiat accusantium quas magni odit cupiditate rerum id repellendus eaque sit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, distinctio, commodi, unde obcaecati sed deserunt alias dolores qui velit odio rem error saepe culpa molestias ipsam perspiciatis odit ipsa sequi.</span>
+								</div>
+							</div>
+						</div>
+							<br>
+						<legend>Responsabilidades</legend>
+						<div class="row-fluid">
+							<div class="span6">
+								<div class="control-group">
+									<h3>Inspector a Cargo</h3>
+									<label >Omar Pizarro Spreng</label>
+								</div>
+								<div class="control-group">
+									<h3>Inspectores ayudantes</h3>
+									<ul>
+										<li>Juan Pablo Soto</li>
+										<li>Sthephany Rojas</li>
+										<li>Matias Hernandez</li>
+										<li>Juan Carlos Garces</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="span6">
+								<div class="control-group">
+									<h3>Servicios a Realizar</h3>
+									<ul>
+										<li>Inspección de Nave</li>
+									</ul>
+								</div>
+								<div class="control-group">
+									<h3>Servicios a Realizar por Ayudantes</h3>
+									<ul>
+										<li>Inspección de Nave</li>
+										<li>Reparación de Ancla</li>
+										<li>Capacitación de Tripulación</li>
+										<li>Asesoría de montaje</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<br>
+						<div class="row-fluid">
+							<div class="span6">
+								<div class="control-group">
+										<legend>Documentación del Inspector</legend>
+										<h3>Liquidación</h3>
+										<a class="btn btn-success" href="#">
+											<i class="icon-zoom-in icon-white"></i>  
+											Ver                                            
+										</a>
+										<a class="btn btn-info" href="#">
+											<i class="icon-edit icon-white"></i>  
+											Crear                                            
+										</a>
+								</div>
+
+								<div class="control-group">
+										<h3>Informe	</h3>
+										<a class="btn btn-success" href="#">
+											<i class="icon-zoom-in icon-white"></i>  
+											Ver                                            
+										</a>
+										<input name="archivo"class="input-file uniform_on" id="fileInput" type="file" required />
+								</div>
+							</div>
+							<div class="span6">
+								<div class="control-group">
+										<legend>Documentación del Gerente</legend>
+										<h3>Proforma</h3>
+										<a class="btn btn-success" href="#">
+											<i class="icon-zoom-in icon-white"></i>  
+											Ver                                            
+										</a>
+										<a class="btn btn-info" href="#">
+											<i class="icon-edit icon-white"></i>  
+											Crear                                            
+										</a>
+								</div>
+
+								<div class="control-group">
+										<h3>Factura	</h3>
+										<a class="btn btn-success" href="#">
+											<i class="icon-zoom-in icon-white"></i>  
+											Ver                                            
+										</a>
+										<a class="btn btn-info" href="#">
+											<i class="icon-edit icon-white"></i>  
+											Crear                                            
+										</a>
+								</div>
+							</div>
+						</div>
+						<legend>Estado de Avance</legend>
+						<div class="progress progress-success" style="margin-bottom: 9px;">
+							<div class="bar" style="width: 50%">50%</div>
+						</div>
+
+
+
+
+						</div>
+
+
+
 
 					</div>
 				</div><!--/span-->
-
 			</div><!--/row-->
-
-					<!-- content ends -->
-			</div><!--/#content.span10-->
-				</div><!--/fluid-row-->
-				
+		</div><!--/#content.span10-->
+		</div><!--/fluid-row-->				
 		<hr>
 		<footer>
 			<p class="pull-left">&copy; <a href="#" target="_blank">OPServices</a> 2013</p>
-			<!-- <p class="pull-right">Powered by: <a href="http://usman.it/free-responsive-admin-template">Charisma</a></p> -->
+			<p class="pull-right">Soportado por: <a href="#">Joint-Ops</a></p>
 		</footer>
 		
 	</div><!--/.fluid-container-->
@@ -281,7 +350,8 @@ include ('clases/informes.php');
 	<!-- history.js for cross-browser state change on ajax -->
 	<script src="js/jquery.history.js"></script>
 	<!-- application script for Charisma demo -->
-	<script src="js/charisma.js"></script>	
+	<script src="js/charisma.js"></script>
+	
 		
 </body>
 </html>

@@ -1,6 +1,6 @@
 <?php 
-include('conex.php');
-class Misc{
+include('conexion.php');
+class Miscelaneo{
 
 
 	function getFecha(){
