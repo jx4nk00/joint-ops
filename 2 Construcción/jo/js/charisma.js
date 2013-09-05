@@ -1,4 +1,24 @@
 $(document).ready(function(){
+	//Joint Ops
+	$('#btnNuevoProyecto').click(function(){
+		
+		//$('#botonesProyecto').show('slow');
+		$('#alertaError').hide();
+		$('#alertaSuccess').hide();
+
+		if($('#textNombreProyecto').val() == ""){
+			$('#alertaError').show('slow');
+		}
+		else{
+			$('#alertaSuccess').show('slow');
+			$('#informacionProyecto').show('slow'); 
+		}
+		
+	});
+	// Fin de Joint OPS
+
+
+
 	//themes, change CSS with JS
 	//default theme(CSS) is cerulean, change it if needed
 	var current_theme = $.cookie('current_theme')==null ? 'spacelab' :$.cookie('current_theme');
@@ -284,19 +304,6 @@ function docReady(){
 		e.preventDefault();
 		$('#myModal').modal('show');
 	});
-
-
-	// Juanka 
-	$('.nuevoP').click(function(e){
-		e.preventDefault();
-		$('#nuevoProyecto').modal('show');
-	});
-
-	$('#informacionProyecto').hide();
-	$('#botonesProyecto').hide();
-	// Fin Juanka
-
-
 
 		
 	//initialize the external events for calender

@@ -1,5 +1,5 @@
 <?php 
-include('conex.php');
+include('conexion.php');
 class Informe{
 
 

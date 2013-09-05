@@ -1,21 +1,14 @@
-<?php 
-session_start();
-if(!isset($_SESSION['login'])){
-	header ('location: index.php');
-}
- ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Free HTML5 Bootstrap Admin Template</title>
+	<title>Estado de Proyectos</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
 	<meta name="author" content="Muhammad Usman">
 
 	<!-- The styles -->
-	<link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
+	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
 	<style type="text/css">
 	  body {
 		padding-bottom: 40px;
@@ -61,53 +54,23 @@ if(!isset($_SESSION['login'])){
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>OPServices - Algo</span></a>
+				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Joint Ops</span></a>
 				
-				<!-- theme selector starts -->
-				<div class="btn-group pull-right theme-container" >
-					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-tint"></i><span class="hidden-phone"> Change Theme / Skin</span>
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu" id="themes">
-						<li><a data-value="classic" href="#"><i class="icon-blank"></i> Classic</a></li>
-						<li><a data-value="cerulean" href="#"><i class="icon-blank"></i> Cerulean</a></li>
-						<li><a data-value="cyborg" href="#"><i class="icon-blank"></i> Cyborg</a></li>
-						<li><a data-value="redy" href="#"><i class="icon-blank"></i> Redy</a></li>
-						<li><a data-value="journal" href="#"><i class="icon-blank"></i> Journal</a></li>
-						<li><a data-value="simplex" href="#"><i class="icon-blank"></i> Simplex</a></li>
-						<li><a data-value="slate" href="#"><i class="icon-blank"></i> Slate</a></li>
-						<li><a data-value="spacelab" href="#"><i class="icon-blank"></i> Spacelab</a></li>
-						<li><a data-value="united" href="#"><i class="icon-blank"></i> United</a></li>
-					</ul>
-				</div>
-				<!-- theme selector ends -->
 				
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-user"></i><span class="hidden-phone"> admin</span>
+						<i class="icon-user"></i><span class="hidden-phone"> Usted</span>
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Profile</a></li>
+						<li><a href="#">Perfil</a></li>
 						<li class="divider"></li>
-						<li><a href="login.html">Logout</a></li>
+						<li><a href="login.html">Salir</a></li>
 					</ul>
 				</div>
 				<!-- user dropdown ends -->
 				
-				<!-- 
-				<div class="top-nav nav-collapse">
-					<ul class="nav">
-						<li><a href="#">Visit Site</a></li>
-						<li>
-							<form class="navbar-search pull-left">
-								<input placeholder="Search" class="search-query span2" name="query" type="text">
-							</form>
-						</li>
-					</ul>
-				</div> --><!--/.nav-collapse -->
 			</div>
 		</div>
 	</div>
@@ -119,24 +82,24 @@ if(!isset($_SESSION['login'])){
 			<div class="span2 main-menu-span">
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li class="nav-header hidden-tablet">Menú</li>
+						<li class="nav-header hidden-tablet">Administración</li>
 						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
-						<li><a class="ajax-link" href="users.php"><i class="icon-eye-open"></i><span class="hidden-tablet"> Usuarios</span></a></li>
-						<li><a class="ajax-link" href="form.html"><i class="icon-edit"></i><span class="hidden-tablet"> Forms</span></a></li>
-						<li><a class="ajax-link" href="chart.html"><i class="icon-list-alt"></i><span class="hidden-tablet"> Charts</span></a></li>
-						<li><a class="ajax-link" href="typography.html"><i class="icon-font"></i><span class="hidden-tablet"> Typography</span></a></li>
-						<li><a class="ajax-link" href="gallery.html"><i class="icon-picture"></i><span class="hidden-tablet"> Gallery</span></a></li>
-						<li class="nav-header hidden-tablet">Sample Section</li>
-						<li><a class="ajax-link" href="table.html"><i class="icon-align-justify"></i><span class="hidden-tablet"> Tables</span></a></li>
-						<li><a class="ajax-link" href="calendar.html"><i class="icon-calendar"></i><span class="hidden-tablet"> Calendar</span></a></li>
-						<li><a class="ajax-link" href="grid.html"><i class="icon-th"></i><span class="hidden-tablet"> Grid</span></a></li>
-						<li><a class="ajax-link" href="file-manager.html"><i class="icon-folder-open"></i><span class="hidden-tablet"> File Manager</span></a></li>
-						<li><a href="tour.html"><i class="icon-globe"></i><span class="hidden-tablet"> Tour</span></a></li>
-						<li><a class="ajax-link" href="icon.html"><i class="icon-star"></i><span class="hidden-tablet"> Icons</span></a></li>
-						<li><a href="error.html"><i class="icon-ban-circle"></i><span class="hidden-tablet"> Error Page</span></a></li>
-						<li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> Login Page</span></a></li>
+						<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-ok"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li>
+						<li><a class="ajax-link" href="#"><i class="icon-time"></i><span class="hidden-tablet"> Trabajos</span></a></li>
+
+						<li class="nav-header hidden-tablet">Inspección</li>
+						<li><a class="ajax-link" href="informe.php"><i class="icon-upload"></i><span class="hidden-tablet"> Importar Informe</span></a></li>
+						<li><a class="ajax-link" href="liquidacion.php"><i class="icon-pencil"></i><span class="hidden-tablet"> Crear Liquidación</span></a></li>
+
+
+						<li class="nav-header hidden-tablet">Gerencia</li>
+						<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Proformas</span></a></li>
+						<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Facturas</span></a></li>
+						<li><a class="ajax-link" href="#"><i class="icon-check"></i><span class="hidden-tablet"> Termino de Servicio</span></a></li>
+						<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
 					</ul>
-					<label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label>
+					<!-- <label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label> -->
+
 				</div><!--/.well -->
 			</div><!--/span-->
 			<!-- left menu ends -->
@@ -144,345 +107,182 @@ if(!isset($_SESSION['login'])){
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
-					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
+					<p>Necesitas tener <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> activado para utilizar este sitio.</p>
 				</div>
 			</noscript>
+
+
 			
 			<div id="content" class="span10">
-			<!-- content starts -->
-			
 
-			<div>
-				<ul class="breadcrumb">
-					<li>
-						<a href="#">Home</a> <span class="divider">/</span>
-					</li>
-					<li>
-						<a href="#">Dashboard</a>
-					</li>
-				</ul>
-			</div>
-			<div class="sortable row-fluid">
-				<a data-rel="tooltip" title="6 new members." class="well span3 top-block" href="#">
+					<div class="row-fluid">
+				<a data-rel="tooltip" title="2 nuevos miembros." class="well span3 top-block" href="#">
 					<span class="icon32 icon-red icon-user"></span>
-					<div>Total Members</div>
-					<div>507</div>
-					<span class="notification">6</span>
+					<div>Miembros Totales</div>
+					<div>12</div>
+					<span class="notification">2</span>
 				</a>
 
-				<a data-rel="tooltip" title="4 new pro members." class="well span3 top-block" href="#">
+				<a data-rel="tooltip" title="4 Nuevos proyectos." class="well span3 top-block" href="#">
 					<span class="icon32 icon-color icon-star-on"></span>
-					<div>Pro Members</div>
-					<div>228</div>
+					<div>Proyectos en Curso</div>
+					<div>28</div>
 					<span class="notification green">4</span>
 				</a>
 
-				<a data-rel="tooltip" title="$34 new sales." class="well span3 top-block" href="#">
-					<span class="icon32 icon-color icon-cart"></span>
-					<div>Sales</div>
-					<div>$13320</div>
-					<span class="notification yellow">$34</span>
+				<a data-rel="tooltip" title="56 Proyectos Terminados." class="well span3 top-block" href="#">
+					<span class="icon32 icon-color icon-pin"></span>
+					<div>Proyectos Terminados</div>
+					<div>56</div>
+					<span class="notification yellow">56</span>
 				</a>
 				
-				<a data-rel="tooltip" title="12 new messages." class="well span3 top-block" href="#">
+				<a data-rel="tooltip" title="12 nuevos mensajes." class="well span3 top-block" href="#">
 					<span class="icon32 icon-color icon-envelope-closed"></span>
-					<div>Messages</div>
+					<div>Mensajes</div>
 					<div>25</div>
 					<span class="notification red">12</span>
 				</a>
 			</div>
-			
-			<div class="row-fluid">
+			<!-- content starts -->
+			<div class="row-fluid sortable">		
 				<div class="box span12">
-					<div class="box-header well">
-						<h2><i class="icon-info-sign"></i> Introduction</h2>
+					<div class="box-header well" data-original-title>
+						<h2><i class="icon-user"></i> Proyectos</h2>
 						<div class="box-icon">
-							<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
 							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
 						</div>
 					</div>
 					<div class="box-content">
-						<h1>Charisma <small>free, premium quality, responsive, multiple skin admin template.</small></h1>
-						<p>Its a live demo of the template. I have created Charisma to ease the repeat work I have to do on my projects. Now I re-use Charisma as a base for my admin panel work and I am sharing it with you :)</p>
-						<p><b>All pages in the menu are functional, take a look at all, please share this with your followers.</b></p>
-						
-						<p class="center">
-							<a href="http://usman.it/free-responsive-admin-template" class="btn btn-large btn-primary"><i class="icon-chevron-left icon-white"></i> Back to article</a> 
-							<a href="http://usman.it/free-responsive-admin-template" class="btn btn-large"><i class="icon-download-alt"></i> Download Page</a>
-						</p>
-						<div class="clearfix"></div>
+						<table class="table table-striped table-bordered bootstrap-datatable datatable">
+						<div class="control-group">
+							<a class="btn btn-success nuevoP" href="nuevoproyecto.php" target="_self">
+								<i class="icon-plus icon-white"></i>  
+								Nuevo Proyecto                                            
+							</a>
+						</div>
+						  <thead>
+							  <tr>
+								  <th>Proyecto</th>
+								  <th>Fecha de Inicio</th>
+								  <th>Encargado</th>
+								  <th>Estado</th>
+								  <th>Acción</th>
+							  </tr>
+						  </thead>   
+						  <tbody>
+							<tr>
+								<td>Bismark</td>
+								<td class="center">2012/01/01</td>
+								<td class="center">Jack Sparrow</td>
+								<td class="center">
+									<span class="label label-success">Finalizado</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="verproyecto.php">
+										<i class="icon-zoom-in icon-white"></i>  
+										Ver                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="icon-edit icon-white"></i>  
+										Editar                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="icon-trash icon-white"></i> 
+										Borrar
+									</a>
+								</td>
+							</tr>
+							
+							
+							<tr>
+								<td>Queen</td>
+								<td class="center">2012/06/01</td>
+								<td class="center">Juanito Perez</td>
+								<td class="center">
+									<span class="label">Cancelado</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="icon-zoom-in icon-white"></i>  
+										Ver                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="icon-edit icon-white"></i>  
+										Editar                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="icon-trash icon-white"></i> 
+										Borrar
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Titanic</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Raul Mella</td>
+								<td class="center">
+									<span class="label label-important">Fuera de Plazo</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="icon-zoom-in icon-white"></i>  
+										Ver                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="icon-edit icon-white"></i>  
+										Editar                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="icon-trash icon-white"></i> 
+										Borrar
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Nautilus</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Alvaro Salas</td>
+								<td class="center">
+									<span class="label label-warning">En Curso</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="icon-zoom-in icon-white"></i>  
+										Ver                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="icon-edit icon-white"></i>  
+										Editar                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="icon-trash icon-white"></i> 
+										Borrar
+									</a>
+								</td>
+							</tr>
+						  </tbody>
+					  </table>            
+					</div>
+				</div><!--/span-->	
+			</div><!--/row-->
+			<div class="row-fluid sortable">
+				<div class="box span5">
+					<div class="box-header well" data-original-title>
+						<h2><i class="icon-list-alt"></i> Ejemplo de Grafico de "pie"</h2>
+						<div class="box-icon">
+							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+							<div id="piechart" style="height:300px"></div>
 					</div>
 				</div>
-			</div>
-					
-			<div class="row-fluid sortable">
-				<div class="box span4">
-					<div class="box-header well">
-						<h2><i class="icon-th"></i> Tabs</h2>
-						<div class="box-icon">
-							<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
-							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<ul class="nav nav-tabs" id="myTab">
-							<li class="active"><a href="#info">Info</a></li>
-							<li><a href="#custom">Custom</a></li>
-							<li><a href="#messages">Messages</a></li>
-						</ul>
-						 
-						<div id="myTabContent" class="tab-content">
-							<div class="tab-pane active" id="info">
-								<h3>Charisma <small>a fully featued template</small></h3>
-								<p>Its a fully featured, responsive template for your admin panel. Its optimized for tablet and mobile phones. Scan the QR code below to view it in your mobile device.</p> <img alt="QR Code" class="charisma_qr center" src="img/qrcode136.png" />
-							</div>
-							<div class="tab-pane" id="custom">
-								<h3>Custom <small>small text</small></h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor.</p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at. Nulla tellus elit, varius non commodo eget, mattis vel eros. In sed ornare nulla. Donec consectetur, velit a pharetra ultricies, diam lorem lacinia risus, ac commodo orci erat eu massa. Sed sit amet nulla ipsum. Donec felis mauris, vulputate sed tempor at, aliquam a ligula. Pellentesque non pulvinar nisi.</p>
-							</div>
-							<div class="tab-pane" id="messages">
-								<h3>Messages <small>small text</small></h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales at. Nulla tellus elit, varius non commodo eget, mattis vel eros. In sed ornare nulla. Donec consectetur, velit a pharetra ultricies, diam lorem lacinia risus, ac commodo orci erat eu massa. Sed sit amet nulla ipsum. Donec felis mauris, vulputate sed tempor at, aliquam a ligula. Pellentesque non pulvinar nisi.</p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor.</p>
-							</div>
-						</div>
-					</div>
-				</div><!--/span-->
-						
-				<div class="box span4">
-					<div class="box-header well" data-original-title>
-						<h2><i class="icon-user"></i> Member Activity</h2>
-						<div class="box-icon">
-							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<div class="box-content">
-							<ul class="dashboard-list">
-								<li>
-									<a href="#">
-										<img class="dashboard-avatar" alt="Usman" src="http://www.gravatar.com/avatar/f0ea51fa1e4fae92608d8affee12f67b.png?s=50"></a>
-										<strong>Name:</strong> <a href="#">Usman
-									</a><br>
-									<strong>Since:</strong> 17/05/2012<br>
-									<strong>Status:</strong> <span class="label label-success">Approved</span>                                  
-								</li>
-								<li>
-									<a href="#">
-										<img class="dashboard-avatar" alt="Sheikh Heera" src="http://www.gravatar.com/avatar/3232415a0380253cfffe19163d04acab.png?s=50"></a>
-										<strong>Name:</strong> <a href="#">Sheikh Heera
-									</a><br>
-									<strong>Since:</strong> 17/05/2012<br>
-									<strong>Status:</strong> <span class="label label-warning">Pending</span>                                 
-								</li>
-								<li>
-									<a href="#">
-										<img class="dashboard-avatar" alt="Abdullah" src="http://www.gravatar.com/avatar/46056f772bde7c536e2086004e300a04.png?s=50"></a>
-										<strong>Name:</strong> <a href="#">Abdullah
-									</a><br>
-									<strong>Since:</strong> 25/05/2012<br>
-									<strong>Status:</strong> <span class="label label-important">Banned</span>                                  
-								</li>
-								<li>
-									<a href="#">
-										<img class="dashboard-avatar" alt="Saruar Ahmed" src="http://www.gravatar.com/avatar/564e1bb274c074dc4f6823af229d9dbb.png?s=50"></a>
-										<strong>Name:</strong> <a href="#">Saruar Ahmed
-									</a><br>
-									<strong>Since:</strong> 17/05/2012<br>
-									<strong>Status:</strong> <span class="label label-info">Updates</span>                                  
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div><!--/span-->
-						
-				<div class="box span4">
-					<div class="box-header well" data-original-title>
-						<h2><i class="icon-list-alt"></i> Realtime Traffic</h2>
-						<div class="box-icon">
-							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<div id="realtimechart" style="height:190px;"></div>
-							<p class="clearfix">You can update a chart periodically to get a real-time effect by using a timer to insert the new data in the plot and redraw it.</p>
-							<p>Time between updates: <input id="updateInterval" type="text" value="" style="text-align: right; width:5em"> milliseconds</p>
-					</div>
-				</div><!--/span-->
-			</div><!--/row-->
-
-			<div class="row-fluid sortable">
-				<div class="box span4">
-					<div class="box-header well" data-original-title>
-						<h2><i class="icon-list"></i> Buttons</h2>
-						<div class="box-icon">
-							<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
-							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content buttons">
-						<p class="btn-group">
-							  <button class="btn">Left</button>
-							  <button class="btn">Middle</button>
-							  <button class="btn">Right</button>
-						</p>
-						<p>
-							<button class="btn btn-small"><i class="icon-star"></i> Icon button</button>
-							<button class="btn btn-small btn-primary">Small button</button>
-							<button class="btn btn-small btn-danger">Small button</button>
-						</p>
-						<p>
-							<button class="btn btn-small btn-warning">Small button</button>
-							<button class="btn btn-small btn-success">Small button</button>
-							<button class="btn btn-small btn-info">Small button</button>
-						</p>
-						<p>
-							<button class="btn btn-small btn-inverse">Small button</button>
-							<button class="btn btn-large btn-primary btn-round">Round button</button>
-							<button class="btn btn-large btn-round"><i class="icon-ok"></i></button>
-							<button class="btn btn-primary"><i class="icon-edit icon-white"></i></button>
-						</p>
-						<p>
-							<button class="btn btn-mini">Mini button</button>
-							<button class="btn btn-mini btn-primary">Mini button</button>
-							<button class="btn btn-mini btn-danger">Mini button</button>
-							<button class="btn btn-mini btn-warning">Mini button</button>
-						</p>
-						<p>
-							<button class="btn btn-mini btn-info">Mini button</button>
-							<button class="btn btn-mini btn-success">Mini button</button>
-							<button class="btn btn-mini btn-inverse">Mini button</button>
-						</p>
-					</div>
-				</div><!--/span-->
-					
-				<div class="box span4">
-					<div class="box-header well" data-original-title>
-						<h2><i class="icon-list"></i> Buttons</h2>
-						<div class="box-icon">
-							<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
-							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content  buttons">
-						<p>
-							<button class="btn btn-large">Large button</button>
-							<button class="btn btn-large btn-primary">Large button</button>
-						</p>
-						<p>
-							<button class="btn btn-large btn-danger">Large button</button>
-							<button class="btn btn-large btn-warning">Large button</button>
-						</p>
-						<p>
-							<button class="btn btn-large btn-success">Large button</button>
-							<button class="btn btn-large btn-info">Large button</button>
-						</p>
-						<p>
-							<button class="btn btn-large btn-inverse">Large button</button>
-						</p>
-						<div class="btn-group">
-							<button class="btn btn-large">Large Dropdown</button>
-							<button class="btn btn-large dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-							<ul class="dropdown-menu">
-								<li><a href="#"><i class="icon-star"></i> Action</a></li>
-								<li><a href="#"><i class="icon-tag"></i> Another action</a></li>
-								<li><a href="#"><i class="icon-download-alt"></i> Something else here</a></li>
-								<li class="divider"></li>
-								<li><a href="#"><i class="icon-tint"></i> Separated link</a></li>
-							</ul>
-						</div>
-						
-					</div>
-				</div><!--/span-->
-					
-				<div class="box span4">
-					<div class="box-header well" data-original-title>
-						<h2><i class="icon-list"></i> Weekly Stat</h2>
-						<div class="box-icon">
-							<a href="#" class="btn btn-setting btn-round"><i class="icon-cog"></i></a>
-							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-							<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<ul class="dashboard-list">
-							<li>
-								<a href="#">
-									<i class="icon-arrow-up"></i>                               
-									<span class="green">92</span>
-									New Comments                                    
-								</a>
-							</li>
-						  <li>
-							<a href="#">
-							  <i class="icon-arrow-down"></i>
-							  <span class="red">15</span>
-							  New Registrations
-							</a>
-						  </li>
-						  <li>
-							<a href="#">
-							  <i class="icon-minus"></i>
-							  <span class="blue">36</span>
-							  New Articles                                    
-							</a>
-						  </li>
-						  <li>
-							<a href="#">
-							  <i class="icon-comment"></i>
-							  <span class="yellow">45</span>
-							  User reviews                                    
-							</a>
-						  </li>
-						  <li>
-							<a href="#">
-							  <i class="icon-arrow-up"></i>                               
-							  <span class="green">112</span>
-							  New Comments                                    
-							</a>
-						  </li>
-						  <li>
-							<a href="#">
-							  <i class="icon-arrow-down"></i>
-							  <span class="red">31</span>
-							  New Registrations
-							</a>
-						  </li>
-						  <li>
-							<a href="#">
-							  <i class="icon-minus"></i>
-							  <span class="blue">93</span>
-							  New Articles                                    
-							</a>
-						  </li>
-						  <li>
-							<a href="#">
-							  <i class="icon-comment"></i>
-							  <span class="yellow">254</span>
-							  User reviews                                    
-							</a>
-						  </li>
-						</ul>
-					</div>
-				</div><!--/span-->
-			</div><!--/row-->
-				  
-
-		  
-       
+		</div><!--/row-->
 					<!-- content ends -->
 			</div><!--/#content.span10-->
-				</div><!--/fluid-row-->
-				
+				</div><!--/fluid-row-->				
 		<hr>
-
 		<div class="modal hide fade" id="myModal">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">×</button>
@@ -496,10 +296,102 @@ if(!isset($_SESSION['login'])){
 				<a href="#" class="btn btn-primary">Save changes</a>
 			</div>
 		</div>
-
+		<div class="modal hide fade" id="nuevoProyecto">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">×</button>
+				<h3>Nuevo Proyecto</h3>
+			</div>
+			<div class="modal-body">
+				<form action="" class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label">Nombre: </label>
+						<div class="controls">
+							<input type="text" placeholder="Nombre aquí"  required/> 				
+							<a class="btn btn-success" href="#" onclick="$('#informacionProyecto').show('slow'); $('#botonesProyecto').show('slow');">
+								<i class="icon-plus icon-white"></i>  
+								Verificar                                            
+							</a>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="verificador">
+							<label class="control-label">Validación</label>
+						</div>
+					</div>				
+					<div id="informacionProyecto">
+					<legend>Información del Proyecto</legend>
+					<div class="row-fluid">
+						<div class="span6">
+							<div class="control-group">
+								<h3>Responsables</h3>
+									<select id="insp">
+										<option>Omar Pizarro</option>
+										<option>Juan Carlos Garcés</option>
+										<option>Juan Pablo Soto</option>
+										<option>Sthephany Rojas</option>
+										<option>Matias Alonso</option>
+									</select>
+							</div>
+							<div class="control-group">
+								<h3>Ayudantes</h3>
+									<select id="insp">
+										<option>Juan Pablo Soto</option>
+										<option>Omar Pizarro</option>
+										<option>Juan Carlos Garcés</option>
+										<option>Sthephany Rojas</option>
+										<option>Matias Alonso</option>
+									</select>
+							</div>
+							<div class="control-group">
+								<select id="insp">
+										<option>Juan Carlos Garcés</option>
+										<option>Omar Pizarro</option>
+										<option>Juan Pablo Soto</option>
+										<option>Sthephany Rojas</option>
+										<option>Matias Alonso</option>
+									</select>
+							</div>
+							<div class="control-group">
+								<select id="insp">
+										<option>Sthephany Rojas</option>
+										<option>Omar Pizarro</option>
+										<option>Juan Carlos Garcés</option>
+										<option>Juan Pablo Soto</option>
+										<option>Matias Alonso</option>
+									</select>
+							</div>							
+						</div>
+						<div class="span6">
+							<div class="control-group">
+							<h3>Descripción del Proyecto</h3>
+								<textarea id="descP" rows="5" cols="50" placeholder="Descripción del Proyecto" required></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div class="span6">
+							<div class="control-group">
+								<h3>Fecha de Inicio</h3>
+									<input type="text" class="input datepicker" id="date01" value="02/16/12" required />
+							</div>
+						</div>
+						<div class="span6">
+							<div class="control-group">
+								<h3>Fecha de Termino</h3>
+									<input type="text" class="input datepicker" id="date02" value="02/16/12" required />
+							</div>			
+						</div>
+					</div>		
+				</div><!-- Cierre de informaciones -->
+				</div><!-- Cierre del Modal Body -->
+				<div id="botonesProyecto"class="modal-footer">
+					<input type="submit" class="btn btn-info noty" data-noty-options='{"text":"Proyecto Creado con Éxito","layout":"top","type":"information"}' data-dismiss="modal" value="Crear Proyecto" />
+				</div>
+				</form>
+		</div> <!-- Cierre del Modal -->
 		<footer>
-			<p class="pull-left">&copy; <a href="http://usman.it" target="_blank">Muhammad Usman</a> 2012</p>
-			<p class="pull-right">Powered by: <a href="http://usman.it/free-responsive-admin-template">Charisma</a></p>
+			<p class="pull-left">&copy; <a href="#" target="_blank">OPServices</a> 2013</p>
+			<p class="pull-right">Soportado por: <a href="#">Joint-Ops</a></p>
 		</footer>
 		
 	</div><!--/.fluid-container-->

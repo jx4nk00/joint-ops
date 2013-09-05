@@ -1,6 +1,6 @@
 <?php 
-include('conex.php');
-class LiquidacionesInspector{
+include('conexion.php');
+class Liquidacion{
 
 	function ingresarLiquidacionInsp($ejecutor,$array){
 
