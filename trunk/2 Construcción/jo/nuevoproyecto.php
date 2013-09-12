@@ -1,5 +1,65 @@
+<?php 
+session_start();
+include ('clases/usuario.php');
+include ('clases/proyecto.php');
+
+if(!$_SESSION['Id_Usuario']){
+	header('location:index.php');
+}else{
+	$Usuario = new Usuario;
+	$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
+}
+
+$Proyecto = new Proyecto;
+if( isset($_POST['CrearProyecto'])){
+
+	$id_lugar=$_POST['selectLugares'];
+	$id_miembro=$_POST['responsable'];
+	$id_codigo=1;
+	$nombre_proyecto=$_POST['textNombreProyecto'];
+	$nombre_nave = $_POST['textNombreNave'];
+	$fecha_inicio =  date("Y-m-d",strtotime($_POST['textFechaInicio']));
+	$fecha_termino = date("Y-m-d",strtotime($_POST['textFechaTermino']));
+	$descripcion = $_POST['textDescProyecto'];
+	$DatosDelProyecto = array($id_lugar,$id_miembro,$id_codigo,$nombre_proyecto,$nombre_nave,$fecha_inicio,$fecha_termino,$descripcion);
+
+	$Proyecto->crearProyecto($DatosDelProyecto);
+
+	$id_proyectos = $Proyecto->getLastProjectId();
+	
+	if($_POST['textDescServicio1']!=""){
+		$nombre_servicio = $_POST['textDescServicio1'];
+		$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
+		$Proyecto->crearServicio($DatosDelServicio);
+	}
+	if($_POST['textDescServicio2']!=""){
+		$nombre_servicio = $_POST['textDescServicio2'];
+		$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
+		$Proyecto->crearServicio($DatosDelServicio);
+	}
+	if($_POST['textDescServicio3']!=""){
+		$nombre_servicio = $_POST['textDescServicio3'];
+		$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
+		$Proyecto->crearServicio($DatosDelServicio);
+	}
+	if($_POST['textDescServicio4']!=""){
+		$nombre_servicio = $_POST['textDescServicio4'];
+		$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
+		$Proyecto->crearServicio($DatosDelServicio);
+	}
+	if($_POST['textDescServicio5']!=""){
+		$nombre_servicio = $_POST['textDescServicio5'];
+		$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
+		$Proyecto->crearServicio($DatosDelServicio);
+	}
+	
+}
+
+ ?>
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-ES">
 <head>
 	<meta charset="utf-8">
 	<title>Estado de Proyectos</title>
@@ -130,7 +190,7 @@
 							<div class="control-group">
 								<label class="control-label">Nombre: </label>
 								<div class="controls">
-									<input id="textNombreProyecto" name="nombreProyecto" type="text" placeholder="Nombre aquí"  required /> 				
+									<input id="textNombreProyecto" name="textNombreProyecto" type="text" placeholder="Nombre aquí"  required /> 				
 									<a id="btnNuevoProyecto" class="btn btn-success" href="#" >
 										<i class="icon-plus icon-white"></i>  
 										Verificar                                            
@@ -140,7 +200,7 @@
 							<div class="control-group">
 								<div id="alertaError"class="alert alert-error hide">
 									<button type="button" class="close" data-dismiss="alert">×</button>
-									<strong>UPS!</strong> Debe especificar un nombre.
+									<strong>OOPS!</strong> Debe especificar un nombre.
 								</div>
 								<div id="alertaSuccess" class="alert alert-success hide">
 									<button type="button" class="close" data-dismiss="alert">×</button>
@@ -155,18 +215,14 @@
 										<div class="span6">
 											<div class="control-group">
 												<h3>Nombre de la Nave</h3>
-												<input type="text" name="nNave" placeholder="Nombre de la nave" required />
+												<input type="text" name="textNombreNave" placeholder="Nombre de la nave" required />
 											</div>
 										</div> <!-- Cierre Span6 -->
 										<div class="span6">
 											<div class="control-group">
 												<h3>Responsable del proyecto</h3>
-												<select id="insp" name="responsable">
-													<option>Omar Pizarro</option>
-													<option>Juan Carlos Garcés</option>
-													<option>Juan Pablo Soto</option>
-													<option>Sthephany Rojas</option>
-													<option>Matias Alonso</option>
+												<select id="selectResponsable" name="responsable">
+													<?php echo $Proyecto->getResponsables(); ?>
 												</select>
 											</div>
 										</div>
@@ -176,14 +232,14 @@
 										<div class="span6">
 											<div class="control-group">
 												<h3>Fecha de Inicio</h3>
-												<input type="text" name="fInicio" class="input datepicker" id="date01" value="02/16/12" required />
+												<input type="text" name="textFechaInicio" class="input datepicker" id="date01" required />
 											</div>
 										</div>
 
 										<div class="span6">
 											<div class="control-group">
 												<h3>Fecha de Termino</h3>
-												<input type="text" name="fTermino" class="input datepicker" id="date02" value="02/16/12" required />
+												<input type="text" name="textFechaTermino" class="input datepicker" id="date02" required />
 											</div>
 										</div>
 									</div>
@@ -194,7 +250,7 @@
 											<div id="ser1" class="servicio1">
 												<div class="control-group">
 													<h4>Descripción del Servicio</h4>
-													<input type="text" name="descProyecto" placeholder="Descripción del Servicio"/>
+													<input type="text" name="textDescServicio1" placeholder="Descripción del Servicio"/>
 													<a class="btn btn-success" href="#" onclick="$('#ser2').show('slow')" >
 														<i class="icon-plus icon-white"></i>                                         
 													</a>
@@ -203,7 +259,7 @@
 											<div id="ser2" class="servicio2 hide">
 												<div class="control-group">
 													<h4>Descripción del Servicio</h4>
-													<input type="text" />
+													<input type="text" name="textDescServicio2" placeholder="Descripción del Servicio"/>
 													<a class="btn btn-success" href="#" onclick="$('#ser3').show('slow')" >
 														<i class="icon-plus icon-white"></i>                                         
 													</a>
@@ -216,7 +272,7 @@
 											<div id="ser3" class="servicio3 hide">
 												<div class="control-group">
 													<h4>Descripción del Servicio</h4>
-													<input type="text" />
+													<input type="text" name="textDescServicio3" placeholder="Descripción del Servicio"/>
 													<a class="btn btn-success" href="#" onclick="$('#ser4').show('slow')" >
 														<i class="icon-plus icon-white"></i>                                         
 													</a>
@@ -228,7 +284,7 @@
 											<div id="ser4" class="servicio4 hide">
 												<div class="control-group">
 													<h4>Descripción del Servicio</h4>
-													<input type="text" />
+													<input type="text" name="textDescServicio4" placeholder="Descripción del Servicio"/>
 													<a class="btn btn-success" href="#" onclick="$('#ser5').show('slow')" >
 														<i class="icon-plus icon-white"></i>                                         
 													</a>
@@ -240,7 +296,7 @@
 											<div id="ser5" class="servicio5 hide">
 												<div class="control-group">
 													<h4>Descripción del Servicio</h4>
-													<input type="text" />
+													<input type="text" name="textDescServicio5" placeholder="Descripción del Servicio"/>
 													<a class="btn btn-danger" href="#" onclick="$('#ser5').hide('slow')" >
 														<i class="icon-minus icon-white"></i>                                         
 													</a>
@@ -250,9 +306,8 @@
 										<div class="span6">
 											<div class="control-group">
 												<h3>Lugar del Proyecto</h3>
-												<select name="Lugar">
-													<option>San Antonio</option>
-													<option>Valparaiso</option>
+												<select name="selectLugares">
+													<?php echo $Proyecto->getLugares(); ?>
 												</select>
 											</div>
 										</div>
@@ -262,11 +317,11 @@
 										<div class="span12">
 											<div class="control-group">
 												<h3>Descripción del Proyecto</h3>
-												<textarea id="descP" name="descProyecto" rows="5" cols="100" placeholder="Descripción del Proyecto" required></textarea>
+												<textarea id="descP" name="textDescProyecto" rows="5" cols="100" placeholder="Descripción del Proyecto" required></textarea>
 											</div>
 										</div>
 									</div>	
-										<input type="submit" class="btn btn-info " data-noty-options='{"text":"Proyecto Creado con Éxito","layout":"top","type":"information"}' value="Crear Proyecto" />
+										<input name="CrearProyecto" type="submit" class="btn btn-info " data-noty-options='{"text":"Proyecto Creado con Éxito","layout":"top","type":"information"}' value="Crear Proyecto" />
 									</div>
 							</div><!-- Cierre de informaciones -->
 						</form>
@@ -356,7 +411,5 @@
 	<script src="js/jquery.history.js"></script>
 	<!-- application script for Charisma demo -->
 	<script src="js/charisma.js"></script>
-	
-		
 </body>
 </html>
