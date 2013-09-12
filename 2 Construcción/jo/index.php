@@ -1,28 +1,25 @@
-<?php 
-
-include ('clases/revisarUsuario.php');
+<?php
+session_start();
+include ('clases/usuario.php');
 
 if( isset($_POST['enviar'])){
-	session_start();
-	$revisar = new RevisarUsuario;
-	$u = $_POST['username'];
-	$p = $_POST['password'];
-
-
-	$validar = $revisar->rUsuario($u, $p);
 	
-	if ($validar) {
+	$revisar = new Usuario;
+	$u = $_POST['username'];
+	$p = sha1($_POST['password']);
+
+	$isUser = $revisar->validarUsuario($u, $p);
+	
+	if ($isUser) {
 		$_SESSION['login'] = "exito";
+		$_SESSION['Id_Usuario'] = $isUser;
 		header('location: main.php');
 	}
 }
-
- ?>
-
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 	<meta charset="utf-8">
 	<title>Joint Ops - Login</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">

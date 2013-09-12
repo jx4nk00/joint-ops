@@ -1,3 +1,41 @@
+<?php 
+session_start();
+include ('clases/usuario.php');
+include ('clases/proyecto.php');
+if(!$_SESSION['Id_Usuario']){
+	header('location:index.php');
+}else{
+	$Usuario = new Usuario;
+	$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
+}
+$idDeProyecto=$_GET['idDeProyecto'];
+
+$Proyecto = new Proyecto;
+$Usuario = new Usuario;
+$InformacionDelProyecto = $Proyecto->getInfoProyecto($idDeProyecto);
+
+$idDeLugar = $InformacionDelProyecto[1];
+$idResponsable = $InformacionDelProyecto[2];
+$idCodigoProyecto = $InformacionDelProyecto[3];
+$nombreDeProyecto = $InformacionDelProyecto[4];
+$nombreDeLaNave = $InformacionDelProyecto[5];
+$fechaTermino =$InformacionDelProyecto[7];
+$DescripcionDeProyecto = $InformacionDelProyecto[8];
+
+$CodigoDeProyecto = $Proyecto->getCodigoProyecto($idCodigoProyecto);
+
+$serviciosDeProyecto = $Proyecto->getServiciosDeProyecto($idDeProyecto);
+
+$inspectorACargo = $Usuario->getUserName($idResponsable);
+
+if(  strtotime($fechaTermino) > strtotime(date('Y-m-d'))  ){
+	$estadoDeProyecto = "<span class='label label-warning'>En Cuerso</span>";}
+else{
+	$estadoDeProyecto = "<span class='label label-important'>Fuera de Plazo</span>";
+}
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -132,21 +170,21 @@
 							<div class="span4">
 								<div class="control-group">
 									<h3>Nombre del Proyecto</h3> 
-									Nombre
+									<?php echo $nombreDeProyecto;  ?>
 								</div>
 							</div>
 
 							<div class="span4">
 								<div class="control-group">
 									<h3>Código</h3>
-									 OPS-###YY-1-2/3-Valparaiso
+									 <?php echo $CodigoDeProyecto; ?>
 								</div>
 							</div>
 
 							<div class="span4">
 								<div class="control-group">
 									<h3>Estado</h3>
-									<span class="label label-warning">En Curso</span>
+									<?php echo $estadoDeProyecto; ?>
 								</div>
 							</div>
 						</div>
@@ -159,7 +197,7 @@
 							<div class="span12">
 								<div class="control-group">
 									<legend>Descripción del proyecto</legend>
-									<span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic, quod, sint est neque eligendi nisi mollitia adipisci doloremque aperiam fugiat accusantium quas magni odit cupiditate rerum id repellendus eaque sit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, distinctio, commodi, unde obcaecati sed deserunt alias dolores qui velit odio rem error saepe culpa molestias ipsam perspiciatis odit ipsa sequi.</span>
+									<span><?php echo $DescripcionDeProyecto; ?></span>
 								</div>
 							</div>
 						</div>
@@ -169,16 +207,17 @@
 							<div class="span6">
 								<div class="control-group">
 									<h3>Inspector a Cargo</h3>
-									<label >Omar Pizarro Spreng</label>
+									<label><?php echo $inspectorACargo; ?></label>
 								</div>
 								<div class="control-group">
 									<h3>Inspectores ayudantes</h3>
-									<ul>
+									<!--<ul>
 										<li>Juan Pablo Soto</li>
 										<li>Sthephany Rojas</li>
 										<li>Matias Hernandez</li>
 										<li>Juan Carlos Garces</li>
-									</ul>
+									</ul> -->
+									Sin ayudantes.
 								</div>
 							</div>
 
@@ -186,17 +225,20 @@
 								<div class="control-group">
 									<h3>Servicios a Realizar</h3>
 									<ul>
-										<li>Inspección de Nave</li>
+										<!-- <li>Inspección de Nave</li>-->
+										<?php 
+											echo $serviciosDeProyecto;
+										 ?>
 									</ul>
 								</div>
 								<div class="control-group">
 									<h3>Servicios a Realizar por Ayudantes</h3>
-									<ul>
+									<!-- <ul>
 										<li>Inspección de Nave</li>
 										<li>Reparación de Ancla</li>
 										<li>Capacitación de Tripulación</li>
 										<li>Asesoría de montaje</li>
-									</ul>
+									</ul> --> Sin Servicios Asignados.
 								</div>
 							</div>
 						</div>

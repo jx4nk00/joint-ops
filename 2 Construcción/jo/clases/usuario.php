@@ -1,13 +1,13 @@
-	<?php 
+<?php 
 include('conexion.php');
 class Usuario{
 
 function verUsuario(){
 	$consulta = mysql_query("SELECT * FROM miembros mi
 							JOIN privilegios pri
-							ON mi".'.'."id_privilegio = pri".'.'."id_privilegio
+							ON mi.id_privilegio = pri.id_privilegio
 							JOIN datos_miembros dm
-							ON mi".'.'."id_datos = dm".'.'."id_datos")
+							ON mi.id_datos = dm.id_datos")
 	or die ("Error en la consulta");
 	return $consulta;
 }
@@ -35,11 +35,20 @@ function validarUsuario($user,$pass){
 								AND pass ='$pass'
 								AND activo = 1") or die ("Error en la consulta");
 		$fila=mysql_fetch_array($consulta);
-		$username = $fila['username'];
+		$idUser = $fila['id_usuarios'];
 
-		return $username;
+		return $idUser;
 		
 	}
+
+function getUserName($id){
+
+	$consulta = mysql_query("SELECT * FROM miembros where id_usuarios = $id") or die ("Error en la consulta");
+	$fila=mysql_fetch_array($consulta);
+	$nombre = $fila['p_nombre']." ".$fila['apellido_p'];
+
+	return $nombre;
+}
 
 }//cierre de la clase
 

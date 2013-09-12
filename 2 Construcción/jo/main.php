@@ -1,3 +1,15 @@
+<?php
+	session_start();
+	include ('clases/usuario.php');
+	include ('clases/proyecto.php');
+	if(!$_SESSION['Id_Usuario']){
+		header('location:index.php');
+	}
+	$Usuario = new Usuario;
+	$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
+
+	$Proyecto = new Proyecto;
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,7 +72,7 @@
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-user"></i><span class="hidden-phone"> Usted</span>
+						<i class="icon-user"></i><span class="hidden-phone"> <?php echo $nombreCompleto; ?></span>
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
@@ -102,299 +114,91 @@
 
 				</div><!--/.well -->
 			</div><!--/span-->
-			<!-- left menu ends -->
-			
+			<!-- left menu ends -->		
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
 					<p>Necesitas tener <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> activado para utilizar este sitio.</p>
 				</div>
-			</noscript>
-
-
-			
+			</noscript>		
 			<div id="content" class="span10">
-
-					<div class="row-fluid">
-				<a data-rel="tooltip" title="2 nuevos miembros." class="well span3 top-block" href="#">
-					<span class="icon32 icon-red icon-user"></span>
-					<div>Miembros Totales</div>
-					<div>12</div>
-					<span class="notification">2</span>
-				</a>
-
-				<a data-rel="tooltip" title="4 Nuevos proyectos." class="well span3 top-block" href="#">
-					<span class="icon32 icon-color icon-star-on"></span>
-					<div>Proyectos en Curso</div>
-					<div>28</div>
-					<span class="notification green">4</span>
-				</a>
-
-				<a data-rel="tooltip" title="56 Proyectos Terminados." class="well span3 top-block" href="#">
-					<span class="icon32 icon-color icon-pin"></span>
-					<div>Proyectos Terminados</div>
-					<div>56</div>
-					<span class="notification yellow">56</span>
-				</a>
-				
-				<a data-rel="tooltip" title="12 nuevos mensajes." class="well span3 top-block" href="#">
-					<span class="icon32 icon-color icon-envelope-closed"></span>
-					<div>Mensajes</div>
-					<div>25</div>
-					<span class="notification red">12</span>
-				</a>
-			</div>
-			<!-- content starts -->
-			<div class="row-fluid sortable">		
-				<div class="box span12">
-					<div class="box-header well" data-original-title>
-						<h2><i class="icon-user"></i> Proyectos</h2>
-						<div class="box-icon">
-							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-						<table class="table table-striped table-bordered bootstrap-datatable datatable">
-						<div class="control-group">
-							<a class="btn btn-success nuevoP" href="nuevoproyecto.php" target="_self">
-								<i class="icon-plus icon-white"></i>  
-								Nuevo Proyecto                                            
-							</a>
-						</div>
-						  <thead>
-							  <tr>
-								  <th>Proyecto</th>
-								  <th>Fecha de Inicio</th>
-								  <th>Encargado</th>
-								  <th>Estado</th>
-								  <th>Acción</th>
-							  </tr>
-						  </thead>   
-						  <tbody>
-							<tr>
-								<td>Bismark</td>
-								<td class="center">2012/01/01</td>
-								<td class="center">Jack Sparrow</td>
-								<td class="center">
-									<span class="label label-success">Finalizado</span>
-								</td>
-								<td class="center">
-									<a class="btn btn-success" href="verproyecto.php">
-										<i class="icon-zoom-in icon-white"></i>  
-										Ver                                            
-									</a>
-									<a class="btn btn-info" href="#">
-										<i class="icon-edit icon-white"></i>  
-										Editar                                            
-									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="icon-trash icon-white"></i> 
-										Borrar
-									</a>
-								</td>
-							</tr>
-							
-							
-							<tr>
-								<td>Queen</td>
-								<td class="center">2012/06/01</td>
-								<td class="center">Juanito Perez</td>
-								<td class="center">
-									<span class="label">Cancelado</span>
-								</td>
-								<td class="center">
-									<a class="btn btn-success" href="#">
-										<i class="icon-zoom-in icon-white"></i>  
-										Ver                                            
-									</a>
-									<a class="btn btn-info" href="#">
-										<i class="icon-edit icon-white"></i>  
-										Editar                                            
-									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="icon-trash icon-white"></i> 
-										Borrar
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>Titanic</td>
-								<td class="center">2012/03/01</td>
-								<td class="center">Raul Mella</td>
-								<td class="center">
-									<span class="label label-important">Fuera de Plazo</span>
-								</td>
-								<td class="center">
-									<a class="btn btn-success" href="#">
-										<i class="icon-zoom-in icon-white"></i>  
-										Ver                                            
-									</a>
-									<a class="btn btn-info" href="#">
-										<i class="icon-edit icon-white"></i>  
-										Editar                                            
-									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="icon-trash icon-white"></i> 
-										Borrar
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td>Nautilus</td>
-								<td class="center">2012/03/01</td>
-								<td class="center">Alvaro Salas</td>
-								<td class="center">
-									<span class="label label-warning">En Curso</span>
-								</td>
-								<td class="center">
-									<a class="btn btn-success" href="#">
-										<i class="icon-zoom-in icon-white"></i>  
-										Ver                                            
-									</a>
-									<a class="btn btn-info" href="#">
-										<i class="icon-edit icon-white"></i>  
-										Editar                                            
-									</a>
-									<a class="btn btn-danger" href="#">
-										<i class="icon-trash icon-white"></i> 
-										Borrar
-									</a>
-								</td>
-							</tr>
-						  </tbody>
-					  </table>            
-					</div>
-				</div><!--/span-->	
-			</div><!--/row-->
-			<div class="row-fluid sortable">
-				<div class="box span5">
-					<div class="box-header well" data-original-title>
-						<h2><i class="icon-list-alt"></i> Ejemplo de Grafico de "pie"</h2>
-						<div class="box-icon">
-							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-						</div>
-					</div>
-					<div class="box-content">
-							<div id="piechart" style="height:300px"></div>
-					</div>
+				<div class="row-fluid">
+					<a data-rel="tooltip" title="2 nuevos miembros." class="well span3 top-block" href="#">
+						<span class="icon32 icon-red icon-user"></span>
+						<div>Miembros Totales</div>
+						<div>12</div>
+						<span class="notification">2</span>
+					</a>
+					<a data-rel="tooltip" title="4 Nuevos proyectos." class="well span3 top-block" href="#">
+						<span class="icon32 icon-color icon-star-on"></span>
+						<div>Proyectos en Curso</div>
+						<div>28</div>
+						<span class="notification green">4</span>
+					</a>
+					<a data-rel="tooltip" title="56 Proyectos Terminados." class="well span3 top-block" href="#">
+						<span class="icon32 icon-color icon-pin"></span>
+						<div>Proyectos Terminados</div>
+						<div>56</div>
+						<span class="notification yellow">56</span>
+					</a>
+					<a data-rel="tooltip" title="12 nuevos mensajes." class="well span3 top-block" href="#">
+						<span class="icon32 icon-color icon-envelope-closed"></span>
+						<div>Mensajes</div>
+						<div>25</div>
+						<span class="notification red">12</span>
+					</a>
 				</div>
-		</div><!--/row-->
+			<!-- content starts -->
+				<div class="row-fluid sortable">		
+					<div class="box span12">
+						<div class="box-header well" data-original-title>
+							<h2><i class="icon-user"></i> Proyectos</h2>
+							<div class="box-icon">
+								<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+							</div>
+						</div>
+						<div class="box-content">
+							<table class="table table-striped table-bordered bootstrap-datatable datatable">
+								<div class="control-group">
+									<a class="btn btn-success nuevoP" href="nuevoproyecto.php" target="_self">
+										<i class="icon-plus icon-white"></i>  
+										Nuevo Proyecto                                            
+									</a>
+								</div>
+								<thead>
+									<tr>
+										<th>Proyecto</th>
+										<th>Fecha de Inicio</th>
+										<th>Encargado</th>
+										<th>Estado</th>
+										<th>Acción</th>
+									</tr>
+							  	</thead>   
+							 	<tbody>
+							  	<?php echo $Proyecto->verProyectos(); ?>
+							 	</tbody>
+					  		</table>            
+						</div>
+					</div><!--/span-->	
+				</div><!--/row-->
+				<div class="row-fluid sortable">
+					<div class="box span5">
+						<div class="box-header well" data-original-title>
+							<h2><i class="icon-list-alt"></i> Ejemplo de Grafico de "pie"</h2>
+							<div class="box-icon">
+								<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+							</div>
+						</div>
+						<div class="box-content">
+							<div id="piechart" style="height:300px"></div>
+						</div>
+					</div>
+				</div><!--/row-->
 					<!-- content ends -->
 			</div><!--/#content.span10-->
-				</div><!--/fluid-row-->				
-		<hr>
-		<div class="modal hide fade" id="myModal">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">×</button>
-				<h3>Settings</h3>
-			</div>
-			<div class="modal-body">
-				<p>Here settings can be configured...</p>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Close</a>
-				<a href="#" class="btn btn-primary">Save changes</a>
-			</div>
-		</div>
-		<div class="modal hide fade" id="nuevoProyecto">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">×</button>
-				<h3>Nuevo Proyecto</h3>
-			</div>
-			<div class="modal-body">
-				<form action="" class="form-horizontal">
-					<div class="control-group">
-						<label class="control-label">Nombre: </label>
-						<div class="controls">
-							<input type="text" placeholder="Nombre aquí"  required/> 				
-							<a class="btn btn-success" href="#" onclick="$('#informacionProyecto').show('slow'); $('#botonesProyecto').show('slow');">
-								<i class="icon-plus icon-white"></i>  
-								Verificar                                            
-							</a>
-						</div>
-					</div>
-					<div class="control-group">
-						<div class="verificador">
-							<label class="control-label">Validación</label>
-						</div>
-					</div>				
-					<div id="informacionProyecto">
-					<legend>Información del Proyecto</legend>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<h3>Responsables</h3>
-									<select id="insp">
-										<option>Omar Pizarro</option>
-										<option>Juan Carlos Garcés</option>
-										<option>Juan Pablo Soto</option>
-										<option>Sthephany Rojas</option>
-										<option>Matias Alonso</option>
-									</select>
-							</div>
-							<div class="control-group">
-								<h3>Ayudantes</h3>
-									<select id="insp">
-										<option>Juan Pablo Soto</option>
-										<option>Omar Pizarro</option>
-										<option>Juan Carlos Garcés</option>
-										<option>Sthephany Rojas</option>
-										<option>Matias Alonso</option>
-									</select>
-							</div>
-							<div class="control-group">
-								<select id="insp">
-										<option>Juan Carlos Garcés</option>
-										<option>Omar Pizarro</option>
-										<option>Juan Pablo Soto</option>
-										<option>Sthephany Rojas</option>
-										<option>Matias Alonso</option>
-									</select>
-							</div>
-							<div class="control-group">
-								<select id="insp">
-										<option>Sthephany Rojas</option>
-										<option>Omar Pizarro</option>
-										<option>Juan Carlos Garcés</option>
-										<option>Juan Pablo Soto</option>
-										<option>Matias Alonso</option>
-									</select>
-							</div>							
-						</div>
-						<div class="span6">
-							<div class="control-group">
-							<h3>Descripción del Proyecto</h3>
-								<textarea id="descP" rows="5" cols="50" placeholder="Descripción del Proyecto" required></textarea>
-							</div>
-						</div>
-					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<div class="control-group">
-								<h3>Fecha de Inicio</h3>
-									<input type="text" class="input datepicker" id="date01" value="02/16/12" required />
-							</div>
-						</div>
-						<div class="span6">
-							<div class="control-group">
-								<h3>Fecha de Termino</h3>
-									<input type="text" class="input datepicker" id="date02" value="02/16/12" required />
-							</div>			
-						</div>
-					</div>		
-				</div><!-- Cierre de informaciones -->
-				</div><!-- Cierre del Modal Body -->
-				<div id="botonesProyecto"class="modal-footer">
-					<input type="submit" class="btn btn-info noty" data-noty-options='{"text":"Proyecto Creado con Éxito","layout":"top","type":"information"}' data-dismiss="modal" value="Crear Proyecto" />
-				</div>
-				</form>
-		</div> <!-- Cierre del Modal -->
-		<footer>
-			<p class="pull-left">&copy; <a href="#" target="_blank">OPServices</a> 2013</p>
-			<p class="pull-right">Soportado por: <a href="#">Joint-Ops</a></p>
-		</footer>
-		
-	</div><!--/.fluid-container-->
+		</div><!--/fluid-row-->				
+		<hr>		
+		</div><!--/.fluid-container-->
 
 	<!-- external javascript
 	================================================== -->
