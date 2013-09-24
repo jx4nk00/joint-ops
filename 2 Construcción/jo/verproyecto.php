@@ -1,38 +1,38 @@
 <?php 
-session_start();
-include ('clases/usuario.php');
-include ('clases/proyecto.php');
-if(!$_SESSION['Id_Usuario']){
-	header('location:index.php');
-}else{
+	session_start();
+	include ('clases/usuario.php');
+	include ('clases/proyecto.php');
+	if(!$_SESSION['Id_Usuario']){
+		header('location:index.php');
+	}else{
+		$Usuario = new Usuario;
+		$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
+	}
+	$idDeProyecto=$_GET['idDeProyecto'];
+
+	$Proyecto = new Proyecto;
 	$Usuario = new Usuario;
-	$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
-}
-$idDeProyecto=$_GET['idDeProyecto'];
+	$InformacionDelProyecto = $Proyecto->getInfoProyecto($idDeProyecto);
 
-$Proyecto = new Proyecto;
-$Usuario = new Usuario;
-$InformacionDelProyecto = $Proyecto->getInfoProyecto($idDeProyecto);
+	$idDeLugar = $InformacionDelProyecto[1];
+	$idResponsable = $InformacionDelProyecto[2];
+	$idCodigoProyecto = $InformacionDelProyecto[3];
+	$nombreDeProyecto = $InformacionDelProyecto[4];
+	$nombreDeLaNave = $InformacionDelProyecto[5];
+	$fechaTermino =$InformacionDelProyecto[7];
+	$DescripcionDeProyecto = $InformacionDelProyecto[8];
 
-$idDeLugar = $InformacionDelProyecto[1];
-$idResponsable = $InformacionDelProyecto[2];
-$idCodigoProyecto = $InformacionDelProyecto[3];
-$nombreDeProyecto = $InformacionDelProyecto[4];
-$nombreDeLaNave = $InformacionDelProyecto[5];
-$fechaTermino =$InformacionDelProyecto[7];
-$DescripcionDeProyecto = $InformacionDelProyecto[8];
+	$CodigoDeProyecto = $Proyecto->getCodigoProyecto($idCodigoProyecto);
 
-$CodigoDeProyecto = $Proyecto->getCodigoProyecto($idCodigoProyecto);
+	$serviciosDeProyecto = $Proyecto->getServiciosDeProyecto($idDeProyecto);
 
-$serviciosDeProyecto = $Proyecto->getServiciosDeProyecto($idDeProyecto);
+	$inspectorACargo = $Usuario->getUserName($idResponsable);
 
-$inspectorACargo = $Usuario->getUserName($idResponsable);
-
-if(  strtotime($fechaTermino) > strtotime(date('Y-m-d'))  ){
-	$estadoDeProyecto = "<span class='label label-warning'>En Cuerso</span>";}
-else{
-	$estadoDeProyecto = "<span class='label label-important'>Fuera de Plazo</span>";
-}
+	if(  strtotime($fechaTermino) > strtotime(date('Y-m-d'))  ){
+		$estadoDeProyecto = "<span class='label label-warning'>En Cuerso</span>";}
+	else{
+		$estadoDeProyecto = "<span class='label label-important'>Fuera de Plazo</span>";
+	}
 
 
  ?>
@@ -98,7 +98,7 @@ else{
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-user"></i><span class="hidden-phone"> Usted</span>
+						<i class="icon-user"></i><span class="hidden-phone"> <?php echo $nombreCompleto; ?></span>
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
@@ -120,27 +120,16 @@ else{
 			<div class="span2 main-menu-span">
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li class="nav-header hidden-tablet">Administración</li>
-						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
-						<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-ok"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-time"></i><span class="hidden-tablet"> Trabajos</span></a></li>
-
-						<li class="nav-header hidden-tablet">Inspección</li>
-						<li><a class="ajax-link" href="informe.php"><i class="icon-upload"></i><span class="hidden-tablet"> Importar Informe</span></a></li>
-						<li><a class="ajax-link" href="liquidacion.php"><i class="icon-pencil"></i><span class="hidden-tablet"> Crear Liquidación</span></a></li>
-
-
-						<li class="nav-header hidden-tablet">Gerencia</li>
-						<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Proformas</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Facturas</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-check"></i><span class="hidden-tablet"> Termino de Servicio</span></a></li>
+						<li class="nav-header hidden-tablet">Tareas</li>
+						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+						<li><a class="ajax-link" href="#"><i class="icon-remove"></i><span class="hidden-tablet"> Cerrar Sesión</span></a></li>
 					</ul>
 					<!-- <label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label> -->
 
 				</div><!--/.well -->
 			</div><!--/span-->
-			<!-- left menu ends -->
+			<!-- left menu ends -->	
 			
 			<noscript>
 				<div class="alert alert-block span10">
@@ -303,10 +292,6 @@ else{
 
 
 						</div>
-
-
-
-
 					</div>
 				</div><!--/span-->
 			</div><!--/row-->
@@ -314,8 +299,7 @@ else{
 		</div><!--/fluid-row-->				
 		<hr>
 		<footer>
-			<p class="pull-left">&copy; <a href="#" target="_blank">OPServices</a> 2013</p>
-			<p class="pull-right">Soportado por: <a href="#">Joint-Ops</a></p>
+			<p class="pull-right">&copy; 2010-2013 OPServices Ltda.</p>
 		</footer>
 		
 	</div><!--/.fluid-container-->

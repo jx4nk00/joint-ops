@@ -150,7 +150,8 @@ function getServiciosDeProyecto($idDeProyecto){
 
 /*
 $proyecto = new Proyecto;
-echo $proyecto->getLastProjectId();
+echo $proyectos->getServiciosDeProyecto();
+/*echo $proyecto->getLastProjectId();
 
 $array = array(1,1,1,'Juanka Proyecto','Titatic','2013-09-10','2013-09-25','Este es un Proyecto de Prueba');
 echo $proyecto -> crearProyecto($array);

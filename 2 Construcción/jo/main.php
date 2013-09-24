@@ -94,27 +94,17 @@
 			<div class="span2 main-menu-span">
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li class="nav-header hidden-tablet">Administración</li>
-						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
-						<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-ok"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-time"></i><span class="hidden-tablet"> Trabajos</span></a></li>
-
-						<li class="nav-header hidden-tablet">Inspección</li>
-						<li><a class="ajax-link" href="informe.php"><i class="icon-upload"></i><span class="hidden-tablet"> Importar Informe</span></a></li>
-						<li><a class="ajax-link" href="liquidacion.php"><i class="icon-pencil"></i><span class="hidden-tablet"> Crear Liquidación</span></a></li>
-
-
-						<li class="nav-header hidden-tablet">Gerencia</li>
-						<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Proformas</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Facturas</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-check"></i><span class="hidden-tablet"> Termino de Servicio</span></a></li>
+						<li class="nav-header hidden-tablet">Tareas</li>
+						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+						<li><a class="ajax-link" href="#"><i class="icon-remove"></i><span class="hidden-tablet"> Cerrar Sesión</span></a></li>
 					</ul>
 					<!-- <label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label> -->
 
 				</div><!--/.well -->
 			</div><!--/span-->
-			<!-- left menu ends -->		
+			<!-- left menu ends -->	
+
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
@@ -149,7 +139,7 @@
 					</a>
 				</div>
 			<!-- content starts -->
-				<div class="row-fluid sortable">		
+				<div class="row-fluid">		
 					<div class="box span12">
 						<div class="box-header well" data-original-title>
 							<h2><i class="icon-user"></i> Proyectos</h2>
@@ -181,7 +171,7 @@
 						</div>
 					</div><!--/span-->	
 				</div><!--/row-->
-				<div class="row-fluid sortable">
+				<div class="row-fluid">
 					<div class="box span5">
 						<div class="box-header well" data-original-title>
 							<h2><i class="icon-list-alt"></i> Ejemplo de Grafico de "pie"</h2>
@@ -197,7 +187,10 @@
 					<!-- content ends -->
 			</div><!--/#content.span10-->
 		</div><!--/fluid-row-->				
-		<hr>		
+		<hr>	
+		<footer>
+			<p class="pull-right">&copy; 2010-2013 OPServices Ltda.</p>
+		</footer>	
 		</div><!--/.fluid-container-->
 
 	<!-- external javascript
