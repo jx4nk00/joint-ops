@@ -1,4 +1,15 @@
-<!DOCTYPE html>
+<?php 
+	session_start();
+	include ('clases/usuario.php');
+	include ('clases/proyecto.php');
+	if(!$_SESSION['Id_Usuario']){
+		header('location:index.php');
+	}
+	$Usuario = new Usuario;
+	$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
+
+ ?>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -8,7 +19,7 @@
 	<meta name="author" content="Joint OPS">
 
 	<!-- The styles -->
-	<link id="bs-css" href="css/bootstrap-cerulean.css" rel="stylesheet">
+	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
 	<style type="text/css">
 	  body {
 		padding-bottom: 40px;
@@ -54,12 +65,15 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Joint Ops - OPServices</span></a>
+				<a class="brand" href="index.html"> 
+					<img alt="Charisma Logo" src="img/logo20.png" /> 
+					<span>Joint Ops</span>
+				</a>
 				
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-user"></i><span class="hidden-phone"> Usted</span>
+						<i class="icon-user"></i><span class="hidden-phone"> <?php echo $nombreCompleto; ?></span>
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
@@ -69,17 +83,6 @@
 					</ul>
 				</div>
 				<!-- user dropdown ends -->
-				
-				<div class="top-nav nav-collapse">
-					<ul class="nav">
-						<li><a href="#">Volver a la WEB</a></li>
-						<li>
-							<form class="navbar-search pull-left">
-								<input placeholder="Buscar" class="search-query span2" name="query" type="text">
-							</form>
-						</li>
-					</ul>
-				</div><!--/.nav-collapse -->
 			</div>
 		</div>
 	</div>
@@ -91,28 +94,15 @@
 			<div class="span2 main-menu-span">
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-
-						<li class="nav-header hidden-tablet">Administración</li>
-						<li><a class="ajax-link" href="#"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-ok"></i><span class="hidden-tablet"> Estadisticas</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-time"></i><span class="hidden-tablet"> Trabajos</span></a></li>
-
-						<li class="nav-header hidden-tablet">Inspección</li>
-						<li><a class="ajax-link" href="informe.php"><i class="icon-upload"></i><span class="hidden-tablet"> Importar Informe</span></a></li>
-						<li><a class="ajax-link" href="liquidacion.php"><i class="icon-pencil"></i><span class="hidden-tablet"> Crear Liquidación</span></a></li>
-
-
-						<li class="nav-header hidden-tablet">Gerencia</li>
-						<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Proformas</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Facturas</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-check"></i><span class="hidden-tablet"> Termino de Servicio</span></a></li>
+						<li class="nav-header hidden-tablet">Tareas</li>
+						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+						<li><a class="ajax-link" href="#"><i class="icon-remove"></i><span class="hidden-tablet"> Cerrar Sesión</span></a></li>
 					</ul>
 					<!-- <label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label> -->
-
-				</div><!--/.well -->
-			</div><!--/span-->
-			<!-- left menu ends -->
+				</div>
+			</div>
+			<!-- left menu ends -->	
 			
 			<noscript>
 				<div class="alert alert-block span10">
@@ -133,251 +123,467 @@
 					<div class="box-content">
 						<form class="form-horizontal" method="POST" action="#">
 						<fieldset>
-						<div class="row-fluid">
-							<legend>Plantilla de Liquidación de Servicios OPServices</legend>
+							<div class="row-fluid">
+								<div class="span6">
+									<div class="control-group">
+										<p>Liquidación Numero: 123</p>
+										<p>Fecha: <?php echo date("d-m-Y"); ?></p>
+									</div>
+								</div> 
+								<legend>PLANTILLA DE LIQUIDACIÓN DE SERVICIOS OPSERVICES</legend>
+							</div> 
 
-							<div class="span12">Liquidación Numero: <span>12345</span></div>
-							<div class="span12">Fecha: <?php echo date('d-m-Y'); ?></div>
-							<div class="span12 center"><h2>Plantilla de Liquidación OPSERVICES</h2></div>
-							<div class="span12"><h4>1.- Datos Generales de Servicio</h4></div>
-							
+							<div class="row-fluid">
+								<div class="span6">
+									<div class="control-group">
+										<h4>1.- DATOS GENERALES DEL SERVICIO.</h4>
+									</div>
+								</div> 
+							</div> 
 
-							<div class="span3">Nombre de la Nave o Servicio</div>
-							<div class="span8">
-								<input type="text" name="nombreNave" placeholder="Nombre de la Nave o Servicio"/>
-							</div>
-							<div class="clear"></div>
-							<div class="span3">N° de Informe</div>
-							<div class="span8">
-								<input type="text" name="numInforme" placeholder="N° de Informe"/>
-							</div>
-							<div class="span3">Referencia al Cliente</div>
-							<div class="span8">
-								<input type="text" name="referenciaCliente" placeholder="Referencia al Cliente"/>
-							</div>
-							<div class="span3">Lugar de Servicio</div>
-							<div class="span8">
-								<input type="text" name="lugarServicio" placeholder="Lugar de Servicio"/>
-							</div>
-							<div class="span3">Nombre de Inspector(es) a cargo</div>
-							<div class="span8">
-								<input type="text" name="InspCargo" placeholder="Insp cargo"/>
-							</div>
-							<div class="span3">Nombre de Inspector(es) Partcipantes</div>
-							<div class="span8">
-								<input type="text" name="InspParticipantes" placeholder="Insp part"/>
-							</div>
-							<div class="span3">Servicio Realizado</div>
-							<div class="span8">
-								<textarea name="servicioRealizado" cols="30" rows="3"></textarea>
-							</div>
-							<div class="span3">Numero de Contenedores</div>
-							<div class="span8">
-								<input type="number" min="0" name="numContenedores" value="0"/>
-							</div>
-							<div class="span3">Turnos Totales Trabajados</div>
-							<div class="span8">
-								<input type="number" min="0" name="turnosTrabajados" value="0"/>
-							</div>
-							<div class="span3">Tarifado</div>
-							<div class="span8">
-								<input type="text" name="tarifado" placeholder="Tarifado"/>
-							</div>
-
-							<div class="span6"></div>
-							<div class="span5">
-								<div class="span3">NETO</div>
-								<div class="span3">IVA/RET</div>
-								<div class="span3">TOTAL</div>
-							</div>
-						
-							<div class="span3">Valor Facturado</div>
-							
-							<div class="span3">Factura Excenta</div>
-							<div class="span5">
+							<div class="row-fluid">
 								<div class="span3">
-									<input class="input-small" name="FENeto" min="0" type="number" value="0">
+									<div class="control-group">
+										<label> Nombre de la Nave:</label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<label>Nave Dummi</label>
+									<input type="hidden" name="textNombreNave"value="Nave Dummi" />
 								</div>
+							</div> 
+
+							<div class="row-fluid">
 								<div class="span3">
-									<input class="input-small" name="FEIva" min="0" type="number" value="0">
+									<div class="control-group">
+										<label> Código de Informe:</label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<label>OPS-BLA BLA BLA</label>
+									<input type="hidden" name="textCodigoInforme" value="OPS-BLABLALBA" />
 								</div>
+							</div> 
+
+							<div class="row-fluid">
 								<div class="span3">
-									<input class="input-small" name="FETotal" type="text" value="0" disabled>
+									<div class="control-group">
+										<label> Referencia Cliente:</label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<input type="text" name="textReferenciaCliente" placeholder="Referencia Cliente" required/>
+								</div>
+							</div> 
+
+							<div class="row-fluid">
+								<div class="span3">
+									<div class="control-group">
+										<label> Lugar del Servicio:</label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<label>Valparaíso</label>
+									<input type="hidden" name="textLugarServicio" value="Valparaiso" />
+								</div>
+							</div> 
+
+							<div class="row-fluid">
+								<div class="span3">
+									<div class="control-group">
+										<label>Inspector/es a Cargo:</label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<ul>
+										<li>Inspector1</li>
+										<li>Inspector2</li>
+										<li>Inspector3</li>
+									</ul>
+									<input type="hidden" name="listaInspCargo" value="1-2-13" />
+								</div>
+							</div> 
+
+							<div class="row-fluid">
+								<div class="span3">
+									<div class="control-group">
+										<label> Inspector/es Participantes:</label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<ul>
+										<li>Participante1</li>
+										<li>Participante2</li>
+										<li>Participante3</li>
+									</ul>
+									<input type="hidden" name="listaInspParticipantes" value="4-5" />
+								</div>
+							</div> 
+
+							<div class="row-fluid">
+								<div class="span3">
+									<div class="control-group">
+										<label> Servicio Realizado: </label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, vero cupiditate perferendis eligendi vitae iusto dolores sed nihil. Deleniti, nam voluptate ad consequatur error ea odio facilis quidem id vitae.</p>
+									<input type="hidden" name="textServicioRealizado" value="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+																							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+																							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+																							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+																							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+																							proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 								</div>
 							</div>
 
-							<div class="span3"></div>
-							
-							<div class="span3">Factura Afecta</div>
-							<div class="span5">
+							<div class="row-fluid">
 								<div class="span3">
-									<input id="FANeto" class="input-small" name="FANeto" min="0" type="number" value="0">
+									<div class="control-group">
+										<label> Número de Contenedores:</label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<input type="text" name="textNumeroContenedores" placeholder="Número de Contenedores" required />
 								</div>
+							</div>  
+
+							<div class="row-fluid">
 								<div class="span3">
-									<input id="FAIva" class="input-small" name="FAIva" type="text" value="0" disabled>
+									<div class="control-group">
+										<label> Turnos totales trabajados:</label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<input type="text" name="textTurnosTotales" placeholder="Turnos totales trabajados" required />
 								</div>
+							</div> 
+
+							<div class="row-fluid">
 								<div class="span3">
-									<input id="FATotal" class="input-small" name="FATotal" type="text" value="0" disabled>
+									<div class="control-group">
+										<label> Tarifado:</label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<input type="text" name="textTarifado" placeholder="Tarifado" required />
 								</div>
-							</div>
-							
-							<div class="span3"></div>
-							
-							<div class="span3">Boleta Honorarios</div>
-							<div class="span5">
-								<div class="span3">
-									<input class="input-small" name="BHNeto" min="0" type="number" value="0">
-								</div>
-								<div class="span3">
-									<input class="input-small" name="BHIva" type="text" value="0" disabled>
-								</div>
-								<div class="span3">
-									<input class="input-small" name="BHTotal" type="text" value="0" disabled>
-								</div>
-							</div>
-							
-							<div class="span3"></div>
-							
-							<div class="span3">Invoice</div>
-							<div class="span5">
-								<div class="span3">
-									<input class="input-small" name="InNeto" min="0" type="number" value="0">
-								</div>
-								<div class="span3">
-									<input class="input-small" name="InIva" min="0" type="number" value="0">
-								</div>
-								<div class="span3">
-									<input class="input-small" name="InTotal" type="text" value="0" disabled>
-								</div>
-							</div>
+							</div> 
 
-							<div class="span3">Tasa de Cambio</div>
-							<div class="span8">
-								<input class="" type="text" placeholder="515,99" disabled />
-							</div>
-
-							<div class="span12"></div>
-
-							<div class="span12"><h4>2.- Gastos Generales Incurridos</h4></div>
-							<div class="span9"><h4>2.1- Gastos De Inspección</h4></div>
-							<div class="span2">TOTAL</div>
-
-							<div class="span3">Total Rend. Gastos</div>
-							<div class="span6">Aquí debe ir un código</div>
-							<div class="span2">
-								<input class="input-small" name="totalRendicion" type="number" min="0" value="0">
-							</div>
-
-							<div class="span3"></div>
-							<div class="span6">
-								<div class="span2">Valor x Hoja</div>
-								<div class="span2">Cant Hojas</div>
-								<div class="span2">N° Copias</div>
-								<div class="span4">Detalle</div>
-							</div>
-							<div class="span2"></div>
-
-							<div class="span3">Impresión Informe</div>
-							<div class="span6">
-								<div class="span2">
-									<input class="input-mini" name="IIValorHoja" type="number" min="0" value="0">
-								</div>
-								<div class="span2">
-									<input class="input-mini" name="IICantHoja" type="number" min="0"  value="0">
-								</div>
-								<div class="span2">
-									<input class="input-mini" name="IINumcopias" type="number" min="0"  value="0">
-								</div>
-								<div class="span4">
-									<input class="" type="text" name="IIDetalle" placeholder="IIDetalle">
-								</div>
-							</div>
-							<div class="span2">$123-</div>
-
-							<div class="span3">Gastos Confección de Informes</div>
-							<div class="span6">
-								<textarea name="gastosConfeccion" cols="30" rows="3"></textarea>
-							</div>
-							<div class="span2">
-								<input class="input-small" name="GastosConfTotal" type="number" min="0" value="0" />
-							</div>
-					
-							<div class="span3">Pago Inspectores Ayudantes</div>
-							<div class="span6">
-								<?php // Nombre de Inspectores a Cargo ?>
-								<div class="span2">INSP1</div>
-								<div class="span2">INSP2</div>
-								<div class="span2">INSP3</div>
-								<div class="span2">INSP4</div>
-								<div class="span2">INSP5</div> 
-								<div class="span2">INSP6</div> 
-							</div>
-							<div class="span2"></div>
-
-							<div class="span3"></div>
-							<div class="span6">
-
-								<?php // Valor a pagar Inspectores a Cargo ?>
-								<div class="span2">
-									<input class="input-mini" type="number" min="0" value="0">
-								</div>
-								<div class="span2">
-									<input class="input-mini" type="number" min="0"  value="0">
-								</div>
-								<div class="span2">
-									<input class="input-mini" type="number" min="0" value="0">
-								</div>
-								<div class="span2">
-									<input class="input-mini" type="number" min="0"  value="0">
-								</div>
-								<div class="span2">
-									<input class="input-mini" type="number" min="0"  value="0">
+							<div class="row-fluid">
+								<div class="span6">
 								</div> 
 								<div class="span2">
-									<input class="input-mini" type="number" min="0"  value="0">
+									<label>NETO</label>
+								</div>
+								<div class="span2">
+									<label>IVA /RETEN</label>
+								</div>
+								<div class="span2">
+									<label>TOTAL</label>
+								</div>
+							</div> 
+
+							<div class="row-fluid">
+								<div class="span3">
+									<label>VALOR FACTURADO</label>
 								</div> 
+								<div class="span3">
+									<label>FACTURA EXCENTA</label>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textFENeto" type="text" placeholder="FE NETO" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textFEIva" type="text" placeholder="FE IVA/RET" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<label>FE$0.-</label>
+										<input type="hidden" name="textFETotal" value="0" />
+									</div>
+								</div>
 							</div>
-							<div class="span2">$123-</div>
 
-							<div class="span3">Otros Gastos</div>
-							<div class="span6">
-								<textarea name="otrosGastos" cols="30" rows="3"></textarea>
+							<div class="row-fluid">
+								<div class="span3">
+								</div> 
+								<div class="span3">
+									<label>FACTURA AFECTA</label>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textFANeto" type="text" placeholder="FA NETO" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<label>FA$0.-</label>
+										<input type="hidden" name="textFAIva" value="0" />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<label>FA$0.-</label>
+										<input type="hidden" name="textFATotal" value="0" />
+									</div>
+								</div>
+							</div> 
+
+							<div class="row-fluid">
+								<div class="span3">
+								</div> 
+								<div class="span3">
+									<label>BOLETA HONORARIO</label>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textBHNeto" type="text" placeholder="BH NETO" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<label>BH$0.-</label>
+										<input type="hidden" name="textBHIva" value="0" />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<label>BH$.-</label>
+										<input type="hidden" name="textBHTotal" value="0" />
+									</div>
+								</div>
 							</div>
-							<div class="span2">
-								<input class="input-mini" name="OtrosGastosDetalle" type="number" min="0"  value="0">
+
+							<div class="row-fluid">
+								<div class="span3">
+								</div> 
+								<div class="span3">
+									<label>INVOICE</label>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textIVNeto" type="text" placeholder="IV NETO" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textIVIva"type="text" placeholder="IV IVA/RET" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<label>IV$0.-</label>
+										<input type="hidden" name="textIVTotal"value="0" />
+									</div>
+								</div>
 							</div>
 
-							<div class="span9"></div>
-							<div class="span2"><b>$123.-</b></div>
+							<div class="row-fluid">
+								<div class="span3">
+									<div class="control-group">
+										<label> TASA DE CAMBIO: </label>
+									</div>
+								</div> 
+								<div class="span6 pull-left">
+									<p>$520,12.-</p>
+									<input type="hidden" name="idTasaDeCambio" value="1" />
+								</div>
+							</div>
 
+							<div class="row-fluid">
+								<div class="span6">
+									<div class="control-group">
+										<h4>2.- GASTOS GENERALES INCURRIDOS.</h4>
+									</div>
+								</div> 
+							</div> 
 
-						</div>    
-						<div class="form-actions">
-							<button type="submit" class="btn btn-primary">Enviar Liquidación</button>
-							<button type="reset" class="btn">Limpiar </button>
-						</div>
-						  </fieldset>
+							<div class="row-fluid">
+								<div class="span10">
+									<div class="control-group">
+										<h5>2.1.- GASTOS DE INSPECTORES.</h5>
+									</div>
+								</div> 
+
+								<div class="span2">
+									<label>TOTAL</label>
+								</div>
+							</div> 
+
+							<div class="row-fluid">
+								<div class="span2">
+									<label>RENDICION DE GASTOS</label>
+								</div>
+								<div class="span8">
+									<label>RENDICION N°....</label>
+									<input type="hidden" name="textRendicionDeGasto" value="rendicion bla bla" />
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textTotalRendicion" type="text" placeholder="0.-" required />
+									</div>
+								</div>
+							</div>
+
+							<div class="row-fluid">
+								<div class="span2">
+								</div>
+								<div class="span2">
+									<label>VALOR X HOJA</label>
+								</div>
+								<div class="span2">
+									<label>CANT. HOJAS</label>
+								</div>
+								<div class="span2">
+									<label>N° COPIAS</label>
+								</div>
+								<div class="span2">
+									<label>DETALLE</label>
+								</div>
+								<div class="span2">
+								</div>
+							</div>
+
+							<div class="row-fluid">
+								<div class="span2">
+									<label>IMPRESIÓN INFORME</label>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textValorHoja" type="text" placeholder="VxH" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textCantHoja" type="text" placeholder="CantH" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textNumCopias" type="text" placeholder="NC" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input class="input-small" name="textDetalleImpresion" type="text" placeholder="detalle" required />
+									</div>
+								</div>
+								<div class="span2">
+									<label>$0.-</label>
+									<input type="hidden" name="textTotalImpreison" value="0" />
+								</div>
+							</div>
+
+							<div class="row-fluid">
+								<div class="span2">
+									<label>GASTOS CONF INFORM</label>
+								</div>
+								<div class="span8">
+									<div class="control-group">
+										<input type="text" name="textDetalleConfeccion" class="input-xxlarge" placeholder="CARPETA/SEPARADORES/ETC" required />
+									</div>
+								</div>
+								<div class="span2">
+									<label>$0.-</label>
+									<input type="hidden" name="textTotalConfeccion" value="0" />
+								</div>
+							</div>
+
+							<div class="row-fluid">
+								<div class="span2">
+									<label>PAGO AYUDANTES</label>
+								</div>
+								<div class="span2">
+									<label>INSP1</label>
+								</div>
+								<div class="span2">
+									<label>INSP2</label>
+								</div>
+								<div class="span2">
+									<label>INSP3</label>
+								</div>
+								<div class="span2">
+									<label>INSP4</label>
+								</div>
+								<div class="span2">
+								</div>
+							</div>
+
+							<div class="row-fluid">
+								<div class="span2">
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input type="text" name="textPagoInsp1" class="input-small" placeholder="INSP1" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input type="text" name="textPagoInsp2" class="input-small" placeholder="INSP2" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input type="text" name="textPagoInsp3" class="input-small" placeholder="INSP3" required />
+									</div>
+								</div>
+								<div class="span2">
+									<div class="control-group">
+										<input type="text" name="textPagoInsp4" class="input-small" placeholder="INSP4" required />
+									</div>
+								</div>
+								<div class="span2">
+									<label>$0.-</label>
+									<input type="hidden" name="textTotalPagoInsp" value="0" />
+								</div>
+							</div>
+
+							<div class="row-fluid">
+								<div class="span2">
+									<label>OTROS GASTOS</label>
+								</div>
+								<div class="span8">
+									<div class="control-group">
+										<input class="input-xxlarge" name="textDetalleOtrosGastos" type="text" placeholder="Otros Gastos" required />
+									</div>
+								</div>
+								<div class="span2">
+									<label>$0</label>
+									<input type="hidden" name="textTotalotrosGastos" value="0" />
+								</div>
+							</div>
+
+							<div class="row-fluid">
+								<div class="span10">
+								</div>
+								<div class="span2">
+									<label>$0</label>
+									<input type="hidden" name="textTotalLiqInsp" value="0" />
+								</div>
+							</div>
+
+							<div class="form-actions">
+								<button type="submit" class="btn btn-primary">Enviar Liquidación</button>
+								<button type="reset" class="btn">Limpiar </button>
+							</div>
+						 </fieldset>
 						</form>   
-
-
 					</div>
 					</div><!--/span-->
 				</div><!--/row-->
 
-			
-    
 					<!-- content ends -->
 			</div><!--/#content.span10-->
-				</div><!--/fluid-row-->
-				
+				</div><!--/fluid-row-->	
 		<hr>
-
-	
-
 		<footer>
-			<p class="pull-left">&copy; <a href="#" target="_blank">OPServices</a> 2013</p>
-			<!-- <p class="pull-right">Powered by: <a href="http://usman.it/free-responsive-admin-template">Charisma</a></p> -->
-		</footer>
+			<p class="pull-right">&copy; 2010-2013 OPServices Ltda.</p>
+		</footer>	
 		
 	</div><!--/.fluid-container-->
 

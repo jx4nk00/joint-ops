@@ -1,59 +1,58 @@
 <?php 
-session_start();
-include ('clases/usuario.php');
-include ('clases/proyecto.php');
+	session_start();
+	include ('clases/usuario.php');
+	include ('clases/proyecto.php');
+	if(!$_SESSION['Id_Usuario']){
+		header('location:index.php');
+	}else{
+		$Usuario = new Usuario;
+		$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
+	}
 
-if(!$_SESSION['Id_Usuario']){
-	header('location:index.php');
-}else{
-	$Usuario = new Usuario;
-	$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
-}
+	$Proyecto = new Proyecto;
+	if( isset($_POST['CrearProyecto'])){
 
-$Proyecto = new Proyecto;
-if( isset($_POST['CrearProyecto'])){
+		$id_lugar=$_POST['selectLugares'];
+		$id_miembro=$_POST['responsable'];
+		$id_codigo=1;
+		$nombre_proyecto=$_POST['textNombreProyecto'];
+		$nombre_nave = $_POST['textNombreNave'];
+		$fecha_inicio =  date("Y-m-d",strtotime($_POST['textFechaInicio']));
+		$fecha_termino = date("Y-m-d",strtotime($_POST['textFechaTermino']));
+		$descripcion = $_POST['textDescProyecto'];
+		$DatosDelProyecto = array($id_lugar,$id_miembro,$id_codigo,$nombre_proyecto,$nombre_nave,$fecha_inicio,$fecha_termino,$descripcion);
 
-	$id_lugar=$_POST['selectLugares'];
-	$id_miembro=$_POST['responsable'];
-	$id_codigo=1;
-	$nombre_proyecto=$_POST['textNombreProyecto'];
-	$nombre_nave = $_POST['textNombreNave'];
-	$fecha_inicio =  date("Y-m-d",strtotime($_POST['textFechaInicio']));
-	$fecha_termino = date("Y-m-d",strtotime($_POST['textFechaTermino']));
-	$descripcion = $_POST['textDescProyecto'];
-	$DatosDelProyecto = array($id_lugar,$id_miembro,$id_codigo,$nombre_proyecto,$nombre_nave,$fecha_inicio,$fecha_termino,$descripcion);
+		$Proyecto->crearProyecto($DatosDelProyecto);
 
-	$Proyecto->crearProyecto($DatosDelProyecto);
-
-	$id_proyectos = $Proyecto->getLastProjectId();
+		$id_proyectos = $Proyecto->getLastProjectId();
+		
+		if($_POST['textDescServicio1']!=""){
+			$nombre_servicio = $_POST['textDescServicio1'];
+			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
+			$Proyecto->crearServicio($DatosDelServicio);
+		}
+		if($_POST['textDescServicio2']!=""){
+			$nombre_servicio = $_POST['textDescServicio2'];
+			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
+			$Proyecto->crearServicio($DatosDelServicio);
+		}
+		if($_POST['textDescServicio3']!=""){
+			$nombre_servicio = $_POST['textDescServicio3'];
+			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
+			$Proyecto->crearServicio($DatosDelServicio);
+		}
+		if($_POST['textDescServicio4']!=""){
+			$nombre_servicio = $_POST['textDescServicio4'];
+			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
+			$Proyecto->crearServicio($DatosDelServicio);
+		}
+		if($_POST['textDescServicio5']!=""){
+			$nombre_servicio = $_POST['textDescServicio5'];
+			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
+			$Proyecto->crearServicio($DatosDelServicio);
+		}
 	
-	if($_POST['textDescServicio1']!=""){
-		$nombre_servicio = $_POST['textDescServicio1'];
-		$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
-		$Proyecto->crearServicio($DatosDelServicio);
 	}
-	if($_POST['textDescServicio2']!=""){
-		$nombre_servicio = $_POST['textDescServicio2'];
-		$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
-		$Proyecto->crearServicio($DatosDelServicio);
-	}
-	if($_POST['textDescServicio3']!=""){
-		$nombre_servicio = $_POST['textDescServicio3'];
-		$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
-		$Proyecto->crearServicio($DatosDelServicio);
-	}
-	if($_POST['textDescServicio4']!=""){
-		$nombre_servicio = $_POST['textDescServicio4'];
-		$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
-		$Proyecto->crearServicio($DatosDelServicio);
-	}
-	if($_POST['textDescServicio5']!=""){
-		$nombre_servicio = $_POST['textDescServicio5'];
-		$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
-		$Proyecto->crearServicio($DatosDelServicio);
-	}
-	
-}
 
  ?>
 
@@ -105,7 +104,7 @@ if( isset($_POST['CrearProyecto'])){
 </head>
 
 <body>
-		<!-- topbar starts -->
+	<!-- topbar starts -->
 	<div class="navbar">
 		<div class="navbar-inner">
 			<div class="container-fluid">
@@ -114,13 +113,16 @@ if( isset($_POST['CrearProyecto'])){
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Joint Ops</span></a>
-				
-				
+				<a class="brand" href="index.html"> 
+					<img alt="Charisma Logo" src="img/logo20.png" /> 
+					<span>Joint Ops</span>
+				</a>
+
+
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-user"></i><span class="hidden-phone"> Usted</span>
+						<i class="icon-user"></i><span class="hidden-phone"> <?php echo $nombreCompleto; ?></span>
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
@@ -129,41 +131,29 @@ if( isset($_POST['CrearProyecto'])){
 						<li><a href="login.html">Salir</a></li>
 					</ul>
 				</div>
-				<!-- user dropdown ends -->
-				
+			<!-- user dropdown ends -->
 			</div>
 		</div>
 	</div>
+
 	<!-- topbar ends -->
-		<div class="container-fluid">
+	<div class="container-fluid">
 		<div class="row-fluid">
-				
+
 			<!-- left menu starts -->
 			<div class="span2 main-menu-span">
 				<div class="well nav-collapse sidebar-nav">
 					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li class="nav-header hidden-tablet">Administración</li>
-						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
-						<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-ok"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-time"></i><span class="hidden-tablet"> Trabajos</span></a></li>
-
-						<li class="nav-header hidden-tablet">Inspección</li>
-						<li><a class="ajax-link" href="informe.php"><i class="icon-upload"></i><span class="hidden-tablet"> Importar Informe</span></a></li>
-						<li><a class="ajax-link" href="liquidacion.php"><i class="icon-pencil"></i><span class="hidden-tablet"> Crear Liquidación</span></a></li>
-
-
-						<li class="nav-header hidden-tablet">Gerencia</li>
-						<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Proformas</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-list-alt"></i><span class="hidden-tablet"> Facturas</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-check"></i><span class="hidden-tablet"> Termino de Servicio</span></a></li>
+						<li class="nav-header hidden-tablet">Tareas</li>
+						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Dashboard</span></a></li>
 						<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+						<li><a class="ajax-link" href="#"><i class="icon-remove"></i><span class="hidden-tablet"> Cerrar Sesión</span></a></li>
 					</ul>
 					<!-- <label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label> -->
+				</div>
+			</div>
+			<!-- left menu ends -->	
 
-				</div><!--/.well -->
-			</div><!--/span-->
-			<!-- left menu ends -->
-			
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
@@ -171,46 +161,44 @@ if( isset($_POST['CrearProyecto'])){
 				</div>
 			</noscript>
 
-
-			
 			<div id="content" class="span10">
-			<!-- content starts -->
-			<div class="row-fluid sortable">		
-				<div class="box span12">
-					<div class="box-header well" data-original-title>
-						<h2><i class="icon-user"></i> Nuevo Proyecto</h2>
-						<div class="box-icon">
-							<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+				<!-- content starts -->
+				<div class="row-fluid sortable">		
+					<div class="box span12">
+						<div class="box-header well" data-original-title>
+							<h2><i class="icon-user"></i> Nuevo Proyecto</h2>
+							<div class="box-icon">
+								<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+							</div>
 						</div>
-					</div>
 
+						<div class="box-content">
+							<form action="nuevoproyecto.php" method="POST" class="form-horizontal">
 
-					<div class="box-content">
-						<form action="nuevoproyecto.php" method="POST" class="form-horizontal">
-							<div class="control-group">
-								<label class="control-label">Nombre: </label>
-								<div class="controls">
-									<input id="textNombreProyecto" name="textNombreProyecto" type="text" placeholder="Nombre aquí"  required /> 				
-									<a id="btnNuevoProyecto" class="btn btn-success" href="#" >
-										<i class="icon-plus icon-white"></i>  
-										Verificar                                            
-									</a>
-								</div>
-							</div>
-							<div class="control-group">
-								<div id="alertaError"class="alert alert-error hide">
-									<button type="button" class="close" data-dismiss="alert">×</button>
-									<strong>OOPS!</strong> Debe especificar un nombre.
-								</div>
-								<div id="alertaSuccess" class="alert alert-success hide">
-									<button type="button" class="close" data-dismiss="alert">×</button>
-									<strong>Válido!</strong> Ese nombre es aceptado.
+								<div class="control-group">
+									<label class="control-label">Nombre: </label>
+									<div class="controls">
+										<input id="textNombreProyecto" name="textNombreProyecto" type="text" placeholder="Nombre aquí"  required /> 				
+										<a id="btnNuevoProyecto" class="btn btn-success" href="#" >
+											<i class="icon-plus icon-white"></i>  
+											Verificar                                            
+										</a>
+									</div>
 								</div>
 
-							</div>
-						
-							<div id="informacionProyecto" class="hide">
-								<legend>Información del Proyecto</legend>
+								<div class="control-group">
+									<div id="alertaError"class="alert alert-error hide">
+										<button type="button" class="close" data-dismiss="alert">×</button>
+										<strong>OOPS!</strong> Debe especificar un nombre.
+									</div>
+									<div id="alertaSuccess" class="alert alert-success hide">
+										<button type="button" class="close" data-dismiss="alert">×</button>
+										<strong>Válido!</strong> Ese nombre es aceptado.
+									</div>
+								</div>
+								
+								<div id="informacionProyecto" class="hide">
+									<legend>Información del Proyecto</legend>
 									<div class="row-fluid">
 										<div class="span6">
 											<div class="control-group">
@@ -218,6 +206,7 @@ if( isset($_POST['CrearProyecto'])){
 												<input type="text" name="textNombreNave" placeholder="Nombre de la nave" required />
 											</div>
 										</div> <!-- Cierre Span6 -->
+
 										<div class="span6">
 											<div class="control-group">
 												<h3>Responsable del proyecto</h3>
@@ -281,6 +270,7 @@ if( isset($_POST['CrearProyecto'])){
 													</a>
 												</div>
 											</div>
+											
 											<div id="ser4" class="servicio4 hide">
 												<div class="control-group">
 													<h4>Descripción del Servicio</h4>
@@ -293,6 +283,7 @@ if( isset($_POST['CrearProyecto'])){
 													</a>
 												</div>
 											</div>
+											
 											<div id="ser5" class="servicio5 hide">
 												<div class="control-group">
 													<h4>Descripción del Servicio</h4>
@@ -303,6 +294,7 @@ if( isset($_POST['CrearProyecto'])){
 												</div>
 											</div>
 										</div>
+												
 										<div class="span6">
 											<div class="control-group">
 												<h3>Lugar del Proyecto</h3>
@@ -321,21 +313,18 @@ if( isset($_POST['CrearProyecto'])){
 											</div>
 										</div>
 									</div>	
-										<input name="CrearProyecto" type="submit" class="btn btn-info " data-noty-options='{"text":"Proyecto Creado con Éxito","layout":"top","type":"information"}' value="Crear Proyecto" />
-									</div>
-							</div><!-- Cierre de informaciones -->
-						</form>
+									<input name="CrearProyecto" type="submit" class="btn btn-info " data-noty-options='{"text":"Proyecto Creado con Éxito","layout":"top","type":"information"}' value="Crear Proyecto" />
+								</div><!-- Cierre de informaciones -->
+							</form>
+						</div>
 					</div>
-				</div><!--/span-->
-			</div><!--/row-->
-		</div><!--/#content.span10-->
+				</div>
+			</div>
 		</div><!--/fluid-row-->				
 		<hr>
 		<footer>
-			<p class="pull-left">&copy; <a href="#" target="_blank">OPServices</a> 2013</p>
-			<p class="pull-right">Soportado por: <a href="#">Joint-Ops</a></p>
-		</footer>
-		
+			<p class="pull-right">&copy; 2010-2013 OPServices Ltda.</p>
+		</footer>	
 	</div><!--/.fluid-container-->
 
 	<!-- external javascript
