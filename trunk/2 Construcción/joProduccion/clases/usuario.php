@@ -8,7 +8,7 @@ function verUsuario(){
 							ON mi.id_privilegio = pri.id_privilegio
 							JOIN datos_miembros dm
 							ON mi.id_datos = dm.id_datos")
-	or die ("Error en la consulta");
+	or die ("Error en la consulta verUsuario");
 	return $consulta;
 }
 
@@ -33,7 +33,7 @@ function validarUsuario($user,$pass){
 								ON us".'.'."id_usuarios = mi".'.'."id_usuarios
 								WHERE username='$user' 
 								AND pass ='$pass'
-								AND activo = 1") or die ("Error en la consulta");
+								AND activo = 1") or die ("Error en la consulta validar Usuario");
 		$fila=mysql_fetch_array($consulta);
 		$idUser = $fila['id_usuarios'];
 
@@ -43,7 +43,7 @@ function validarUsuario($user,$pass){
 
 function getUserName($id){
 
-	$consulta = mysql_query("SELECT * FROM miembros where id_usuarios = $id") or die ("Error en la consulta");
+	$consulta = mysql_query("SELECT * FROM miembros where id_usuarios = $id") or die ("Error en la consulta getUserName");
 	$fila=mysql_fetch_array($consulta);
 	$nombre = $fila['p_nombre']." ".$fila['apellido_p'];
 
