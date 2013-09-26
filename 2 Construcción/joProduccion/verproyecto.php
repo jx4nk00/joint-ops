@@ -2,16 +2,18 @@
 	session_start();
 	include ('clases/usuario.php');
 	include ('clases/proyecto.php');
+	include ('clases/informe.php');
 	if(!$_SESSION['Id_Usuario']){
 		header('location:index.php');
 	}else{
 		$Usuario = new Usuario;
 		$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
 	}
-	$idDeProyecto=$_GET['idDeProyecto'];
 
+	$idDeProyecto=$_GET['idDeProyecto'];
 	$Proyecto = new Proyecto;
 	$Usuario = new Usuario;
+	$informe = new Informe;
 	$InformacionDelProyecto = $Proyecto->getInfoProyecto($idDeProyecto);
 
 	$idDeLugar = $InformacionDelProyecto[1];
@@ -34,6 +36,17 @@
 		$estadoDeProyecto = "<span class='label label-important'>Fuera de Plazo</span>";
 	}
 
+
+	// Subir Informe
+
+	if( isset($_POST['btnSubirInforme'])){
+		$carpeta ="informes/";
+		opendir($carpeta);
+		$ruta = $carpeta.mt_rand(0,999)."-".date("d-m-Y")."-".utf8_decode($_FILES['informe']['name']);
+		copy($_FILES['informe']['tmp_name'], $ruta);
+
+		$resultadoSubida=$informe->subirInforme($idDeProyecto,$ruta);
+	}
 
  ?>
 <!DOCTYPE html>
@@ -177,10 +190,6 @@
 								</div>
 							</div>
 						</div>
-
-
-
-
 						<br>
 						<div class="row-fluid">
 							<div class="span12">
@@ -241,19 +250,31 @@
 											<i class="icon-zoom-in icon-white"></i>  
 											Ver                                            
 										</a>
-										<a class="btn btn-info" href="#">
+										<a class="btn btn-info"  href="#">
 											<i class="icon-edit icon-white"></i>  
 											Crear                                            
 										</a>
 								</div>
 
 								<div class="control-group">
-										<h3>Informe	</h3>
-										<a class="btn btn-success" href="#">
-											<i class="icon-zoom-in icon-white"></i>  
-											Ver                                            
-										</a>
-										<input name="archivo"class="input-file uniform_on" id="fileInput" type="file" required />
+									<h3>Informe	</h3>
+									<?php 
+										$existeInforme = $informe->verExistencia($idDeProyecto);
+										if ($existeInforme) { 
+									?>
+									<a class="btn btn-success" href="#">
+										<i class="icon-zoom-in icon-white"></i>  
+										Ver                                            
+									</a>
+									<?php }
+										else{ 
+									?>
+									<a data-toggle="modal" href="#subirInforme" class="btn btn-info">
+										<i class="icon-upload icon-white"></i>  
+										Subir                                            
+									</a>
+									<?php }	?>
+										
 								</div>
 							</div>
 							<div class="span6">
@@ -288,7 +309,27 @@
 							<div class="bar" style="width: 50%">50%</div>
 						</div>
 
-
+						<!-- Modal -->
+						  <div class="modal fade" id="subirInforme" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						    <div class="modal-dialog">
+						      <div class="modal-content">
+						        <div class="modal-header">
+						          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						          <h4 class="modal-title">Subir Informe</h4>
+						        </div>
+						        <div class="modal-body">
+						          <form action="verproyecto.php?idDeProyecto=<?php echo $idDeProyecto ?>" method="post" enctype="multipart/form-data">
+						          	<input name="informe" class="input-file uniform_on" id="fileInput" type="file" required />
+						          	<input class="btn btn-info" type="submit" value="Subir" name="btnSubirInforme">
+						          </form>
+						        </div>
+						        <div class="modal-footer">
+						          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						 <!-- /.modal -->
 
 
 						</div>
