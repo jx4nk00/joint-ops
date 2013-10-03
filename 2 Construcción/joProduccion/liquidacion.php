@@ -2,11 +2,45 @@
 	session_start();
 	include ('clases/usuario.php');
 	include ('clases/proyecto.php');
+	include ('clases/liquidacion.php');
 	if(!$_SESSION['Id_Usuario']){
 		header('location:index.php');
 	}
 	$Usuario = new Usuario;
+	$Proyecto = new Proyecto;
+	$Liquidacion = new Liquidacion;
+
 	$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
+	$idDeProyecto = $_GET['idProyecto'];
+	$infoDeProyecto = $Proyecto->getInfoProyecto($idDeProyecto);
+
+	//Sistema
+	$fechaDeLiquidación=date('Y-m-d');
+
+	//Tabla Liquidaciones
+	$numeroDeLiquidacion=$Liquidacion->getNumLiquidacion();
+	
+	
+	//Tabla Proyectos
+	$lugarDeServicio = $infoDeProyecto[1];
+	$idMiembros = $infoDeProyecto[2];
+	$IdcodigoDeInforme = $infoDeProyecto[3];
+	$nombreDeLaNave = $infoDeProyecto[5];
+
+	//Tabla Servicios
+	$servicios = $Proyecto->getServiciosDeProyecto($idDeProyecto);
+
+	//Tabla Lugares
+	$nombreLugar = $Liquidacion->getLugar($lugarDeServicio);
+	
+	//Tabla Codigo
+	$codigoDeInforme = $Proyecto->getCodigoProyecto($IdcodigoDeInforme);
+
+	//Tabla inspectores_ayudantes
+	$inspCargo = $Usuario->getUserName($idMiembros);
+	$inspParticipantes;
+	
+
 
  ?>
  <!DOCTYPE html>
@@ -126,8 +160,8 @@
 							<div class="row-fluid">
 								<div class="span6">
 									<div class="control-group">
-										<p>Liquidación Numero: 123</p>
-										<p>Fecha: <?php echo date("d-m-Y"); ?></p>
+										<p>Liquidación Numero: <?php echo $numeroDeLiquidacion; ?></p>
+										<p>Fecha: <?php echo date("Y-m-d"); ?></p>
 									</div>
 								</div> 
 								<legend>PLANTILLA DE LIQUIDACIÓN DE SERVICIOS OPSERVICES</legend>
@@ -148,7 +182,7 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<label>Nave Dummi</label>
+									<label><?php echo $nombreDeLaNave; ?></label>
 									<input type="hidden" name="textNombreNave"value="Nave Dummi" />
 								</div>
 							</div> 
@@ -160,7 +194,7 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<label>OPS-BLA BLA BLA</label>
+									<label><?php echo $codigoDeInforme; ?></label>
 									<input type="hidden" name="textCodigoInforme" value="OPS-BLABLALBA" />
 								</div>
 							</div> 
@@ -183,7 +217,7 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<label>Valparaíso</label>
+									<label><?php echo $nombreLugar[0]; ?></label>
 									<input type="hidden" name="textLugarServicio" value="Valparaiso" />
 								</div>
 							</div> 
@@ -196,9 +230,7 @@
 								</div> 
 								<div class="span6 pull-left">
 									<ul>
-										<li>Inspector1</li>
-										<li>Inspector2</li>
-										<li>Inspector3</li>
+										<li><?php echo $inspCargo; ?></li>
 									</ul>
 									<input type="hidden" name="listaInspCargo" value="1-2-13" />
 								</div>
@@ -212,9 +244,7 @@
 								</div> 
 								<div class="span6 pull-left">
 									<ul>
-										<li>Participante1</li>
-										<li>Participante2</li>
-										<li>Participante3</li>
+										<li>Sin Ayudantes asignados.</li>
 									</ul>
 									<input type="hidden" name="listaInspParticipantes" value="4-5" />
 								</div>
@@ -227,13 +257,16 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, vero cupiditate perferendis eligendi vitae iusto dolores sed nihil. Deleniti, nam voluptate ad consequatur error ea odio facilis quidem id vitae.</p>
-									<input type="hidden" name="textServicioRealizado" value="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-																							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-																							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-																							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-																							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-																							proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+									<ul>
+										<?php 
+											if($servicios == ""){
+												echo "<li>Sin Servicios</li>";
+											}
+											else{
+												echo $servicios; 
+											}	
+										?>
+									</ul>
 								</div>
 							</div>
 
@@ -293,18 +326,18 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textFENeto" type="text" placeholder="FE NETO" required />
+										<input id="FENeto prependedInput" class="input-small" name="textFENeto" type="text" placeholder="FE NETO" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textFEIva" type="text" placeholder="FE IVA/RET" required />
+										<input id="FEIva" class="input-small" name="textFEIva" type="text" placeholder="FE IVA/RET" disabled />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>FE$0.-</label>
-										<input type="hidden" name="textFETotal" value="0" />
+										<label>USD$ <span id="FETotal"></span> .-</label>
+										<input id="textFETotal" type="hidden" name="textFETotal" value="0" />
 									</div>
 								</div>
 							</div>
@@ -317,19 +350,19 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textFANeto" type="text" placeholder="FA NETO" required />
+										<input id="FANeto" class="input-small" name="textFANeto" type="text" placeholder="FA NETO" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>FA$0.-</label>
-										<input type="hidden" name="textFAIva" value="0" />
+										<label>USD$ <span id="FAIva"></span>.-</label>
+										<input id="textFAIva" type="hidden" name="textFAIva" value="0" />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>FA$0.-</label>
-										<input type="hidden" name="textFATotal" value="0" />
+										<label>USD$ <span id="FATotal"></span>.-</label>
+										<input id="textFATotal" type="hidden" name="textFATotal" value="0" />
 									</div>
 								</div>
 							</div> 
@@ -342,19 +375,19 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textBHNeto" type="text" placeholder="BH NETO" required />
+										<input id="textBHNeto" class="input-small" name="textBHNeto" type="text" placeholder="BH NETO" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>BH$0.-</label>
-										<input type="hidden" name="textBHIva" value="0" />
+										<label>USD$ <span id="BHIva"></span>.-</label>
+										<input id="textBHIva" type="hidden" name="textBHIva" value="0" />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>BH$.-</label>
-										<input type="hidden" name="textBHTotal" value="0" />
+										<label>USD$ <span id="BHTotal" ></span>.-</label>
+										<input id="textBHTotal" type="hidden" name="textBHTotal" value="0" />
 									</div>
 								</div>
 							</div>
@@ -367,18 +400,18 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textIVNeto" type="text" placeholder="IV NETO" required />
+										<input id="textIVNeto" class="input-small" name="textIVNeto" type="text" placeholder="IV NETO" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textIVIva"type="text" placeholder="IV IVA/RET" required />
+										<input class="input-small" name="textIVIva"type="text" placeholder="IV IVA/RET" disabled />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>IV$0.-</label>
-										<input type="hidden" name="textIVTotal"value="0" />
+										<label>USD$ <span id="IVTotal"></span>.-</label>
+										<input id="textIVTotal" type="hidden" name="textIVTotal"value="0" />
 									</div>
 								</div>
 							</div>
@@ -493,7 +526,7 @@
 									<input type="hidden" name="textTotalConfeccion" value="0" />
 								</div>
 							</div>
-
+							<!--
 							<div class="row-fluid">
 								<div class="span2">
 									<label>PAGO AYUDANTES</label>
@@ -542,7 +575,7 @@
 									<input type="hidden" name="textTotalPagoInsp" value="0" />
 								</div>
 							</div>
-
+							-->
 							<div class="row-fluid">
 								<div class="span2">
 									<label>OTROS GASTOS</label>
@@ -666,16 +699,108 @@
 		$(document).ready(function() {
 
 
+			$('#FENeto').keyup(function(){
+
+				if(isNaN($(this).val())){
+					alert('Debe Ingresar un Valor numérico');
+					$('#FENeto').val(0);
+					$('#FETotal').html(0);
+				}
+				else{
+
+					var feneto = $(this).val();
+					var fetotal = parseInt(feneto);
+
+					if (fetotal>0 || fetotal!=null) {
+						$('#textFETotal').val(fetotal);
+						$('#FETotal').html(fetotal);	
+					}
+					else{
+						$('#textFETotal').val(0);
+						$('#FETotal').html('0');
+					}
+				
+				}
+			});
+
+
 			$('#FANeto').keyup(function(){
 
-				var faneto = $(this).val();
-				var faiva = faneto * 0.19;
-				var fatotal = parseInt(faiva) + parseInt(faneto);
+				if(isNaN($(this).val())){
+					alert('Debe Ingresar un Valor numérico');
+					$('#FANeto').val(0);
+					$('#FAIva').html(0);
+					$('#textFAIva').val(0);
+					$('#FATotal').html(0);
+					$('#textFATotal').val(0);
 
-				$('#FAIva').val(faiva);
+				}
+				else{
+					var faNeto = $(this).val();
+					var faIva = faNeto * 0.19;
+					var faTotal = parseInt(faNeto) + faIva;
 
-				$('#FATotal').val(fatotal);
+					$('#FAIva').html(Math.round(faIva));
+					$('#textFAIva').val(Math.round(faIva));
 
+					$('#FATotal').html(Math.round(faTotal));
+					$('#textFATotal').val(Math.round(faTotal));
+
+				}
+
+			});
+
+ 
+			$('#textBHNeto').keyup(function(){
+
+				if(isNaN($(this).val())){
+					alert('Debe Ingresar un Valor numérico');
+					$('#textBHNeto').val(0);
+
+					$('#BHIva').html(0);
+					$('#textBHIva').val(0);
+
+					$('#BHTotal').html(0);
+					$('#textBHTotal').val(0);
+
+				}
+				else{
+					var bhNeto = $(this).val();
+					var bhIva = bhNeto * 0.10;
+					var bhTotal = parseInt(bhNeto) - bhIva;
+
+					$('#BHIva').html(Math.round(bhIva));
+					$('#textBHIva').val(Math.round(bhIva));
+
+					$('#BHTotal').html(Math.round(bhTotal));
+					$('#textBHTotal').val(Math.round(bhTotal));
+
+				}
+
+			});
+
+			$('#textIVNeto').keyup(function(){
+
+				if(isNaN($(this).val())){
+					alert('Debe Ingresar un Valor numérico');
+					$('#textIVNeto').val(0);
+					$('#IVTotal').html(0);
+				}
+				else{
+
+					var feneto = $(this).val();
+					var fetotal = parseInt(feneto);
+
+					if (fetotal>0 || fetotal!=null) {
+						$('#textIVTotal').val(fetotal);
+						$('#IVTotal').html(fetotal);	
+					}
+					else{
+						$('#textIVTotal').val(0);
+						$('#IVTotal').html('0');
+					}
+				
+				}
 			});
 
 

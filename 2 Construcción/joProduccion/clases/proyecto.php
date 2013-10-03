@@ -50,7 +50,7 @@ function verProyectos(){
 			$queryEncargado ="SELECT * FROM miembros WHERE id_miembros = $idEncargado";
 			$resultEncargado = mysql_query($queryEncargado);
 			$verNombreEncargado = mysql_fetch_array($resultEncargado);
-			$nombreEncargado = $verNombreEncargado['p_nombre']." ".$verNombreEncargado['apellido_p'];
+			$nombreEncargado = ucfirst($verNombreEncargado['p_nombre'])." ".ucfirst($verNombreEncargado['apellido_p']);
 
 		$proyectos = $proyectos. "<td class='center'>$nombreEncargado</td>"; //Responsable
 		$proyectos = $proyectos. "<td class='center'>"; // Inicio de Etiqueta
@@ -150,8 +150,9 @@ function getServiciosDeProyecto($idDeProyecto){
 
 /*
 $proyecto = new Proyecto;
-echo $proyectos->getServiciosDeProyecto();
-/*echo $proyecto->getLastProjectId();
+$m = $proyecto->getInfoProyecto(14);
+echo $m[4];
+echo $proyecto->getLastProjectId();
 
 $array = array(1,1,1,'Juanka Proyecto','Titatic','2013-09-10','2013-09-25','Este es un Proyecto de Prueba');
 echo $proyecto -> crearProyecto($array);
