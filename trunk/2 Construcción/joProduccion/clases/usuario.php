@@ -45,7 +45,7 @@ function getUserName($id){
 
 	$consulta = mysql_query("SELECT * FROM miembros where id_usuarios = $id") or die ("Error en la consulta getUserName");
 	$fila=mysql_fetch_array($consulta);
-	$nombre = $fila['p_nombre']." ".$fila['apellido_p'];
+	$nombre = ucfirst($fila['p_nombre'])." ".ucfirst($fila['apellido_p']);
 
 	return $nombre;
 }

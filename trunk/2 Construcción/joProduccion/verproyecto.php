@@ -3,6 +3,7 @@
 	include ('clases/usuario.php');
 	include ('clases/proyecto.php');
 	include ('clases/informe.php');
+	include ('clases/liquidacion.php');
 	if(!$_SESSION['Id_Usuario']){
 		header('location:index.php');
 	}else{
@@ -14,6 +15,7 @@
 	$Proyecto = new Proyecto;
 	$Usuario = new Usuario;
 	$informe = new Informe;
+	$Liquidacion = new Liquidacion;
 	$InformacionDelProyecto = $Proyecto->getInfoProyecto($idDeProyecto);
 
 	$idDeLugar = $InformacionDelProyecto[1];
@@ -21,7 +23,7 @@
 	$idCodigoProyecto = $InformacionDelProyecto[3];
 	$nombreDeProyecto = $InformacionDelProyecto[4];
 	$nombreDeLaNave = $InformacionDelProyecto[5];
-	$fechaTermino =$InformacionDelProyecto[7];
+	$fechaTermino = $InformacionDelProyecto[7];
 	$DescripcionDeProyecto = $InformacionDelProyecto[8];
 
 	$CodigoDeProyecto = $Proyecto->getCodigoProyecto($idCodigoProyecto);
@@ -246,14 +248,23 @@
 								<div class="control-group">
 										<legend>Documentación del Inspector</legend>
 										<h3>Liquidación</h3>
-										<a class="btn btn-success" href="#">
+										<?php 
+											$existeLiquidacion = $Liquidacion->verExistencia($idDeProyecto);
+											if($existeLiquidacion){
+										?>
+										<a class="btn btn-success" href="#" >
 											<i class="icon-zoom-in icon-white"></i>  
-											Ver                                            
+											Ver Liquidación                                            
 										</a>
-										<a class="btn btn-info"  href="#">
+										<?php 
+											}
+											else{
+										 ?>
+										<a class="btn btn-info"  href="liquidacion.php?idProyecto=<?php echo $idDeProyecto ?>">
 											<i class="icon-edit icon-white"></i>  
-											Crear                                            
+											Crear Liquidación                                           
 										</a>
+										<?php } ?>
 								</div>
 
 								<div class="control-group">
@@ -264,14 +275,14 @@
 									?>
 									<a class="btn btn-success" href="#">
 										<i class="icon-zoom-in icon-white"></i>  
-										Ver                                            
+										Ver Informe                                            
 									</a>
 									<?php }
 										else{ 
 									?>
 									<a data-toggle="modal" href="#subirInforme" class="btn btn-info">
 										<i class="icon-upload icon-white"></i>  
-										Subir                                            
+										Subir Informe                                            
 									</a>
 									<?php }	?>
 										
@@ -283,11 +294,11 @@
 										<h3>Proforma</h3>
 										<a class="btn btn-success" href="#">
 											<i class="icon-zoom-in icon-white"></i>  
-											Ver                                            
+											Ver Proforma                                            
 										</a>
 										<a class="btn btn-info" href="#">
 											<i class="icon-edit icon-white"></i>  
-											Crear                                            
+											Crear Proforma                                           
 										</a>
 								</div>
 
@@ -295,11 +306,11 @@
 										<h3>Factura	</h3>
 										<a class="btn btn-success" href="#">
 											<i class="icon-zoom-in icon-white"></i>  
-											Ver                                            
+											Ver Factura                                           
 										</a>
 										<a class="btn btn-info" href="#">
 											<i class="icon-edit icon-white"></i>  
-											Crear                                            
+											Crear Factura                                            
 										</a>
 								</div>
 							</div>
