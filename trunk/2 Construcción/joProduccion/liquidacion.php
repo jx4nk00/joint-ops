@@ -326,7 +326,7 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="FENeto prependedInput" class="input-small" name="textFENeto" type="text" placeholder="FE NETO" required />
+										<input id="FENeto" class="input-small" name="textFENeto" type="text" placeholder="FE NETO" required />
 									</div>
 								</div>
 								<div class="span2">
@@ -453,8 +453,10 @@
 									<label>RENDICION DE GASTOS</label>
 								</div>
 								<div class="span8">
-									<label>RENDICION N°....</label>
-									<input type="hidden" name="textRendicionDeGasto" value="rendicion bla bla" />
+									<div class="control-group">
+										<input class="input-xxlarge" name="textRendicionDeGasto" type="text" placeholder="N° de rendición de gasto" />
+									</div>
+									
 								</div>
 								<div class="span2">
 									<div class="control-group">
@@ -488,17 +490,17 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textValorHoja" type="text" placeholder="VxH" required />
+										<input id="textValorHoja" class="ii input-small" name="textValorHoja" type="text" placeholder="VxH" value="0" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textCantHoja" type="text" placeholder="CantH" required />
+										<input id="textCantHoja" class="ii input-small" name="textCantHoja" type="text" placeholder="CantH" value="0" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textNumCopias" type="text" placeholder="NC" required />
+										<input id="textNumCopias" class="ii input-small" name="textNumCopias" type="text" placeholder="NC" value="0" required />
 									</div>
 								</div>
 								<div class="span2">
@@ -507,8 +509,8 @@
 									</div>
 								</div>
 								<div class="span2">
-									<label>$0.-</label>
-									<input type="hidden" name="textTotalImpreison" value="0" />
+									<label>$ <span id="spanTotalImpresion" class="textTotalImpreison"></span> .-</label>
+									<input id="textTotalImpreison" type="hidden" name="textTotalImpreison" value="0" />
 								</div>
 							</div>
 
@@ -522,8 +524,10 @@
 									</div>
 								</div>
 								<div class="span2">
-									<label>$0.-</label>
-									<input type="hidden" name="textTotalConfeccion" value="0" />
+									<div class="control-group">
+										<input class="input-small" type="text" name="textTotalConfeccion" value="0" />	
+									</div>
+									
 								</div>
 							</div>
 							<!--
@@ -586,8 +590,9 @@
 									</div>
 								</div>
 								<div class="span2">
-									<label>$0</label>
-									<input type="hidden" name="textTotalotrosGastos" value="0" />
+									<div class="control-group">
+										<input class="input-small" type="text" name="textTotalotrosGastos" value="0" />	
+									</div>
 								</div>
 							</div>
 
@@ -803,6 +808,21 @@
 				}
 			});
 
+
+			$('.ii').keyup(function(){
+				var valoXHoja = $('#textValorHoja').val();
+				var valorCantHojas = $('#textCantHoja').val();
+				var textNumCopias = $('#textNumCopias').val();
+				var total;
+
+				if (valoXHoja < 0){$('#textValorHoja').val(0);}
+				if (valorCantHojas < 0){$('#textCantHoja').val(0);}
+				if (textNumCopias < 0){$('#textNumCopias').val(0);}
+
+				total = parseInt(valoXHoja)+parseInt(valorCantHojas)+parseInt(textNumCopias);
+				$('#textTotalImpreison').val(total);
+				$('#spanTotalImpresion').html(total);
+			});
 
 		});
 	</script>
