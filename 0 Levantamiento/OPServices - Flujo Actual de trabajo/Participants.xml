@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<Participants xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.wfmc.org/2009/XPDL2.2">
-  <Participant Id="2f3bf17c-190b-4d42-8df4-fc84b93bd487" Name="Omar Pizarro">
-    <ParticipantType Type="ROLE" />
-    <Description />
-  </Participant>
-</Participants>
