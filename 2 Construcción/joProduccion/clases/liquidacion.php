@@ -1,28 +1,30 @@
 <?php 
 include('conexion.php');
 class Liquidacion{
+	var $query;
+	var $result;
 
 	function getNumLiquidacion(){
-		$query = mysql_query("SELECT numero_liq FROM liquidaciones");
-		$result= mysql_fetch_array($query);
+		$this->query = mysql_query("SELECT numero_liq FROM liquidaciones");
+		$this->result= mysql_fetch_array($this->query);
 		
-		if(!$result){return 1;}
-		else{return $result;}
+		if(!$this->result){return 1;}
+		else{return $this->result;}
 	}
 
 	function getLugar($idLugar){
-		$query = mysql_query("SELECT nombre_lugar FROM lugares WHERE id_lugares='$idLugar'");
-		$result= mysql_fetch_array($query);
-		return $result;
+		$this->query = mysql_query("SELECT nombre_lugar FROM lugares WHERE id_lugares='$idLugar'");
+		$this->result= mysql_fetch_array($this->query);
+		return $this->result;
 
 	}
 
 	function verExistencia($idProyecto){
-		$consulta = mysql_query("SELECT * FROM liquidaciones WHERE id_proyectos=$idProyecto")
+		$this->query = mysql_query("SELECT * FROM liquidaciones WHERE id_proyectos=$idProyecto")
 					or die("Error en la consulta verExistencia");
-		$verificador = mysql_fetch_array($consulta);
+		$this->result = mysql_fetch_array($this->query);
 
-		return $verificador;
+		return $this->result;
 
 	}
 
