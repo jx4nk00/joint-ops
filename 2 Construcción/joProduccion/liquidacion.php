@@ -39,6 +39,14 @@
 	//Tabla inspectores_ayudantes
 	$inspCargo = $Usuario->getUserName($idMiembros);
 	$inspParticipantes;
+
+
+
+	//submit liquidacion
+
+
+
+	//=====================
 	
 
 
@@ -460,7 +468,7 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textTotalRendicion" type="text" placeholder="0.-" required />
+										<input id="textTotalRendicion" class="input-small TGI" name="textTotalRendicion" type="text" placeholder="0.-" required />
 									</div>
 								</div>
 							</div>
@@ -509,8 +517,8 @@
 									</div>
 								</div>
 								<div class="span2">
-									<label>$ <span id="spanTotalImpresion" class="textTotalImpreison"></span> .-</label>
-									<input id="textTotalImpreison" type="hidden" name="textTotalImpreison" value="0" />
+									<label>$ <span id="spanTotalImpresion"></span> .-</label>
+									<input class="TGI" id="textTotalImpreison" type="hidden" name="textTotalImpreison" value="0" />
 								</div>
 							</div>
 
@@ -525,7 +533,7 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" type="text" name="textTotalConfeccion" value="0" />	
+										<input id="textTotalConfeccion" class="input-small TGI" type="text" name="textTotalConfeccion" value="0" />	
 									</div>
 									
 								</div>
@@ -591,7 +599,7 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" type="text" name="textTotalotrosGastos" value="0" />	
+										<input id="textTotalOtrosGastos" class="input-small TGI" type="text" name="textTotalOtrosGastos" value="0" />	
 									</div>
 								</div>
 							</div>
@@ -600,8 +608,8 @@
 								<div class="span10">
 								</div>
 								<div class="span2">
-									<label>$0</label>
-									<input type="hidden" name="textTotalLiqInsp" value="0" />
+									<label id="spanTotalGastosInsp">$0</label>
+									<input id="textTotalGastosInsp" type="hidden" name="textTotalGastosInsp" value="0" />
 								</div>
 							</div>
 
@@ -815,13 +823,28 @@
 				var textNumCopias = $('#textNumCopias').val();
 				var total;
 
-				if (valoXHoja < 0){$('#textValorHoja').val(0);}
-				if (valorCantHojas < 0){$('#textCantHoja').val(0);}
-				if (textNumCopias < 0){$('#textNumCopias').val(0);}
+				if ( isNaN( $(this).val() ) ){
+					alert('Debe Ingresar un Valor numérico');
+					$(this).val(1);
+				}else{
+					total = parseInt(valoXHoja)*parseInt(valorCantHojas)*parseInt(textNumCopias);
+					$('#textTotalImpreison').val(total);
+					$('#spanTotalImpresion').html(total);
+				}					
+				
+			});
 
-				total = parseInt(valoXHoja)+parseInt(valorCantHojas)+parseInt(textNumCopias);
-				$('#textTotalImpreison').val(total);
-				$('#spanTotalImpresion').html(total);
+
+			$('.TGI').change(function(){
+				var totalRendicion = $('#textTotalRendicion').val();
+				var totalImpresion = $('#textTotalImpreison').val();
+				var totalGastoInforme = $('#textTotalConfeccion').val();
+				var totalOtrosGastos = $('#textTotalOtrosGastos').val();
+				var totalGastosInspector = parseInt(totalRendicion)+parseInt(totalImpresion)+parseInt(totalGastoInforme)+parseInt(totalOtrosGastos);
+
+				$('#textTotalGastosInsp').val(totalGastosInspector);
+				$('#spanTotalGastosInsp').html(totalGastosInspector);
+
 			});
 
 		});
