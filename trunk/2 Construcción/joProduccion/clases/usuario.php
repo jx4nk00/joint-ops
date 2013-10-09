@@ -42,7 +42,7 @@ function getUserName($id){
 
 	$this->query = mysql_query("SELECT * FROM miembros where id_usuarios = $id") or die ("Error en la consulta getUserName");
 	$this->fila=mysql_fetch_array($this->query);
-	$this->nombre = ucfirst($this->fila['p_nombre'])." ".ucfirst($tis->fila['apellido_p']);
+	$this->nombre = ucfirst($this->fila['p_nombre'])." ".ucfirst($this->fila['apellido_p']);
 
 	return $this->nombre;
 }
