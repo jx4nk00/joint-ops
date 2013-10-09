@@ -76,7 +76,7 @@ function verProyectos(){
 			$this->verNombreEncargado = mysql_fetch_array($this->resultEncargado);
 			$this->nombreEncargado = ucfirst($this->verNombreEncargado['p_nombre'])." ".ucfirst($this->verNombreEncargado['apellido_p']);
 
-		$this->proyectos = $this->proyectos. "<td class='center'>$nombreEncargado</td>"; //Responsable
+		$this->proyectos = $this->proyectos. "<td class='center'>$this->nombreEncargado</td>"; //Responsable
 		$this->proyectos = $this->proyectos. "<td class='center'>"; // Inicio de Etiqueta
 
 		if(  strtotime($row['fecha_termino']) > strtotime(date('Y-m-d'))  ){
@@ -142,9 +142,9 @@ function crearServicio($DatosDelServicio){
 						id_proyectos,
 						nombre_servicio) 
 						VALUES(
-						'$id_miembro',
-						'$id_proyecto',
-						'$nombre_servicio'
+						'$this->id_miembro',
+						'$this->id_proyecto',
+						'$this->nombre_servicio'
 						)")or die("Error en la Consulta");
 	return "Servicio Creado con exito";
 }
