@@ -3,12 +3,14 @@
 	include ('clases/usuario.php');
 	include ('clases/proyecto.php');
 	include ('clases/liquidacion.php');
+	include ('clases/miscelaneo.php');
 	if(!$_SESSION['Id_Usuario']){
 		header('location:index.php');
 	}
 	$Usuario = new Usuario;
 	$Proyecto = new Proyecto;
 	$Liquidacion = new Liquidacion;
+	$Miscelaneo = new Miscelaneo;
 
 	$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
 	$idDeProyecto = $_GET['idProyecto'];
@@ -39,6 +41,89 @@
 	//Tabla inspectores_ayudantes
 	$inspCargo = $Usuario->getUserName($idMiembros);
 	$inspParticipantes;
+
+
+	//submit liquidacion
+	if (isset($_POST['submitCrearLiquidacion'])) {
+		$ReferenciaCliente = $_POST["textReferenciaCliente"];
+		$FechaCreacion =  date('Y-m-d');
+		$NumeroContenedores = $_POST["textNumeroContenedores"];
+		$textTurnosTotales = $_POST["textTurnosTotales"];
+		$Tarifado = $_POST["textTarifado"];
+		
+		
+		$idPorceAcuerdo = $Liquidacion->verIdPorceAcuerdo();
+
+		//Comienzo de Impresion
+
+		$valorHoja = $_POST["textValorHoja"];
+		$cantHojas = $_POST["textCantHoja"];
+		$numCopias = $_POST["textNumCopias"];
+		$detalle = $_POST["textDetalleImpresion"];
+		$validarInspector = $Usuario->verTipoUsuario($_SESSION['Id_Usuario']);
+		$DatosImpresion = array($valorHoja,$cantHojas,$numCopias,$detalle,$validarInspector);
+		$Liquidacion->crearImpresion($DatosImpresion);
+		$idImpresiones = $Liquidacion->getIdImpresion;
+
+		//=======================
+
+		$idDolar = $Miscelaneo->obtenerDolar();
+
+		//=======================
+
+		$detalleOtrosGastos = $_POST["textDetalleOtrosGastos"];
+		$valorOtrosGastos =$_POST["textTotalOtrosGastos"]; 
+		$datosOtrosGastos = array($detalleOtrosGastos,$valorOtrosGastos,$validarInspector);
+		$Liquidacion->crearOtrosGastos($datosOtrosGastos);
+		$idOtrosGastos = $Liquidacion->getIdOtrosGastos();
+
+		//-----------------------
+
+		$codigoRend = $_POST["textRendicionDeGasto"];
+		$totalRend = $_POST["textTotalRendicion"];
+		$datosRendiciones = array($codigoRend,$totalRend,$validarInspector);
+		$Liquidacion->crearRenGastos($datosRendiciones);
+		$idRenGastos = $Liquidacion->getIdRendicion();
+
+		//-----------------------
+
+		$facExcenta = $_POST["textFENeto"];
+		$facAfecta = $_POST["textFANeto"];
+		$bol_honorarios = $_POST["textBHNeto"];
+		$invoice = $_POST["textIVNeto"];
+		$datosValoresFacturados = array ($facExcenta,$facAfecta,$bol_honorarios,$invoice,$validarInspector);
+		$Liquidacion->crearValoresFacturados($datosValoresFacturados);
+		$idValoresFacturados = $Liquidacion->getIdValoresFacturados();
+
+		//-----------------------
+
+		$detalleCF = $_POST["textDetalleConfeccion"];
+		$totalGastosCF = $_POST["textTotalConfeccion"];
+		$datosConfeccionInf = array($detalleCF,$totalGastosCF,$validarInspector);
+		$Liquidacion->crearConfInforme($datosConfeccionInf);
+		$idConfeccionInf = $Liquidacion->getIdConfeccionInf();
+
+
+		$datosLiquidacion = array(
+								$idDeProyecto,
+								$idPorceAcuerdo,
+								$idDolar,
+								$idOtrosGastos,
+								$idImpresiones,
+								$idRenGastos,
+								$idValoresFacturados,
+								$idConfeccionInf,
+								$numeroDeLiquidacion,
+								$FechaCreacion,
+								$ReferenciaCliente,
+								$NumeroContenedores,
+								$textTurnosTotales,
+								$Tarifado,
+								1);
+
+	}
+
+	//=====================
 	
 
 
@@ -155,7 +240,7 @@
 							<h2><i class="icon-pencil"></i> Liquidación</h2>
 						</div>
 					<div class="box-content">
-						<form class="form-horizontal" method="POST" action="#">
+						<form class="form-horizontal" method="POST" action="liquidacion.php">
 						<fieldset>
 							<div class="row-fluid">
 								<div class="span6">
@@ -460,10 +545,10 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textTotalRendicion" type="text" placeholder="0.-" required />
+										<input id="textTotalRendicion" class="input-small TGI" name="textTotalRendicion" type="text" placeholder="0.-" required />
 									</div>
 								</div>
-							</div>
+							</di
 
 							<div class="row-fluid">
 								<div class="span2">
@@ -509,8 +594,8 @@
 									</div>
 								</div>
 								<div class="span2">
-									<label>$ <span id="spanTotalImpresion" class="textTotalImpreison"></span> .-</label>
-									<input id="textTotalImpreison" type="hidden" name="textTotalImpreison" value="0" />
+									<label>$ <span id="spanTotalImpresion"></span> .-</label>
+									<input class="TGI" id="textTotalImpreison" type="hidden" name="textTotalImpreison" value="0" />
 								</div>
 							</div>
 
@@ -525,7 +610,7 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" type="text" name="textTotalConfeccion" value="0" />	
+										<input id="textTotalConfeccion" class="input-small TGI" type="text" name="textTotalConfeccion" value="0" />	
 									</div>
 									
 								</div>
@@ -591,7 +676,7 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" type="text" name="textTotalotrosGastos" value="0" />	
+										<input id="textTotalOtrosGastos" class="input-small TGI" type="text" name="textTotalOtrosGastos" value="0" />	
 									</div>
 								</div>
 							</div>
@@ -600,14 +685,14 @@
 								<div class="span10">
 								</div>
 								<div class="span2">
-									<label>$0</label>
-									<input type="hidden" name="textTotalLiqInsp" value="0" />
+									<label id="spanTotalGastosInsp">$0</label>
+									<input id="textTotalGastosInsp" type="hidden" name="textTotalGastosInsp" value="0" />
 								</div>
 							</div>
 
 							<div class="form-actions">
-								<button type="submit" class="btn btn-primary">Enviar Liquidación</button>
-								<button type="reset" class="btn">Limpiar </button>
+								<input name="submitCrearLiquidacion" type="submit" class="btn btn-primary" value="Enviar Liquidación" />
+								<input type="reset" class="btn " value="limpiar" />
 							</div>
 						 </fieldset>
 						</form>   
@@ -815,13 +900,28 @@
 				var textNumCopias = $('#textNumCopias').val();
 				var total;
 
-				if (valoXHoja < 0){$('#textValorHoja').val(0);}
-				if (valorCantHojas < 0){$('#textCantHoja').val(0);}
-				if (textNumCopias < 0){$('#textNumCopias').val(0);}
+				if ( isNaN( $(this).val() ) ){
+					alert('Debe Ingresar un Valor numérico');
+					$(this).val(1);
+				}else{
+					total = parseInt(valoXHoja)*parseInt(valorCantHojas)*parseInt(textNumCopias);
+					$('#textTotalImpreison').val(total);
+					$('#spanTotalImpresion').html(total);
+				}					
+				
+			});
 
-				total = parseInt(valoXHoja)+parseInt(valorCantHojas)+parseInt(textNumCopias);
-				$('#textTotalImpreison').val(total);
-				$('#spanTotalImpresion').html(total);
+
+			$('.TGI').change(function(){
+				var totalRendicion = $('#textTotalRendicion').val();
+				var totalImpresion = $('#textTotalImpreison').val();
+				var totalGastoInforme = $('#textTotalConfeccion').val();
+				var totalOtrosGastos = $('#textTotalOtrosGastos').val();
+				var totalGastosInspector = parseInt(totalRendicion)+parseInt(totalImpresion)+parseInt(totalGastoInforme)+parseInt(totalOtrosGastos);
+
+				$('#textTotalGastosInsp').val(totalGastosInspector);
+				$('#spanTotalGastosInsp').html(totalGastosInspector);
+
 			});
 
 		});
