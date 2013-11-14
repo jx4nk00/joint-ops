@@ -2,17 +2,22 @@
 session_start();
 include ('clases/usuario.php');
 
+if(isset($_SESSION['login'])){
+	header('location:main.php');
+}
 if( isset($_POST['enviar'])){
 	
-	$revisar = new Usuario;
+	$Usuario = new Usuario;
 	$u = $_POST['username'];
 	$p = sha1($_POST['password']);
 
-	$isUser = $revisar->validarUsuario($u, $p);
+	$isUser = $Usuario->validarUsuario($u, $p);
 	
 	if ($isUser) {
 		$_SESSION['login'] = "exito";
 		$_SESSION['Id_Usuario'] = $isUser;
+		$_SESSION['Nombre_completo'] = $Usuario->getUserName($_SESSION['Id_Usuario']);
+		$_SESSION['privilegio'] = $Usuario->verTipoUsuario($_SESSION['Id_Usuario']);
 		header('location: main.php');
 	}
 }
@@ -23,7 +28,7 @@ if( isset($_POST['enviar'])){
 	<meta charset="utf-8">
 	<title>Joint Ops - Login</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="OPServices">
+	<meta name="description" content="Joint OPs, Sistema de Procesos integrados, OPServices">
 	<meta name="author" content="Joint Ops">
 
 	<!-- The styles -->

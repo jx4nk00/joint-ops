@@ -1,12 +1,8 @@
 <?php 
 	session_start();
-	include ('clases/usuario.php');
 	include ('clases/proyecto.php');
-	if(!$_SESSION['Id_Usuario']){
+	if(!$_SESSION['login']){
 		header('location:index.php');
-	}else{
-		$Usuario = new Usuario;
-		$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
 	}
 
 	$Proyecto = new Proyecto;
@@ -51,6 +47,8 @@
 			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
 			$Proyecto->crearServicio($DatosDelServicio);
 		}
+
+		header('location:main.php');
 	
 	}
 
@@ -113,7 +111,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"> 
+				<a class="brand" href="main.php"> 
 					<img alt="Charisma Logo" src="img/logo20.png" /> 
 					<span>Joint Ops</span>
 				</a>
@@ -122,7 +120,7 @@
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-user"></i><span class="hidden-phone"> <?php echo $nombreCompleto; ?></span>
+						<i class="icon-user"></i><span class="hidden-phone"> <?php echo $_SESSION['Nombre_completo']; ?></span>
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">

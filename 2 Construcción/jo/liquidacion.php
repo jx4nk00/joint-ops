@@ -2,11 +2,134 @@
 	session_start();
 	include ('clases/usuario.php');
 	include ('clases/proyecto.php');
-	if(!$_SESSION['Id_Usuario']){
+	include ('clases/liquidacion.php');
+	include ('clases/miscelaneo.php');
+	if(!$_SESSION['login']){
 		header('location:index.php');
 	}
 	$Usuario = new Usuario;
+	$Proyecto = new Proyecto;
+	$Liquidacion = new Liquidacion;
+	$Miscelaneo = new Miscelaneo;
+
 	$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
+	$idDeProyecto = $_GET['idProyecto'];
+	$infoDeProyecto = $Proyecto->getInfoProyecto($idDeProyecto);
+
+	//Sistema
+	$fechaDeLiquidación=date('Y-m-d');
+
+	//Tabla Liquidaciones
+	$numeroDeLiquidacion=$Liquidacion->getNumLiquidacion();
+	
+	
+	//Tabla Proyectos
+	$lugarDeServicio = $infoDeProyecto[1];
+	$idMiembros = $infoDeProyecto[2];
+	$IdcodigoDeInforme = $infoDeProyecto[3];
+	$nombreDeLaNave = $infoDeProyecto[5];
+
+	//Tabla Servicios
+	$servicios = $Proyecto->getServiciosDeProyecto($idDeProyecto);
+
+	//Tabla Lugares
+	$nombreLugar = $Liquidacion->getLugar($lugarDeServicio);
+	
+	//Tabla Codigo
+	$codigoDeInforme = $Proyecto->getCodigoProyecto($IdcodigoDeInforme);
+
+	//Tabla inspectores_ayudantes
+	$inspCargo = $Usuario->getUserName($idMiembros);
+	$inspParticipantes;
+
+
+	//submit liquidacion
+	if (isset($_POST['submitCrearLiquidacion'])) {
+		$ReferenciaCliente = $_POST["textReferenciaCliente"];
+		$FechaCreacion =  date('Y-m-d');
+		$NumeroContenedores = $_POST["textNumeroContenedores"];
+		$textTurnosTotales = $_POST["textTurnosTotales"];
+		$Tarifado = $_POST["textTarifado"];
+		
+		
+		//$idPorceAcuerdo = $Liquidacion->verIdPorceAcuerdo();
+
+		//Comienzo de Impresion
+
+		$valorHoja = $_POST["textValorHoja"];
+		$cantHojas = $_POST["textCantHoja"];
+		$numCopias = $_POST["textNumCopias"];
+		$detalle = $_POST["textDetalleImpresion"];
+		$validarInspector = $Usuario->verTipoUsuario($_SESSION['Id_Usuario']);
+		$DatosImpresion = array($valorHoja,$cantHojas,$numCopias,$detalle,$validarInspector);
+		$Liquidacion->crearImpresion($DatosImpresion);
+		$idImpresiones = $Liquidacion->getIdImpresion();
+
+		//=======================
+
+		$idDolar = $Miscelaneo->obtenerDolar();
+
+		//=======================
+
+		$detalleOtrosGastos = $_POST["textDetalleOtrosGastos"];
+		$valorOtrosGastos =$_POST["textTotalOtrosGastos"]; 
+		$datosOtrosGastos = array($detalleOtrosGastos,$valorOtrosGastos,$validarInspector);
+		$Liquidacion->crearOtrosGastos($datosOtrosGastos);
+		$idOtrosGastos = $Liquidacion->getIdOtrosGastos();
+
+		//-----------------------
+
+		$codigoRend = $_POST["textRendicionDeGasto"];
+		$totalRend = $_POST["textTotalRendicion"];
+		$datosRendiciones = array($codigoRend,$totalRend,$validarInspector);
+		$Liquidacion->crearRenGastos($datosRendiciones);
+		$idRenGastos = $Liquidacion->getIdRendicion();
+
+		//-----------------------
+
+		$facExcenta = $_POST["textFENeto"];
+		$facAfecta = $_POST["textFANeto"];
+		$bol_honorarios = $_POST["textBHNeto"];
+		$invoice = $_POST["textIVNeto"];
+		$datosValoresFacturados = array ($facExcenta,$facAfecta,$bol_honorarios,$invoice,$validarInspector);
+		$Liquidacion->crearValoresFacturados($datosValoresFacturados);
+		$idValoresFacturados = $Liquidacion->getIdValoresFacturados();
+
+		//-----------------------
+
+		$detalleCF = $_POST["textDetalleConfeccion"];
+		$totalGastosCF = $_POST["textTotalConfeccion"];
+		$datosConfeccionInf = array($detalleCF,$totalGastosCF,$validarInspector);
+		$Liquidacion->crearConfInforme($datosConfeccionInf);
+		$idConfeccionInf = $Liquidacion->getIdConfeccionInf();
+
+		$totalInspectores =$_POST['textTotalGastosInsp'];
+
+		$datosLiquidacion = array(
+								$idDeProyecto,
+								$idDolar[0],
+								$idOtrosGastos,
+								$idImpresiones,
+								$idRenGastos,
+								$idValoresFacturados,
+								$idConfeccionInf,
+								$numeroDeLiquidacion,
+								$FechaCreacion,
+								$ReferenciaCliente,
+								$NumeroContenedores,
+								$textTurnosTotales,
+								$Tarifado,
+								$totalInspectores,
+								1);
+		$Liquidacion->crearLiquidacion($datosLiquidacion);
+
+		header('location:main.php');
+
+	}
+
+	//=====================
+	
+
 
  ?>
  <!DOCTYPE html>
@@ -65,7 +188,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"> 
+				<a class="brand" href="main.php"> 
 					<img alt="Charisma Logo" src="img/logo20.png" /> 
 					<span>Joint Ops</span>
 				</a>
@@ -121,13 +244,13 @@
 							<h2><i class="icon-pencil"></i> Liquidación</h2>
 						</div>
 					<div class="box-content">
-						<form class="form-horizontal" method="POST" action="#">
+						<form class="form-horizontal" method="POST" action="liquidacion.php?idProyecto=<?php echo $idDeProyecto; ?>">
 						<fieldset>
 							<div class="row-fluid">
 								<div class="span6">
 									<div class="control-group">
-										<p>Liquidación Numero: 123</p>
-										<p>Fecha: <?php echo date("d-m-Y"); ?></p>
+										<p>Liquidación Numero: <?php echo $numeroDeLiquidacion; ?></p>
+										<p>Fecha: <?php echo date("Y-m-d"); ?></p>
 									</div>
 								</div> 
 								<legend>PLANTILLA DE LIQUIDACIÓN DE SERVICIOS OPSERVICES</legend>
@@ -148,7 +271,7 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<label>Nave Dummi</label>
+									<label><?php echo $nombreDeLaNave; ?></label>
 									<input type="hidden" name="textNombreNave"value="Nave Dummi" />
 								</div>
 							</div> 
@@ -160,7 +283,7 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<label>OPS-BLA BLA BLA</label>
+									<label><?php echo $codigoDeInforme; ?></label>
 									<input type="hidden" name="textCodigoInforme" value="OPS-BLABLALBA" />
 								</div>
 							</div> 
@@ -183,7 +306,7 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<label>Valparaíso</label>
+									<label><?php echo $nombreLugar[0]; ?></label>
 									<input type="hidden" name="textLugarServicio" value="Valparaiso" />
 								</div>
 							</div> 
@@ -196,9 +319,7 @@
 								</div> 
 								<div class="span6 pull-left">
 									<ul>
-										<li>Inspector1</li>
-										<li>Inspector2</li>
-										<li>Inspector3</li>
+										<li><?php echo $inspCargo; ?></li>
 									</ul>
 									<input type="hidden" name="listaInspCargo" value="1-2-13" />
 								</div>
@@ -212,9 +333,7 @@
 								</div> 
 								<div class="span6 pull-left">
 									<ul>
-										<li>Participante1</li>
-										<li>Participante2</li>
-										<li>Participante3</li>
+										<li>Sin Ayudantes asignados.</li>
 									</ul>
 									<input type="hidden" name="listaInspParticipantes" value="4-5" />
 								</div>
@@ -227,13 +346,16 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, vero cupiditate perferendis eligendi vitae iusto dolores sed nihil. Deleniti, nam voluptate ad consequatur error ea odio facilis quidem id vitae.</p>
-									<input type="hidden" name="textServicioRealizado" value="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-																							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-																							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-																							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-																							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-																							proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+									<ul>
+										<?php 
+											if($servicios == ""){
+												echo "<li>Sin Servicios</li>";
+											}
+											else{
+												echo $servicios; 
+											}	
+										?>
+									</ul>
 								</div>
 							</div>
 
@@ -293,18 +415,18 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textFENeto" type="text" placeholder="FE NETO" required />
+										<input id="FENeto" class="input-small" name="textFENeto" type="text" placeholder="FE NETO" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textFEIva" type="text" placeholder="FE IVA/RET" required />
+										<input id="FEIva" class="input-small" name="textFEIva" type="text" placeholder="FE IVA/RET" disabled />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>FE$0.-</label>
-										<input type="hidden" name="textFETotal" value="0" />
+										<label>USD$ <span id="FETotal"></span> .-</label>
+										<input id="textFETotal" type="hidden" name="textFETotal" value="0" />
 									</div>
 								</div>
 							</div>
@@ -317,19 +439,19 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textFANeto" type="text" placeholder="FA NETO" required />
+										<input id="FANeto" class="input-small" name="textFANeto" type="text" placeholder="FA NETO" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>FA$0.-</label>
-										<input type="hidden" name="textFAIva" value="0" />
+										<label>USD$ <span id="FAIva"></span>.-</label>
+										<input id="textFAIva" type="hidden" name="textFAIva" value="0" />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>FA$0.-</label>
-										<input type="hidden" name="textFATotal" value="0" />
+										<label>USD$ <span id="FATotal"></span>.-</label>
+										<input id="textFATotal" type="hidden" name="textFATotal" value="0" />
 									</div>
 								</div>
 							</div> 
@@ -342,19 +464,19 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textBHNeto" type="text" placeholder="BH NETO" required />
+										<input id="textBHNeto" class="input-small" name="textBHNeto" type="text" placeholder="BH NETO" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>BH$0.-</label>
-										<input type="hidden" name="textBHIva" value="0" />
+										<label>USD$ <span id="BHIva"></span>.-</label>
+										<input id="textBHIva" type="hidden" name="textBHIva" value="0" />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>BH$.-</label>
-										<input type="hidden" name="textBHTotal" value="0" />
+										<label>USD$ <span id="BHTotal" ></span>.-</label>
+										<input id="textBHTotal" type="hidden" name="textBHTotal" value="0" />
 									</div>
 								</div>
 							</div>
@@ -367,18 +489,18 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textIVNeto" type="text" placeholder="IV NETO" required />
+										<input id="textIVNeto" class="input-small" name="textIVNeto" type="text" placeholder="IV NETO" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textIVIva"type="text" placeholder="IV IVA/RET" required />
+										<input class="input-small" name="textIVIva"type="text" placeholder="IV IVA/RET" disabled />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>IV$0.-</label>
-										<input type="hidden" name="textIVTotal"value="0" />
+										<label>USD$ <span id="IVTotal"></span>.-</label>
+										<input id="textIVTotal" type="hidden" name="textIVTotal"value="0" />
 									</div>
 								</div>
 							</div>
@@ -420,15 +542,17 @@
 									<label>RENDICION DE GASTOS</label>
 								</div>
 								<div class="span8">
-									<label>RENDICION N°....</label>
-									<input type="hidden" name="textRendicionDeGasto" value="rendicion bla bla" />
+									<div class="control-group">
+										<input class="input-xxlarge" name="textRendicionDeGasto" type="text" placeholder="N° de rendición de gasto" />
+									</div>
+									
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textTotalRendicion" type="text" placeholder="0.-" required />
+										<input id="textTotalRendicion" class="input-small TGI" name="textTotalRendicion" type="text" placeholder="0.-" required />
 									</div>
 								</div>
-							</div>
+							</di
 
 							<div class="row-fluid">
 								<div class="span2">
@@ -455,17 +579,17 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textValorHoja" type="text" placeholder="VxH" required />
+										<input id="textValorHoja" class="ii input-small" name="textValorHoja" type="text" placeholder="VxH" value="0" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textCantHoja" type="text" placeholder="CantH" required />
+										<input id="textCantHoja" class="ii input-small" name="textCantHoja" type="text" placeholder="CantH" value="0" required />
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textNumCopias" type="text" placeholder="NC" required />
+										<input id="textNumCopias" class="ii input-small" name="textNumCopias" type="text" placeholder="NC" value="0" required />
 									</div>
 								</div>
 								<div class="span2">
@@ -474,8 +598,8 @@
 									</div>
 								</div>
 								<div class="span2">
-									<label>$0.-</label>
-									<input type="hidden" name="textTotalImpreison" value="0" />
+									<label>$ <span id="spanTotalImpresion"></span> .-</label>
+									<input class="TGI" id="textTotalImpreison" type="hidden" name="textTotalImpreison" value="0" />
 								</div>
 							</div>
 
@@ -489,11 +613,13 @@
 									</div>
 								</div>
 								<div class="span2">
-									<label>$0.-</label>
-									<input type="hidden" name="textTotalConfeccion" value="0" />
+									<div class="control-group">
+										<input id="textTotalConfeccion" class="input-small TGI" type="text" name="textTotalConfeccion" value="0" />	
+									</div>
+									
 								</div>
 							</div>
-
+							<!--
 							<div class="row-fluid">
 								<div class="span2">
 									<label>PAGO AYUDANTES</label>
@@ -542,7 +668,7 @@
 									<input type="hidden" name="textTotalPagoInsp" value="0" />
 								</div>
 							</div>
-
+							-->
 							<div class="row-fluid">
 								<div class="span2">
 									<label>OTROS GASTOS</label>
@@ -553,8 +679,9 @@
 									</div>
 								</div>
 								<div class="span2">
-									<label>$0</label>
-									<input type="hidden" name="textTotalotrosGastos" value="0" />
+									<div class="control-group">
+										<input id="textTotalOtrosGastos" class="input-small TGI" type="text" name="textTotalOtrosGastos" value="0" />	
+									</div>
 								</div>
 							</div>
 
@@ -562,14 +689,14 @@
 								<div class="span10">
 								</div>
 								<div class="span2">
-									<label>$0</label>
-									<input type="hidden" name="textTotalLiqInsp" value="0" />
+									<label id="spanTotalGastosInsp">$0</label>
+									<input id="textTotalGastosInsp" type="hidden" name="textTotalGastosInsp" value="0" />
 								</div>
 							</div>
 
 							<div class="form-actions">
-								<button type="submit" class="btn btn-primary">Enviar Liquidación</button>
-								<button type="reset" class="btn">Limpiar </button>
+								<input name="submitCrearLiquidacion" type="submit" class="btn btn-primary" value="Enviar Liquidación" />
+								<input type="reset" class="btn " value="limpiar" />
 							</div>
 						 </fieldset>
 						</form>   
@@ -666,18 +793,140 @@
 		$(document).ready(function() {
 
 
+			$('#FENeto').keyup(function(){
+
+				if(isNaN($(this).val())){
+					alert('Debe Ingresar un Valor numérico');
+					$('#FENeto').val(0);
+					$('#FETotal').html(0);
+				}
+				else{
+
+					var feneto = $(this).val();
+					var fetotal = parseInt(feneto);
+
+					if (fetotal>0 || fetotal!=null) {
+						$('#textFETotal').val(fetotal);
+						$('#FETotal').html(fetotal);	
+					}
+					else{
+						$('#textFETotal').val(0);
+						$('#FETotal').html('0');
+					}
+				
+				}
+			});
+
+
 			$('#FANeto').keyup(function(){
 
-				var faneto = $(this).val();
-				var faiva = faneto * 0.19;
-				var fatotal = parseInt(faiva) + parseInt(faneto);
+				if(isNaN($(this).val())){
+					alert('Debe Ingresar un Valor numérico');
+					$('#FANeto').val(0);
+					$('#FAIva').html(0);
+					$('#textFAIva').val(0);
+					$('#FATotal').html(0);
+					$('#textFATotal').val(0);
 
-				$('#FAIva').val(faiva);
+				}
+				else{
+					var faNeto = $(this).val();
+					var faIva = faNeto * 0.19;
+					var faTotal = parseInt(faNeto) + faIva;
 
-				$('#FATotal').val(fatotal);
+					$('#FAIva').html(Math.round(faIva));
+					$('#textFAIva').val(Math.round(faIva));
+
+					$('#FATotal').html(Math.round(faTotal));
+					$('#textFATotal').val(Math.round(faTotal));
+
+				}
 
 			});
 
+ 
+			$('#textBHNeto').keyup(function(){
+
+				if(isNaN($(this).val())){
+					alert('Debe Ingresar un Valor numérico');
+					$('#textBHNeto').val(0);
+
+					$('#BHIva').html(0);
+					$('#textBHIva').val(0);
+
+					$('#BHTotal').html(0);
+					$('#textBHTotal').val(0);
+
+				}
+				else{
+					var bhNeto = $(this).val();
+					var bhIva = bhNeto * 0.10;
+					var bhTotal = parseInt(bhNeto) - bhIva;
+
+					$('#BHIva').html(Math.round(bhIva));
+					$('#textBHIva').val(Math.round(bhIva));
+
+					$('#BHTotal').html(Math.round(bhTotal));
+					$('#textBHTotal').val(Math.round(bhTotal));
+
+				}
+
+			});
+
+			$('#textIVNeto').keyup(function(){
+
+				if(isNaN($(this).val())){
+					alert('Debe Ingresar un Valor numérico');
+					$('#textIVNeto').val(0);
+					$('#IVTotal').html(0);
+				}
+				else{
+
+					var feneto = $(this).val();
+					var fetotal = parseInt(feneto);
+
+					if (fetotal>0 || fetotal!=null) {
+						$('#textIVTotal').val(fetotal);
+						$('#IVTotal').html(fetotal);	
+					}
+					else{
+						$('#textIVTotal').val(0);
+						$('#IVTotal').html('0');
+					}
+				
+				}
+			});
+
+
+			$('.ii').keyup(function(){
+				var valoXHoja = $('#textValorHoja').val();
+				var valorCantHojas = $('#textCantHoja').val();
+				var textNumCopias = $('#textNumCopias').val();
+				var total;
+
+				if ( isNaN( $(this).val() ) ){
+					alert('Debe Ingresar un Valor numérico');
+					$(this).val(1);
+				}else{
+					total = parseInt(valoXHoja)*parseInt(valorCantHojas)*parseInt(textNumCopias);
+					$('#textTotalImpreison').val(total);
+					$('#spanTotalImpresion').html(total);
+				}					
+				
+			});
+
+
+			$('.TGI').change(function(){
+				var totalRendicion = $('#textTotalRendicion').val();
+				var totalImpresion = $('#textTotalImpreison').val();
+				var totalGastoInforme = $('#textTotalConfeccion').val();
+				var totalOtrosGastos = $('#textTotalOtrosGastos').val();
+				var totalGastosInspector = parseInt(totalRendicion)+parseInt(totalImpresion)+parseInt(totalGastoInforme)+parseInt(totalOtrosGastos);
+
+				$('#textTotalGastosInsp').val(totalGastosInspector);
+				$('#spanTotalGastosInsp').html(totalGastosInspector);
+
+			});
 
 		});
 	</script>
