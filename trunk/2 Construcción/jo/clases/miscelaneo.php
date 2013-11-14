@@ -1,18 +1,20 @@
 <?php 
 include('conexion.php');
 class Miscelaneo{
-
+	var $consulta;
+	var $valor;
 
 	function getFecha(){
-		return date('d-m-Y');
+		return date('Y-m-d');
 	}
 
 
 	function obtenerDolar(){
-		$consulta = mysql_query("SELECT id_valor_dolar,valor FROM valor_dolar ORDER BY id_valor_dolar DESC");
-		$valor = mysql_fetch_array($consulta);
+		$this->consulta = mysql_query("SELECT id_valor_dolar,valor FROM valor_dolar ORDER BY id_valor_dolar DESC")
+		or die("Error en la consulta obtenerDolar");
+		$this->valor = mysql_fetch_array($this->consulta);
 
-		return $valor[1];
+		return $this->valor;
 	}
 
 

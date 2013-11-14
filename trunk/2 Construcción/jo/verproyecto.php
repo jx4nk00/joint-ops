@@ -2,16 +2,18 @@
 	session_start();
 	include ('clases/usuario.php');
 	include ('clases/proyecto.php');
-	if(!$_SESSION['Id_Usuario']){
+	include ('clases/informe.php');
+	include ('clases/liquidacion.php');
+	if(!$_SESSION['login']){
 		header('location:index.php');
-	}else{
-		$Usuario = new Usuario;
-		$nombreCompleto = $Usuario->getUserName($_SESSION['Id_Usuario']);
 	}
-	$idDeProyecto=$_GET['idDeProyecto'];
 
+	$progreso = 0;
+	$idDeProyecto=$_GET['idDeProyecto'];
 	$Proyecto = new Proyecto;
 	$Usuario = new Usuario;
+	$informe = new Informe;
+	$Liquidacion = new Liquidacion;
 	$InformacionDelProyecto = $Proyecto->getInfoProyecto($idDeProyecto);
 
 	$idDeLugar = $InformacionDelProyecto[1];
@@ -19,7 +21,7 @@
 	$idCodigoProyecto = $InformacionDelProyecto[3];
 	$nombreDeProyecto = $InformacionDelProyecto[4];
 	$nombreDeLaNave = $InformacionDelProyecto[5];
-	$fechaTermino =$InformacionDelProyecto[7];
+	$fechaTermino = $InformacionDelProyecto[7];
 	$DescripcionDeProyecto = $InformacionDelProyecto[8];
 
 	$CodigoDeProyecto = $Proyecto->getCodigoProyecto($idCodigoProyecto);
@@ -34,6 +36,17 @@
 		$estadoDeProyecto = "<span class='label label-important'>Fuera de Plazo</span>";
 	}
 
+
+	// Subir Informe
+
+	if( isset($_POST['btnSubirInforme'])){
+		$carpeta ="informes/";
+		opendir($carpeta);
+		$ruta = $carpeta.mt_rand(0,999)."-".date("d-m-Y")."-".utf8_decode($_FILES['informe']['name']);
+		copy($_FILES['informe']['tmp_name'], $ruta);
+
+		$resultadoSubida=$informe->subirInforme($idDeProyecto,$ruta);
+	}
 
  ?>
 <!DOCTYPE html>
@@ -92,13 +105,13 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Joint Ops</span></a>
+				<a class="brand" href="main.php"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Joint Ops</span></a>
 				
 				
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-						<i class="icon-user"></i><span class="hidden-phone"> <?php echo $nombreCompleto; ?></span>
+						<i class="icon-user"></i><span class="hidden-phone"> <?php echo $_SESSION['Nombre_completo']; ?></span>
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
@@ -177,10 +190,6 @@
 								</div>
 							</div>
 						</div>
-
-
-
-
 						<br>
 						<div class="row-fluid">
 							<div class="span12">
@@ -237,23 +246,46 @@
 								<div class="control-group">
 										<legend>Documentación del Inspector</legend>
 										<h3>Liquidación</h3>
-										<a class="btn btn-success" href="#">
+										<?php 
+											$existeLiquidacion = $Liquidacion->verExistencia($idDeProyecto);
+											if($existeLiquidacion){
+										?>
+										<a class="btn btn-success" href="#" >
 											<i class="icon-zoom-in icon-white"></i>  
-											Ver                                            
+											Ver Liquidación                                            
 										</a>
-										<a class="btn btn-info" href="#">
+										<?php 
+											$progreso+=25;}
+											else{
+										 ?>
+										<a class="btn btn-info"  href="liquidacion.php?idProyecto=<?php echo $idDeProyecto ?>">
 											<i class="icon-edit icon-white"></i>  
-											Crear                                            
+											Crear Liquidación                                           
 										</a>
+										<?php } ?>
 								</div>
 
 								<div class="control-group">
-										<h3>Informe	</h3>
-										<a class="btn btn-success" href="#">
-											<i class="icon-zoom-in icon-white"></i>  
-											Ver                                            
-										</a>
-										<input name="archivo"class="input-file uniform_on" id="fileInput" type="file" required />
+									<h3>Informe	</h3>
+									<?php 
+										$existeInforme = $informe->verExistencia($idDeProyecto);
+										if ($existeInforme) { 
+									?>
+									<a class="btn btn-success" href="#">
+										<i class="icon-zoom-in icon-white"></i>  
+										Ver Informe                                            
+									</a>
+									<?php 
+											$progreso+=25;
+										}
+										else{ 
+									?>
+									<a data-toggle="modal" href="#subirInforme" class="btn btn-info">
+										<i class="icon-upload icon-white"></i>  
+										Subir Informe                                            
+									</a>
+									<?php }	?>
+										
 								</div>
 							</div>
 							<div class="span6">
@@ -262,11 +294,11 @@
 										<h3>Proforma</h3>
 										<a class="btn btn-success" href="#">
 											<i class="icon-zoom-in icon-white"></i>  
-											Ver                                            
+											Ver Proforma                                            
 										</a>
-										<a class="btn btn-info" href="#">
+										<a class="btn btn-info" href="proforma.php?idProyecto=<?php echo $idDeProyecto ?>">
 											<i class="icon-edit icon-white"></i>  
-											Crear                                            
+											Crear Proforma                                           
 										</a>
 								</div>
 
@@ -274,21 +306,45 @@
 										<h3>Factura	</h3>
 										<a class="btn btn-success" href="#">
 											<i class="icon-zoom-in icon-white"></i>  
-											Ver                                            
+											Ver Factura                                           
 										</a>
 										<a class="btn btn-info" href="#">
 											<i class="icon-edit icon-white"></i>  
-											Crear                                            
+											Crear Factura                                            
 										</a>
 								</div>
 							</div>
 						</div>
 						<legend>Estado de Avance</legend>
 						<div class="progress progress-success" style="margin-bottom: 9px;">
-							<div class="bar" style="width: 50%">50%</div>
+							<div class="bar" style="width: <?php echo $progreso ?>%"><?php echo $progreso; ?>%</div>
 						</div>
 
+						<legend>Finalizar Proyecto</legend>
+							<input type="submit" class="btn btn-large btn-block btn-primary" value="Finalizar Proyecto" />
+							
 
+						<!-- Modal -->
+						  <div class="modal fade" id="subirInforme" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						    <div class="modal-dialog">
+						      <div class="modal-content">
+						        <div class="modal-header">
+						          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						          <h4 class="modal-title">Subir Informe</h4>
+						        </div>
+						        <div class="modal-body">
+						          <form action="verproyecto.php?idDeProyecto=<?php echo $idDeProyecto ?>" method="post" enctype="multipart/form-data">
+						          	<input name="informe" class="input-file uniform_on" id="fileInput" type="file" required />
+						          	<input class="btn btn-info" type="submit" value="Subir" name="btnSubirInforme">
+						          </form>
+						        </div>
+						        <div class="modal-footer">
+						          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						 <!-- /.modal -->
 
 
 						</div>

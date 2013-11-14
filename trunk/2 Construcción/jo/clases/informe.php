@@ -2,19 +2,32 @@
 include('conexion.php');
 class Informe{
 
+	var $consulta;
+	var $valor;
+	var $verificador;
 
-	function subirInforme($ruta, $code){
+	function subirInforme($idProyecto,$ruta){
 
-		$consulta = mysql_query("INSERT INTO informes (ruta,cod_informe) VALUES ('$ruta','$code')");
+		$this->consulta = mysql_query("INSERT INTO informes (id_proyectos,ruta) VALUES ('$idProyecto','$ruta')");
+		return "Informe subido exitosamente";
+
+	}
+
+	function verExistencia($idProyecto){
+		$this->consulta = mysql_query("SELECT * FROM informes WHERE id_proyectos=$idProyecto")
+					or die("Error en la consulta verExistencia");
+		$this->verificador = mysql_fetch_array($this->consulta);
+
+		return $this->verificador;
 
 	}
 
 
 	function ultimoInforme(){
-		$consulta = mysql_query("SELECT id_informes FROM informes ORDER BY id_informes DESC");
-		$valor = mysql_fetch_array($consulta);
+		$this->consulta = mysql_query("SELECT id_informes FROM informes ORDER BY id_informes DESC");
+		$this->valor = mysql_fetch_array($this->consulta);
 
-		return $valor[0];
+		return $this->valor[0];
 	}
 
 }
