@@ -8,12 +8,27 @@
 		header('location:index.php');
 	}
 
+
 	$progreso = 0;
 	$idDeProyecto=$_GET['idDeProyecto'];
 	$Proyecto = new Proyecto;
 	$Usuario = new Usuario;
 	$informe = new Informe;
 	$Liquidacion = new Liquidacion;
+
+		//Abrir y Cerrar Proyecto 
+
+	if (isset($_POST['cerrarProyecto'])) {
+		$Proyecto->activoProyecto('c',$idDeProyecto);
+	}
+
+	if (isset($_POST['abrirProyecto'])) {
+		$Proyecto->activoProyecto('a',$idDeProyecto);
+	}
+
+
+
+
 	$InformacionDelProyecto = $Proyecto->getInfoProyecto($idDeProyecto);
 
 	$idDeLugar = $InformacionDelProyecto[1];
@@ -23,6 +38,7 @@
 	$nombreDeLaNave = $InformacionDelProyecto[5];
 	$fechaTermino = $InformacionDelProyecto[7];
 	$DescripcionDeProyecto = $InformacionDelProyecto[8];
+	$proyectoActivo = $InformacionDelProyecto[9];
 
 	$CodigoDeProyecto = $Proyecto->getCodigoProyecto($idCodigoProyecto);
 
@@ -36,6 +52,7 @@
 		$estadoDeProyecto = "<span class='label label-important'>Fuera de Plazo</span>";
 	}
 
+	//
 
 	// Subir Informe
 
@@ -63,6 +80,7 @@
 	<style type="text/css">
 	  body {
 		padding-bottom: 40px;
+		margin-top: 70px;
 	  }
 	  .sidebar-nav {
 		padding: 9px 0;
@@ -96,8 +114,8 @@
 </head>
 
 <body>
-		<!-- topbar starts -->
-	<div class="navbar">
+				<!-- topbar starts -->
+	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
@@ -105,7 +123,17 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="main.php"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Joint Ops</span></a>
+				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/logo20.png" /> <span>OPServices</span></a>
+
+				<ul class="nav nav-inner main-menu">
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+					<li class="divider-vertical"></li>
+				</ul>
 				
 				
 				<!-- user dropdown starts -->
@@ -117,7 +145,7 @@
 					<ul class="dropdown-menu">
 						<li><a href="#">Perfil</a></li>
 						<li class="divider"></li>
-						<li><a href="login.html">Salir</a></li>
+						<li><a href="logout.php">Salir</a></li>
 					</ul>
 				</div>
 				<!-- user dropdown ends -->
@@ -128,32 +156,13 @@
 	<!-- topbar ends -->
 		<div class="container-fluid">
 		<div class="row-fluid">
-				
-			<!-- left menu starts -->
-			<div class="span2 main-menu-span">
-				<div class="well nav-collapse sidebar-nav">
-					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li class="nav-header hidden-tablet">Tareas</li>
-						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Dashboard</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-remove"></i><span class="hidden-tablet"> Cerrar Sesión</span></a></li>
-					</ul>
-					<!-- <label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label> -->
-
-				</div><!--/.well -->
-			</div><!--/span-->
-			<!-- left menu ends -->	
-			
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
 					<p>Necesitas tener <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> activado para utilizar este sitio.</p>
 				</div>
 			</noscript>
-
-
-			
-			<div id="content" class="span10">
+			<div id="content" class="span11">
 			<!-- content starts -->
 			<div class="row-fluid sortable">		
 				<div class="box span12">
@@ -241,6 +250,7 @@
 							</div>
 						</div>
 						<br>
+						<?php if($proyectoActivo==1){ ?>
 						<div class="row-fluid">
 							<div class="span6">
 								<div class="control-group">
@@ -319,9 +329,16 @@
 						<div class="progress progress-success" style="margin-bottom: 9px;">
 							<div class="bar" style="width: <?php echo $progreso; ?>%"><?php echo $progreso; ?>%</div>
 						</div>
+						<?php } ?>
 
-						<legend>Finalizar Proyecto</legend>
-							<input type="submit" class="btn btn-large btn-block btn-primary" value="Finalizar Proyecto" />
+						<legend>Cerrar Proyecto</legend>
+							<form action="verproyecto.php?idDeProyecto=<?php echo $idDeProyecto; ?>" method="POST">
+								<?php if($proyectoActivo==1){?>
+									<input type="submit" class="btn btn-large btn-danger" value="Cerrar Proyecto" name="cerrarProyecto" />
+								<?php }else{ ?>
+									<input type="submit" class="btn btn-large btn-success" value="Abrir Proyecto" name="abrirProyecto" />
+								<?php } ?>
+							</form>
 							
 
 						<!-- Modal -->
@@ -345,8 +362,6 @@
 						    </div>
 						  </div>
 						 <!-- /.modal -->
-
-
 						</div>
 					</div>
 				</div><!--/span-->

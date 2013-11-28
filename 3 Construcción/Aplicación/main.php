@@ -20,6 +20,7 @@
 	<style type="text/css">
 	  body {
 		padding-bottom: 40px;
+		margin-top: 70px;
 	  }
 	  .sidebar-nav {
 		padding: 9px 0;
@@ -48,13 +49,11 @@
 	<![endif]-->
 
 	<!-- The fav icon -->
-	<link rel="shortcut icon" href="img/favicon.ico">
-		
+	<link rel="shortcut icon" href="img/favicon.ico">	
 </head>
-
 <body>
 		<!-- topbar starts -->
-	<div class="navbar">
+	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
@@ -62,7 +61,17 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="main.php"> <img alt="Charisma Logo" src="img/logo20.png" /> <span>Joint Ops</span></a>
+				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/logo20.png" /> <span>OPServices</span></a>
+
+				<ul class="nav nav-inner main-menu">
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+					<li class="divider-vertical"></li>
+				</ul>
 				
 				
 				<!-- user dropdown starts -->
@@ -74,7 +83,7 @@
 					<ul class="dropdown-menu">
 						<li><a href="#">Perfil</a></li>
 						<li class="divider"></li>
-						<li><a href="login.html">Salir</a></li>
+						<li><a href="logout.php">Salir</a></li>
 					</ul>
 				</div>
 				<!-- user dropdown ends -->
@@ -86,29 +95,13 @@
 		<div class="container-fluid">
 		<div class="row-fluid">
 				
-			<!-- left menu starts -->
-			<div class="span2 main-menu-span">
-				<div class="well nav-collapse sidebar-nav">
-					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li class="nav-header hidden-tablet">Tareas</li>
-						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
-						<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
-						<li><a class="ajax-link" href="logout.php"><i class="icon-remove"></i><span class="hidden-tablet"> Cerrar Sesión</span></a></li>
-					</ul>
-					<!-- <label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label> -->
-
-				</div><!--/.well -->
-			</div><!--/span-->
-			<!-- left menu ends -->	
-
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
 					<p>Necesitas tener <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> activado para utilizar este sitio.</p>
 				</div>
 			</noscript>		
-			<div id="content" class="span10">
+			<div id="content" class="span11">
 				<div class="row-fluid">
 					<a data-rel="tooltip" title="2 nuevos miembros." class="well span3 top-block" href="#">
 						<span class="icon32 icon-red icon-user"></span>
@@ -167,19 +160,6 @@
 					  		</table>            
 						</div>
 					</div><!--/span-->	
-				</div><!--/row-->
-				<div class="row-fluid">
-					<div class="box span5">
-						<div class="box-header well" data-original-title>
-							<h2><i class="icon-list-alt"></i> Ejemplo de Grafico de "pie"</h2>
-							<div class="box-icon">
-								<a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
-							</div>
-						</div>
-						<div class="box-content">
-							<div id="piechart" style="height:300px"></div>
-						</div>
-					</div>
 				</div><!--/row-->
 					<!-- content ends -->
 			</div><!--/#content.span10-->
@@ -262,8 +242,6 @@
 	<!-- history.js for cross-browser state change on ajax -->
 	<script src="js/jquery.history.js"></script>
 	<!-- application script for Charisma demo -->
-	<script src="js/charisma.js"></script>
-	
-		
+	<script src="js/charisma.js"></script>		
 </body>
 </html>

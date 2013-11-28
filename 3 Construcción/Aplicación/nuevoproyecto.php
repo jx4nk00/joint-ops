@@ -16,7 +16,8 @@
 		$fecha_inicio =  date("Y-m-d",strtotime($_POST['textFechaInicio']));
 		$fecha_termino = date("Y-m-d",strtotime($_POST['textFechaTermino']));
 		$descripcion = $_POST['textDescProyecto'];
-		$DatosDelProyecto = array($id_lugar,$id_miembro,$id_codigo,$nombre_proyecto,$nombre_nave,$fecha_inicio,$fecha_termino,$descripcion);
+		$activo = 1;
+		$DatosDelProyecto = array($id_lugar,$id_miembro,$id_codigo,$nombre_proyecto,$nombre_nave,$fecha_inicio,$fecha_termino,$descripcion,$activo);
 
 		$Proyecto->crearProyecto($DatosDelProyecto);
 
@@ -69,6 +70,7 @@
 	<style type="text/css">
 	  body {
 		padding-bottom: 40px;
+		margin-top: 70px;
 	  }
 	  .sidebar-nav {
 		padding: 9px 0;
@@ -102,8 +104,8 @@
 </head>
 
 <body>
-	<!-- topbar starts -->
-	<div class="navbar">
+			<!-- topbar starts -->
+	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
@@ -111,12 +113,19 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="main.php"> 
-					<img alt="Charisma Logo" src="img/logo20.png" /> 
-					<span>Joint Ops</span>
-				</a>
+				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/logo20.png" /> <span>OPServices</span></a>
 
-
+				<ul class="nav nav-inner main-menu">
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+					<li class="divider-vertical"></li>
+				</ul>
+				
+				
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -126,31 +135,17 @@
 					<ul class="dropdown-menu">
 						<li><a href="#">Perfil</a></li>
 						<li class="divider"></li>
-						<li><a href="login.html">Salir</a></li>
+						<li><a href="logout.php">Salir</a></li>
 					</ul>
 				</div>
-			<!-- user dropdown ends -->
+				<!-- user dropdown ends -->
+				
 			</div>
 		</div>
 	</div>
-
 	<!-- topbar ends -->
 	<div class="container-fluid">
 		<div class="row-fluid">
-
-			<!-- left menu starts -->
-			<div class="span2 main-menu-span">
-				<div class="well nav-collapse sidebar-nav">
-					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li class="nav-header hidden-tablet">Tareas</li>
-						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Dashboard</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-remove"></i><span class="hidden-tablet"> Cerrar Sesión</span></a></li>
-					</ul>
-					<!-- <label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label> -->
-				</div>
-			</div>
-			<!-- left menu ends -->	
 
 			<noscript>
 				<div class="alert alert-block span10">
@@ -159,7 +154,7 @@
 				</div>
 			</noscript>
 
-			<div id="content" class="span10">
+			<div id="content" class="span11">
 				<!-- content starts -->
 				<div class="row-fluid sortable">		
 					<div class="box span12">

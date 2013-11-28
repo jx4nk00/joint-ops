@@ -23,7 +23,7 @@ if( isset($_POST['enviar'])){
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-ES">
 <head>
 	<meta charset="utf-8">
 	<title>Joint Ops - Login</title>
