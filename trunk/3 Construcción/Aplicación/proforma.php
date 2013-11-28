@@ -50,31 +50,54 @@
 
 	if (isset($_POST['submitCrearProforma'])){
 
+
+		//tabla poforma
 		$idDeProyecto;
 		$fecha_creacion = date('Y-m-d');
 		$cliente = $_POST['cliente'];
 		$total_proforma =$_POST['totalProforma'];
+		//fin tabla proforma
 
-		$numeroProforma;
-		$fecha =date("Y-m-d",strtotime($_POST['fechaHonorario']));
+
+		//Tabla Honorarios
+		$numeroProforma; // <-- IdProforma
+		$fecha = $_POST['fechaHonorario'];
 		$detalle_servicio = $_POST['detalleServicio'];
+		$idLugar = $_POST['selectLugares']; 
+		$IdParticipante = $_POST['responsable'];
 		$calificacion=$_POST['calificacion'];
-		$unidad_cobro = "Diario";
+		$unidad_cobro = $_POST['unidadCobro'];
+		$valorDolarHonorario = $_POST['valorDolar'];
 		$cant_htd =$_POST['cantidadHTD'];
-		$total=4;
+		$total = $_POST['totalHonorario']; 
+
+
+		for ($i=0; $i <count($_POST['fechaHonorario']) ; $i++) { 
+
+			$crearHonorario = array($numeroProforma,
+									date("Y-m-d",strtotime($fecha[$i])),
+									$detalle_servicio[$i],
+									$idLugar[$i],
+									$IdParticipante[$i],
+									$calificacion[$i],
+									$unidad_cobro[$i],
+									$valorDolarHonorario[$i],
+									$cant_htd[$i],
+									$total[$i]);
+
+			$Proforma->crearHonorario($crearHonorario);
+
+		}
+
+		//fin tabla Honorario
 
 		$CrearProforma = array($idDeProyecto,
 							   $fecha_creacion,
 							   $cliente,
-							   $total_proforma,
-							   $numeroProforma,
-							   $fecha,
-							   $detalle_servicio,
-							   $calificacion,
-							   $unidad_cobro,
-							   $cant_htd,
-							   $total);
+							   $total_proforma);
 		$Proforma->crearProforma($CrearProforma);
+
+		header("location:main.php");
 
 	}
 
@@ -95,6 +118,7 @@
 	<style type="text/css">
 	  body {
 		padding-bottom: 40px;
+		margin-top: 70px;
 	  }
 	  .sidebar-nav {
 		padding: 9px 0;
@@ -128,8 +152,8 @@
 </head>
 
 <body>
-	<!-- topbar starts -->
-	<div class="navbar">
+			<!-- topbar starts -->
+	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
@@ -137,11 +161,19 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="main.php"> 
-					<img alt="Charisma Logo" src="img/logo20.png" /> 
-					<span>Joint Ops</span>
-				</a>
+				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/logo20.png" /> <span>OPServices</span></a>
 
+				<ul class="nav nav-inner main-menu">
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
+					<li class="divider-vertical"></li>
+					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+					<li class="divider-vertical"></li>
+				</ul>
+				
+				
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -151,31 +183,19 @@
 					<ul class="dropdown-menu">
 						<li><a href="#">Perfil</a></li>
 						<li class="divider"></li>
-						<li><a href="login.html">Salir</a></li>
+						<li><a href="logout.php">Salir</a></li>
 					</ul>
 				</div>
-			<!-- user dropdown ends -->
+				<!-- user dropdown ends -->
+				
 			</div>
 		</div>
 	</div>
-
 	<!-- topbar ends -->
 	<div class="container-fluid">
 		<div class="row-fluid">
 
-			<!-- left menu starts -->
-			<div class="span2 main-menu-span">
-				<div class="well nav-collapse sidebar-nav">
-					<ul class="nav nav-tabs nav-stacked main-menu">
-						<li class="nav-header hidden-tablet">Tareas</li>
-						<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Dashboard</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
-						<li><a class="ajax-link" href="#"><i class="icon-remove"></i><span class="hidden-tablet"> Cerrar Sesión</span></a></li>
-					</ul>
-					<!-- <label id="for-is-ajax" class="hidden-tablet" for="is-ajax"><input id="is-ajax" type="checkbox"> Ajax on menu</label> -->
-				</div>
-			</div>
-			<!-- left menu ends -->	
+		
 
 			<noscript>
 				<div class="alert alert-block span10">
@@ -184,7 +204,7 @@
 				</div>
 			</noscript>
 
-			<div id="content" class="span10">
+			<div id="content" class="span11">
 				<!-- content starts -->
 				<div class="row-fluid">		
 					<div class="box span12">
@@ -243,7 +263,7 @@
 									<p>CLIENTE :</p>
 								</div>
 								<div class="span8">
-									<input name="cliente" type="text" placelholder="Cliente" />
+									<input name="cliente" type="text" placelholder="Cliente" required />
 								</div>
 							</div>
 
@@ -274,7 +294,7 @@
 								</div>
 							</div>
 
-							<legend>Horarios</legend>
+							<legend>Honorarios</legend>
 
 							<table id="tablaHonorarios" class="table table-striped table-bordered">
 								<thead>
@@ -293,26 +313,26 @@
 							 	<tbody>
 									<tr>
 										<td>
-											<input name="fechaHonorario" type="text" class="input input-small datepicker" id="date01" required />
+											<input name="fechaHonorario[]" type="text" class="input input-small datepicker" id="date01" required />
 										</td>
 										<td>
 											<div class="row-fluid">
-												<textarea name="detalleServicio" class="span12" cols="30" rows="2" placeholder="Detalle de Servicio"></textarea>
+												<textarea name="detalleServicio[]" class="span12" cols="30" rows="2" placeholder="Detalle de Servicio" required></textarea>
 											</div>
 										</td>
 										<td>
-											<select name="selectLugares" class="span12">
+											<select name="selectLugares[]" class="span12">
 												<?php echo $getLugares; ?>
 											</select>
 										</td>
 										<td>
-											<select id="selectResponsable" name="responsable" class="span12"> 
+											<select id="selectResponsable" name="responsable[]" class="span12"> 
 												<?php echo $getResponsables; ?>
 											</select>
 										</td>
 										<td>
 											<div class="row-fluid">
-												<select class="span8" name="calificacion" id="">
+												<select class="span8" name="calificacion[]" id="">
 													<option value="P">P</option>
 													<option value="T">T</option>
 													<option value="M">M</option>
@@ -322,7 +342,7 @@
 										</td>
 										<td>
 											<div class="row-fluid">
-												<select class="span11" name="calificacion" id="">
+												<select class="span11" name="unidadCobro[]" id="">
 													<option value="Diario">Diario</option>
 													<option value="Hora">Hora</option>
 													<option value="Turno">Turno</option>
@@ -331,13 +351,13 @@
 											</div>
 
 										</td>
-										<td>
-											<span class="valorDolar"><?php echo $valorDolar; ?></span> 
+										<td class="valorDolar">
+											<input type="text" class="input-small" name="valorDolar[]" placeholder="<?php echo $valorDolar; ?>" required />
 										</td>
 										<td>
-											<input id="" name="cantidadHTD" type="text" class="cantidadHTD input-small" placeholder="HTD" />
+											<input name="cantidadHTD[]" type="text" class="cantidadHTD input-small" placeholder="HTD" required/>
 										</td>
-										<td>
+										<td class="totales">
 											$<span class="totalHonorario">0</span>.-
 											<input class="textTotal" type="hidden" value="0" name="totalHonorario[]">
 										</td>
@@ -354,7 +374,7 @@
 											</td>
 											<td>
 												$<span id="spanTotalProforma">0</span>.-
-												<input name="totalProforma[]" id="inputTotalProforma" type="hidden" value="0" />
+												<input name="totalProforma" id="inputTotalProforma" type="hidden" value="0" />
 											</td>
 										</tr>
 									</tfoot>
@@ -495,32 +515,41 @@
 
 	$(document).ready(function() {
 
-		$('input.cantidadHTD').keyup(function(){
-
-			if ( isNaN($(this).val()) ) {
-				alert("Debe ingresar solo números");
-				$(this).val(0);
-				$('.totalHonorario').html(0);
-				$('.textTotal').val(0);
-
-				$('#inputTotalProforma').val(0);
-				$('#spanTotalProforma').html(0);
-			}else{
-				
-				var valorDolar = $('.valorDolar').html();
-				var cantidadHTD = $(this).val();
-				var total = valorDolar*parseInt(cantidadHTD);
-
-				$(this).parents().find('input.textTotal').val(total);
-				$(this).parents().find('span.totalHonorario').html(total);
-
-				$('#inputTotalProforma').val(total);
-				$('#spanTotalProforma').html(total);
-			}
 
 
+		function calcular_total()
+		{
+		    var $filas = $('#tablaHonorarios tbody tr');
+		    var total = 0;
+		    
+		    $filas.each(function(index, value) {
+
+		    	if ( isNaN($(this).find('input.cantidadHTD').val()) ) {
+		    		alert("Debe ingresar solo números");
+		    		$(this).find('input.cantidadHTD').val(0);
+
+		    		$(this).find('td.totales >span.totalHonorario').html(0);
+		    		$(this).find('td.totales >input.textTotal').val(0);
+
+		    		$('#inputTotalProforma').val(0);
+		    		$('#spanTotalProforma').html(0);
+		    	}else{
+			        valor = parseFloat($(this).find('td.valorDolar>input').val(),10);
+			        cantidad  = parseInt($(this).find('input.cantidadHTD').val(), 10);
+			        subtotal = valor * cantidad;
+			        total += subtotal;
+			        $(this).find('td.totales >span.totalHonorario').html(subtotal);
+			        $(this).find('td.totales >input.textTotal').val(subtotal);
+		    	}	
+		    });
+		   // $('#total').html(total);
+		    $('#inputTotalProforma').val(total);
+			$('#spanTotalProforma').html(total);
+		}
+
+		$('#tablaHonorarios tbody').on('keyup', 'input.cantidadHTD', function(ev) {
+		    calcular_total();
 		});
-
 
 		$('#quitarFila').click(function(){
 			if ($('#tablaHonorarios >tbody >tr').length == 1){
@@ -531,18 +560,17 @@
 		});
 
 		$('#agregarFila').click(function(){
-			var nuevaFila='<tr>'+
-							'<td><input name="fechaHonorario" type="text" class="input input-small datepicker" id="date01" required /></td>'+
-							'<td><div class="row-fluid"><textarea name="detalleServicio" class="span12" cols="30" rows="2" placeholder="Detalle de Servicio"></textarea></div></td>'+
-							'<td><select name="selectLugares" class="span12"><?php echo $getLugares; ?></select></td>'+
-							'<td><select id="selectResponsable" name="responsable" class="span12"><?php echo $getResponsables; ?></select></td>'+
-							'<td><div class="row-fluid"><select class="span8" name="calificacion" id=""><option value="P">P</option><option value="T">T</option><option value="M">M</option><option value="S">S</option></select></div></td>'+
-							'<td><div class="row-fluid"><select class="span11" name="calificacion" id=""><option value="Diario">Diario</option><option value="Hora">Hora</option><option value="Turno">Turno</option><option value="Lump Sum">Lump Sum</option></select></div></td>'+
-							'<td><span class="valorDolar"><?php echo $valorDolar; ?></span></td>'+
-							'<td><input id="" name="cantidadHTD" type="text" class="cantidadHTD input-small" placeholder="HTD" /></td>'+
-							'<td>$<span class="totalHonorario">0</span>.-<input class="textTotal" type="hidden" value="0" name="totalHonorario[]"></td>'+
-						'</tr>';
-
+			var nuevaFila="<tr>"+
+							"<td><input name=\"fechaHonorario[]\" type=\"text\" class=\"input input-small datepicker\" id=\"date01\" required /></td>"+
+							"<td><div class=\"row-fluid\"><textarea name=\"detalleServicio[]\" class=\"span12\" cols=\"30\" rows=\"2\" placeholder=\"Detalle de Servicio\"></textarea></div></td>"+
+							"<td><select name=\"selectLugares[]\" class=\"span12\"><?php echo $getLugares; ?></select></td>"+
+							"<td><select id=\"selectResponsable\" name=\"responsable[]\" class=\"span12\"><?php echo $getResponsables; ?></select></td>"+
+							"<td><div class=\"row-fluid\"><select class=\"span8\" name=\"calificacion[]\" ><option value=\"P\">P</option><option value=\"T\">T</option><option value=\"M\">M</option><option value=\"S\">S</option></select></div></td>"+
+							"<td><div class=\"row-fluid\"><select class=\"span11\" name=\"unidadCobro[]\" ><option value=\"Diario\">Diario</option><option value=\"Hora\">Hora</option><option value=\"Turno\">Turno</option><option value=\"Lump Sum\">Lump Sum</option></select></div></td>"+
+							"<td class=\"valorDolar\"><input type=\"text\" class=\"input-small\" name=\"valorDolar[]\" placeholder=\"<?php echo $valorDolar; ?>\" required /></td>"+
+							"<td><input name=\"cantidadHTD[]\" type=\"text\" class=\"cantidadHTD input-small\" placeholder=\"HTD\" /></td>"+
+							"<td class=\"totales\">$<span class=\"totalHonorario\">0</span>.-<input class=\"textTotal\" type=\"hidden\" value=\"0\" name=\"totalHonorario[]\"></td>"+
+						"</tr>";
 			var objTabla=$(this).parents().get(4);
 			$(objTabla).find('tbody').append(nuevaFila);
 
