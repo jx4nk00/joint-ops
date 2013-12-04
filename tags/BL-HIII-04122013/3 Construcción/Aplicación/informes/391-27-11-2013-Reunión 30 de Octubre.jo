@@ -1,0 +1,58 @@
+Reunión 30 de Octubre
+
+1.- Proforma
+    - Servicio: Servicio General 
+    - Detalle del servicio: desglose por Unidad de Cobro
+    - Tabla auto incrementable (filas)
+    - Cliente permite el uso de su firma (Ojo con el clic derecho)
+    - El Gerente debe poder editar
+
+2.- Factura
+    - Ajustar información según hoja de factura
+    - Descargable a PDF 
+    - Enviar por correo electrónico
+    - El Gerente debe poder editar
+
+3.- Rendición de Gastos
+    - Existe un documento de rendición de gastos ( REVISAR)
+
+4.- Explicar al cliente los 3 servidores asociados
+    - SrvProduccion.opservices.cl
+    - SrvTesting.opservices.cl
+    - SrvDesarrollo.opservices.cl
+
+5.- Entregar credenciales al cliente para SrvProducción
+    - Usuario: opizarroa
+    - Password: produccion2013
+
+6.- Validar Liquidación
+    - Tarifado: String | Listo
+    - Rendición de Gastos: Código relacionado con la rendición (VALIDAR)
+    - Tasa de Cambio: Ingresable + Referencia (opcional)
+    - El Gerente debe poder editar
+    - PPM: 10% ( variable cada 5 años app)
+    - %Acuerdo: ingresable 
+    - USD y CLP 
+
+7.- ¿ como se realizará el cambio?¿Su gente sabe de lo que viene?
+    - Los trabajadores saben que viene una aplicación
+    - El clientes los está entusiasmando 
+
+8.- ¿Usted espera que salga una pagina WEB?
+    - El cliente está viendo la opción de adquirir una WEB por 3ras personas
+    - Se verá la posibilidad de entregar la WEB y JointOps la implementa en el servidor
+
+9.- ¿ Como finalizamos el proyecto?
+    - Un video explicativo sobre como utilizar la Aplicación
+
+10.- ¿ Cuando comenzamos con la marcha blanca?
+    - Lo antes posible
+
+
+---------------------------------------------------------
+Adicionales:
+1.- Ingresar valor Dolar
+2.- Mantenedor de Usuarios
+3.- Tutorial de configuración de Correo en Outlook
+4.- Capacitación ( paseo) por el Cpanel - Creación de correos lectrónicos '@opservices.cl'
+5.- Ingresar Lugares
