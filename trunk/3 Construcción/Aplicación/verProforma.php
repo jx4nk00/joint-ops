@@ -44,66 +44,23 @@
 
 	$getLugares = $Proyecto->getLugares();
 	$getResponsables= $Proyecto->getResponsables();
+
+
+
+	// Información Proforma
+	$datosProforma = $Proforma->verProforma($idDeProyecto);
+
+	$idProforma =$datosProforma[0];
+	$idProyectos = $datosProforma[1];
+	$fechaCreacion = $datosProforma[2];
+	$cliente = $datosProforma[3];
+	$totalProforma = $datosProforma[4];
+
+	// Fin información proforma
+
+	// Información honorario
+	// Fin Información honorario
  ?>
-
- <?php 
-
-	if (isset($_POST['submitCrearProforma'])){
-
-
-		//tabla poforma
-		$idDeProyecto;
-		$fecha_creacion = date('Y-m-d');
-		$cliente = $_POST['cliente'];
-		$total_proforma =$_POST['totalProforma'];
-		//fin tabla proforma
-
-
-		//Tabla Honorarios
-		$numeroProforma; // <-- IdProforma
-		$fecha = $_POST['fechaHonorario'];
-		$detalle_servicio = $_POST['detalleServicio'];
-		$idLugar = $_POST['selectLugares']; 
-		$IdParticipante = $_POST['responsable'];
-		$calificacion=$_POST['calificacion'];
-		$unidad_cobro = $_POST['unidadCobro'];
-		$valorDolarHonorario = $_POST['valorDolar'];
-		$cant_htd =$_POST['cantidadHTD'];
-		$total = $_POST['totalHonorario']; 
-
-
-		for ($i=0; $i <count($_POST['fechaHonorario']) ; $i++) { 
-
-			$crearHonorario = array($numeroProforma,
-									date("Y-m-d",strtotime($fecha[$i])),
-									$detalle_servicio[$i],
-									$idLugar[$i],
-									$IdParticipante[$i],
-									$calificacion[$i],
-									$unidad_cobro[$i],
-									$valorDolarHonorario[$i],
-									$cant_htd[$i],
-									$total[$i]);
-
-			$Proforma->crearHonorario($crearHonorario);
-
-		}
-
-		//fin tabla Honorario
-
-		$CrearProforma = array($idDeProyecto,
-							   $fecha_creacion,
-							   $cliente,
-							   $total_proforma);
-		$Proforma->crearProforma($CrearProforma);
-
-		header("location:main.php");
-
-	}
-
-
-  ?>
-
 <!DOCTYPE html>
 <html lang="es-ES">
 <head>
@@ -232,7 +189,7 @@
 
 							<div class="row-fluid">
 								<div class="span12">
-									<p class="pull-left">Proforma N°: <?php echo ($numeroProforma)."/".date('y'); ?></p>
+									<p class="pull-left">Proforma N°: <?php echo ($idProforma)."/".date('y'); ?></p>
 									<p class="pull-right"><?php echo date('F d, Y'); ?></p>
 								</div>
 							</div>
@@ -262,7 +219,7 @@
 									<p>CLIENTE :</p>
 								</div>
 								<div class="span8">
-									<input name="cliente" type="text" placelholder="Cliente" required />
+									<?php echo $cliente; ?>
 								</div>
 							</div>
 
@@ -310,69 +267,15 @@
 									</tr>
 							  	</thead>   
 							 	<tbody>
-									<tr>
-										<td>
-											<input name="fechaHonorario[]" type="text" class="input input-small datepicker" id="date01" required />
-										</td>
-										<td>
-											<div class="row-fluid">
-												<textarea name="detalleServicio[]" class="span12" cols="30" rows="2" placeholder="Detalle de Servicio" required></textarea>
-											</div>
-										</td>
-										<td>
-											<select name="selectLugares[]" class="span12">
-												<?php echo $getLugares; ?>
-											</select>
-										</td>
-										<td>
-											<select id="selectResponsable" name="responsable[]" class="span12"> 
-												<?php echo $getResponsables; ?>
-											</select>
-										</td>
-										<td>
-											<div class="row-fluid">
-												<select class="span8" name="calificacion[]" id="">
-													<option value="P">P</option>
-													<option value="T">T</option>
-													<option value="M">M</option>
-													<option value="S">S</option>
-												</select>
-											</div>
-										</td>
-										<td>
-											<div class="row-fluid">
-												<select class="span11" name="unidadCobro[]" id="">
-													<option value="Diario">Diario</option>
-													<option value="Hora">Hora</option>
-													<option value="Turno">Turno</option>
-													<option value="Lump Sum">Lump Sum</option>
-												</select>
-											</div>
-
-										</td>
-										<td class="valorDolar">
-											<input type="text" class="input-small" name="valorDolar[]" placeholder="<?php echo $valorDolar; ?>" required />
-										</td>
-										<td>
-											<input name="cantidadHTD[]" type="text" class="cantidadHTD input-small" placeholder="HTD" required/>
-										</td>
-										<td class="totales">
-											$<span class="totalHonorario">0</span>.-
-											<input class="textTotal" type="hidden" value="0" name="totalHonorario[]">
-										</td>
-									</tr>
-									</tbody>
+							 		<?php echo $Proforma->verHonProforma($idProforma); ?>
+								</tbody>
 									<tfoot>
 										<tr>
-											<td colspan="8">
-												<span class="pull-left">
-													<a href="#" id="agregarFila"class="btn btn-success"><i class="icon-plus-sign icon-white"></i> Agregar Fila</a>
-													<a href="#" id="quitarFila" class="btn btn-danger"><i class="icon-minus-sign icon-white"></i> Quitar última fila</a>
-												</span>
+											<td colspan="7">
 												<span class="pull-right">TOTAL</span>
 											</td>
-											<td>
-												$<span id="spanTotalProforma">0</span>.-
+											<td colspan="2">
+												$<span id="spanTotalProforma"> <?php echo $totalProforma ?></span>.-
 												<input name="totalProforma" id="inputTotalProforma" type="hidden" value="0" />
 											</td>
 										</tr>
@@ -418,8 +321,8 @@
 								</div>
 							</div>	
 							<div class="form-actions">
-								<input name="submitCrearProforma" type="submit" class="btn btn-primary" value="Enviar Proforma" />
-								<input type="reset" class="btn " value="limpiar" />
+								<input name="submitCrearProforma" type="submit" class="btn btn-primary" value="Imprimir" />
+								<input type="reset" class="btn " value="Volver" />
 							</div>
 							</fieldset>
 						</form> 

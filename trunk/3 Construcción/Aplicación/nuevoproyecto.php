@@ -7,10 +7,24 @@
 
 	$Proyecto = new Proyecto;
 	if( isset($_POST['CrearProyecto'])){
-
 		$id_lugar=$_POST['selectLugares'];
 		$id_miembro=$_POST['responsable'];
-		$id_codigo=1;
+		//Código de Trabajo
+
+		$numeroCodigo = $Proyecto->verUltimoCodigo();
+		$numeroCodigo = str_pad($numeroCodigo, 3, "0", STR_PAD_LEFT);
+		$annoCodigo = date('y');
+		$idGerente = 1;
+		$idParticipantes = "/".$id_miembro;
+
+		$codigoTrabajo = "OPS-".$numeroCodigo.$annoCodigo."-".$idGerente."-".$idParticipantes."-".$id_lugar;
+
+		$Proyecto->crearCodigoServicio($codigoTrabajo);
+		//fin Código de trabajo
+
+
+		$id_codigo=$Proyecto->verUltimoCodigo();
+		$id_codigo = $id_codigo-1;
 		$nombre_proyecto=$_POST['textNombreProyecto'];
 		$nombre_nave = $_POST['textNombreNave'];
 		$fecha_inicio =  date("Y-m-d",strtotime($_POST['textFechaInicio']));
@@ -18,11 +32,8 @@
 		$descripcion = $_POST['textDescProyecto'];
 		$activo = 1;
 		$DatosDelProyecto = array($id_lugar,$id_miembro,$id_codigo,$nombre_proyecto,$nombre_nave,$fecha_inicio,$fecha_termino,$descripcion,$activo);
-
 		$Proyecto->crearProyecto($DatosDelProyecto);
-
 		$id_proyectos = $Proyecto->getLastProjectId();
-		
 		if($_POST['textDescServicio1']!=""){
 			$nombre_servicio = $_POST['textDescServicio1'];
 			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
@@ -49,12 +60,10 @@
 			$Proyecto->crearServicio($DatosDelServicio);
 		}
 
+
 		header('location:main.php');
-	
 	}
-
  ?>
-
 
 <!DOCTYPE html>
 <html lang="es-ES">
@@ -113,7 +122,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/logo20.png" /> <span>OPServices</span></a>
+				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/Jointops.png" /></a>
 
 				<ul class="nav nav-inner main-menu">
 					<li class="divider-vertical"></li>
@@ -214,7 +223,7 @@
 										<div class="span6">
 											<div class="control-group">
 												<h3>Fecha de Inicio</h3>
-												<input type="text" name="textFechaInicio" class="input datepicker" id="date01" required />
+												<input type="text" value=<?php echo date('m/d/Y'); ?> name="textFechaInicio" class="input datepicker" id="date01" required />
 											</div>
 										</div>
 

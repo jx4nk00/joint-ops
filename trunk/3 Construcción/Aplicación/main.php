@@ -14,7 +14,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Joint OPs, Sistema de Procesos integrados, OPServices">
 	<meta name="author" content="Joint Ops">
-
 	<!-- The styles -->
 	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
 	<style type="text/css">
@@ -42,12 +41,10 @@
 	<link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
 	<link href='css/opa-icons.css' rel='stylesheet'>
 	<link href='css/uploadify.css' rel='stylesheet'>
-
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
 	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-
 	<!-- The fav icon -->
 	<link rel="shortcut icon" href="img/favicon.ico">	
 </head>
@@ -61,7 +58,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/logo20.png" /> <span>OPServices</span></a>
+				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/Jointops.png" /></a>
 
 				<ul class="nav nav-inner main-menu">
 					<li class="divider-vertical"></li>
@@ -72,8 +69,6 @@
 					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
 					<li class="divider-vertical"></li>
 				</ul>
-				
-				
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -87,14 +82,12 @@
 					</ul>
 				</div>
 				<!-- user dropdown ends -->
-				
 			</div>
 		</div>
 	</div>
 	<!-- topbar ends -->
 		<div class="container-fluid">
 		<div class="row-fluid">
-				
 			<noscript>
 				<div class="alert alert-block span10">
 					<h4 class="alert-heading">Warning!</h4>
@@ -169,11 +162,9 @@
 			<p class="pull-right">&copy; 2010-2013 OPServices Ltda.</p>
 		</footer>	
 		</div><!--/.fluid-container-->
-
 	<!-- external javascript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-
 	<!-- jQuery -->
 	<script src="js/jquery-1.7.2.min.js"></script>
 	<!-- jQuery UI -->
@@ -210,7 +201,6 @@
 	<script src='js/fullcalendar.min.js'></script>
 	<!-- data table plugin -->
 	<script src='js/jquery.dataTables.min.js'></script>
-
 	<!-- chart libraries start -->
 	<script src="js/excanvas.js"></script>
 	<script src="js/jquery.flot.min.js"></script>
@@ -218,7 +208,6 @@
 	<script src="js/jquery.flot.stack.js"></script>
 	<script src="js/jquery.flot.resize.min.js"></script>
 	<!-- chart libraries end -->
-
 	<!-- select or dropdown enhancer -->
 	<script src="js/jquery.chosen.min.js"></script>
 	<!-- checkbox, radio, and file input styler -->

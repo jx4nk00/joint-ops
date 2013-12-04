@@ -189,7 +189,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/logo20.png" /> <span>OPServices</span></a>
+				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/Jointops.png" /></a>
 
 				<ul class="nav nav-inner main-menu">
 					<li class="divider-vertical"></li>
@@ -547,8 +547,7 @@
 										<input id="textTotalRendicion" class="input-small TGI" name="textTotalRendicion" type="text" placeholder="0.-" required />
 									</div>
 								</div>
-							</di
-
+							</div>
 							<div class="row-fluid">
 								<div class="span2">
 								</div>
@@ -787,7 +786,6 @@
 	<script>
 		$(document).ready(function() {
 
-
 			$('#FENeto').keyup(function(){
 
 				if(isNaN($(this).val())){
@@ -812,9 +810,7 @@
 				}
 			});
 
-
 			$('#FANeto').keyup(function(){
-
 				if(isNaN($(this).val())){
 					alert('Debe Ingresar un Valor numérico');
 					$('#FANeto').val(0);
@@ -891,7 +887,6 @@
 				
 				}
 			});
-
 
 			$('.ii').keyup(function(){
 				var valoXHoja = $('#textValorHoja').val();
