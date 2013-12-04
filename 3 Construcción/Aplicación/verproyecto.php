@@ -8,73 +8,55 @@
 		header('location:index.php');
 	}
 
-
 	$progreso = 0;
 	$idDeProyecto=$_GET['idDeProyecto'];
 	$Proyecto = new Proyecto;
 	$Usuario = new Usuario;
 	$informe = new Informe;
 	$Liquidacion = new Liquidacion;
-
-		//Abrir y Cerrar Proyecto 
-
+	//Abrir y Cerrar Proyecto 
 	if (isset($_POST['cerrarProyecto'])) {
 		$Proyecto->activoProyecto('c',$idDeProyecto);
 	}
-
 	if (isset($_POST['abrirProyecto'])) {
 		$Proyecto->activoProyecto('a',$idDeProyecto);
 	}
-
-
-
-
 	$InformacionDelProyecto = $Proyecto->getInfoProyecto($idDeProyecto);
-
 	$idDeLugar = $InformacionDelProyecto[1];
 	$idResponsable = $InformacionDelProyecto[2];
 	$idCodigoProyecto = $InformacionDelProyecto[3];
 	$nombreDeProyecto = $InformacionDelProyecto[4];
 	$nombreDeLaNave = $InformacionDelProyecto[5];
+    $fechaInicio = $InformacionDelProyecto[6];
 	$fechaTermino = $InformacionDelProyecto[7];
 	$DescripcionDeProyecto = $InformacionDelProyecto[8];
 	$proyectoActivo = $InformacionDelProyecto[9];
-
 	$CodigoDeProyecto = $Proyecto->getCodigoProyecto($idCodigoProyecto);
-
 	$serviciosDeProyecto = $Proyecto->getServiciosDeProyecto($idDeProyecto);
-
 	$inspectorACargo = $Usuario->getUserName($idResponsable);
-
 	if(  strtotime($fechaTermino) > strtotime(date('Y-m-d'))  ){
 		$estadoDeProyecto = "<span class='label label-warning'>En Cuerso</span>";}
 	else{
 		$estadoDeProyecto = "<span class='label label-important'>Fuera de Plazo</span>";
 	}
-
 	//
-
 	// Subir Informe
-
 	if( isset($_POST['btnSubirInforme'])){
 		$carpeta ="informes/";
 		opendir($carpeta);
 		$ruta = $carpeta.mt_rand(0,999)."-".date("d-m-Y")."-".utf8_decode($_FILES['informe']['name']);
 		copy($_FILES['informe']['tmp_name'], $ruta);
-
 		$resultadoSubida=$informe->subirInforme($idDeProyecto,$ruta);
 	}
-
- ?>
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="utf-8">
 	<title>Ver Proyectos</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
 	<meta name="author" content="Muhammad Usman">
-
 	<!-- The styles -->
 	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
 	<style type="text/css">
@@ -102,19 +84,15 @@
 	<link href='css/jquery.iphone.toggle.css' rel='stylesheet'>
 	<link href='css/opa-icons.css' rel='stylesheet'>
 	<link href='css/uploadify.css' rel='stylesheet'>
-
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
 	<!--[if lt IE 9]>
 	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
-
 	<!-- The fav icon -->
 	<link rel="shortcut icon" href="img/favicon.ico">
-		
 </head>
-
 <body>
-				<!-- topbar starts -->
+	<!-- topbar starts -->
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
@@ -123,8 +101,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/logo20.png" /> <span>OPServices</span></a>
-
+				<a class="brand" href="main.php"> <img alt="OPServices LOGO" src="img/Jointops.png" /></a>
 				<ul class="nav nav-inner main-menu">
 					<li class="divider-vertical"></li>
 					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
@@ -134,8 +111,6 @@
 					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
 					<li class="divider-vertical"></li>
 				</ul>
-				
-				
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -149,7 +124,6 @@
 					</ul>
 				</div>
 				<!-- user dropdown ends -->
-				
 			</div>
 		</div>
 	</div>
@@ -173,32 +147,39 @@
 						</div>
 					</div>
 					<div class="box-content">
-						<legend>Información del Proyecto</legend>
-
-
-
+    					<legend>Información del Proyecto</legend>
 						<div class="row-fluid">
-							<div class="span4">
+							<div class="span3">
 								<div class="control-group">
 									<h3>Nombre del Proyecto</h3> 
 									<?php echo $nombreDeProyecto;  ?>
 								</div>
 							</div>
-
-							<div class="span4">
+							<div class="span3">
 								<div class="control-group">
 									<h3>Código</h3>
 									 <?php echo $CodigoDeProyecto; ?>
 								</div>
 							</div>
-
-							<div class="span4">
-								<div class="control-group">
-									<h3>Estado</h3>
-									<?php echo $estadoDeProyecto; ?>
-								</div>
-							</div>
+							<div class="span3">
+                                <div class="control-group">
+                                    <h3>Estado</h3>
+                                    <?php echo $estadoDeProyecto; ?>
+                                </div>
+                            </div>
+                            <div class="span3">
+                                <div class="control-group">
+                                    <h3>Fechas</h3>
+                                    <div class="row-fluid">
+                                        <div class="span12">Inicio: <?php echo date("d-M-Y",strtotime($fechaInicio)); ?></div>
+                                    </div>
+                                    <div class="row-fluid">
+                                        <div class="span12">Término: <?php echo date("d-M-Y",strtotime($fechaTermino)); ?></div>
+                                    </div>
+                                </div>
+                            </div>
 						</div>
+
 						<br>
 						<div class="row-fluid">
 							<div class="span12">
@@ -281,7 +262,7 @@
 										$existeInforme = $informe->verExistencia($idDeProyecto);
 										if ($existeInforme) { 
 									?>
-									<a class="btn btn-success" href="#">
+									<a class="btn btn-success" target="_blank" href="<?php echo $existeInforme[2]; ?>">
 										<i class="icon-zoom-in icon-white"></i>  
 										Ver Informe                                            
 									</a>
@@ -302,7 +283,7 @@
 								<div class="control-group">
 										<legend>Documentación del Gerente</legend>
 										<h3>Proforma</h3>
-										<a class="btn btn-success" href="#">
+										<a class="btn btn-success" href="verProforma.php?idProyecto=<?php echo $idDeProyecto; ?>">
 											<i class="icon-zoom-in icon-white"></i>  
 											Ver Proforma                                            
 										</a>

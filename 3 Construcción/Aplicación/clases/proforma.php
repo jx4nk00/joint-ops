@@ -1,10 +1,6 @@
 <?php 
-
 include('conexion.php');
-
 class Proforma{
-
-	
 	var $consulta;
 	var $resultado;
 
@@ -25,6 +21,49 @@ class Proforma{
 	var $valor_dolar;
 	var $cant_htd;
 	var $total;
+
+	var $fila="";
+
+
+	function verProforma($idProyecto){
+		$this->consulta = mysql_query("SELECT * FROM proformas WHERE id_proyectos = '$idProyecto'") 
+			or die ("Error en la consulta verProforma");
+
+		$this->resultado = mysql_fetch_array($this->consulta);
+
+		return $this->resultado;
+
+	}
+
+	function verHonProforma($idProformas){
+		$this->consulta = mysql_query("SELECT * FROM honorarios_proforma WHERE id_proformas = $idProformas") 
+			or die("Error en la consulta verHonorariosProforma");
+
+		
+		while($row = mysql_fetch_array($this->consulta)){
+
+			$qLugar = mysql_query("SELECT nombre_lugar FROM lugares WHERE id_lugares=".$row['id_lugar'])
+			or die("Error en qLugar");
+			$fLugar = mysql_fetch_array($qLugar);
+
+			$qResponsable = mysql_query("SELECT p_nombre,s_nombre,apellido_p,apellido_m FROM miembros WHERE id_miembros = ".$row['id_participante'])
+			or die("Error en qResponsable");
+			$fResponsable = mysql_fetch_array($qResponsable);
+
+				$this->fila = $this->fila.'<tr>';
+					$this->fila = $this->fila.'<td>'.$row['fecha'].'</td>';
+					$this->fila = $this->fila.'<td><div class="row-fluid">'.$row['detalle_Servicio'].'</div></td>';
+					$this->fila = $this->fila.'<td>'.$fLugar[0].'</td>';
+					$this->fila = $this->fila.'<td>'.$fResponsable[0].' '.$fResponsable[1].' '.$fResponsable[2].' '.$fResponsable[3].'</td>';
+					$this->fila = $this->fila.'<td><div class="row-fluid">'.$row['calificacion'].'</div></td>';
+					$this->fila = $this->fila.'<td><div class="row-fluid">'.$row['unidad_cobro'].'</div></td>';
+					$this->fila = $this->fila.'<td>'.$row['valor_dolar'].'</td>';
+					$this->fila = $this->fila.'<td>'.$row['cant_htd'].'</td>';
+					$this->fila = $this->fila.'<td>'.$row['total'].'</td>';
+				$this->fila = $this->fila.'</tr>';
+		}
+		return $this->fila;
+	}
 
 	function getIdProforma(){
 		$this->consulta = mysql_query("SELECT id_proformas FROM proformas ORDER BY id_proformas DESC")
@@ -98,4 +137,5 @@ class Proforma{
 		or die("Error en la Inserción de Proforma");
 	}
 }
+
 ?>
