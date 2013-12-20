@@ -321,8 +321,8 @@
 								</div>
 							</div>	
 							<div class="form-actions">
-								<input name="submitCrearProforma" type="submit" class="btn btn-primary" value="Imprimir" />
-								<input type="reset" class="btn " value="Volver" />
+								<a class="btn btn-large btn-primary" href="#"><i class="icon-print icon-white"></i> Imprimir</a>
+								<a class="btn btn-large btn-block" href="main.php"><i class="icon-home"></i> Volver</a>
 							</div>
 							</fieldset>
 						</form> 

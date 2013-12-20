@@ -12,8 +12,20 @@ function verUsuario(){
 							JOIN privilegios pri
 							ON mi.id_privilegio = pri.id_privilegio
 							JOIN datos_miembros dm
-							ON mi.id_datos = dm.id_datos")
+							ON mi.id_datos = dm.id_datos
+							JOIN usuarios us
+							ON mi.id_usuarios = us.id_usuarios")
 	or die ("Error en la consulta verUsuario");
+	return $this->query;
+}
+
+function verBancos(){
+	$this->query = mysql_query("SELECT * FROM bancos") or die("Error al obtener Bancos");
+	return $this->query;
+}
+
+function verPrivilegios(){
+	$this->query = mysql_query("SELECT * FROM privilegios") or die("Error al obtener Bancos");
 	return $this->query;
 }
 
