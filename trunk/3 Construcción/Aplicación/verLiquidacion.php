@@ -20,7 +20,66 @@
 	$fechaDeLiquidación=date('Y-m-d');
 
 	//Tabla Liquidaciones
-	$numeroDeLiquidacion=$Liquidacion->getNumLiquidacion();
+		$numeroDeLiquidacion=$Liquidacion->getNumLiquidacion();
+		$infoLiquidacion = $Liquidacion->getInfoLiquidacion($idDeProyecto);
+		$idLiquidacion = $infoLiquidacion[0];
+		$idOtrosGastos = $infoLiquidacion[3];
+		$idImpresiones = $infoLiquidacion[4];
+		$idRendicionGasto = $infoLiquidacion[5];
+		$idValoresFacturados = $infoLiquidacion[6];
+		$idGCInforme = $infoLiquidacion[7];
+		$referenciaCliente = $infoLiquidacion[10];
+		$numContenedores = $infoLiquidacion[11]; 
+		$turnosTrabajados = $infoLiquidacion[12];
+		$tafifado = $infoLiquidacion[13];
+		$totalInspector = $infoLiquidacion[14];
+
+	// Tabla Valores Facturados
+		$infoVF = $Liquidacion->getInfoVF($idValoresFacturados);
+		//Factura Exenta
+		$FENeto = $infoVF[1];
+		$FETotal = $infoVF[5];
+		//Factura Afecta
+		$FANeto = $infoVF[2];
+		$FAIva = $FANeto*0.19;
+		$FATotal = $infoVF[6];
+		//Boleta Honorario
+		$BHNeto = $infoVF[3];
+		$BHIva = $BHNeto * 0.10;
+		$BHTotal = $infoVF[7];
+		//Invoice
+		$INeto = $infoVF[4];
+		$ITotal = $infoVF[8];
+
+	// Tabla Rendicion de Gastos
+		$infoRG = $Liquidacion->getInfoRG($idRendicionGasto);
+		$codigoRG = $infoRG[1];
+		$totalRG = $infoRG[2];
+
+	//Tabla Impresiones
+		$infoImpresion = $Liquidacion->getInfoImpresiones($idImpresiones);
+		$valorHoja = $infoImpresion[1];
+		$cantHoja = $infoImpresion[2];
+		$numCopias = $infoImpresion[3];
+		$detalleImpresion = $infoImpresion[4];
+		$totalImpresion = $infoImpresion[5];
+
+	// Tabla gc_informes
+		$infoGC = $Liquidacion->getInfoGC($idGCInforme);
+		$detalleGC = $infoGC[1];
+		$totalGC = $infoGC[2];
+
+
+	// Tabla otros_gastos
+		$infoOG = $Liquidacion->getInfoOG($idOtrosGastos);
+		$detalleOG = $infoOG[1];
+		$valorOG = $infoOG[2];
+
+
+
+
+
+
 	
 	
 	//Tabla Proyectos
@@ -41,100 +100,6 @@
 	//Tabla inspectores_ayudantes
 	$inspCargo = $Usuario->getUserName($idMiembros);
 	$inspParticipantes;
-
-
-	//submit liquidacion
-	if (isset($_POST['submitCrearLiquidacion'])) {
-		$ReferenciaCliente = $_POST["textReferenciaCliente"];
-		$FechaCreacion =  date('Y-m-d');
-		$NumeroContenedores = $_POST["textNumeroContenedores"];
-		$textTurnosTotales = $_POST["textTurnosTotales"];
-		$Tarifado = $_POST["textTarifado"];
-		
-		
-		//$idPorceAcuerdo = $Liquidacion->verIdPorceAcuerdo();
-
-		//Comienzo de Impresion
-
-		$valorHoja = $_POST["textValorHoja"];
-		$cantHojas = $_POST["textCantHoja"];
-		$numCopias = $_POST["textNumCopias"];
-		$detalle = $_POST["textDetalleImpresion"];
-		$totalImpresion = $_POST["textTotalImpreison"];
-		$validarInspector = $Usuario->verTipoUsuario($_SESSION['Id_Usuario']);
-		$DatosImpresion = array($valorHoja,$cantHojas,$numCopias,$detalle,$totalImpresion,$validarInspector);
-		$Liquidacion->crearImpresion($DatosImpresion);
-		$idImpresiones = $Liquidacion->getIdImpresion();
-
-		//=======================
-
-		$idDolar = $Miscelaneo->obtenerDolar();
-
-		//=======================
-
-		$detalleOtrosGastos = $_POST["textDetalleOtrosGastos"];
-		$valorOtrosGastos =$_POST["textTotalOtrosGastos"]; 
-		$datosOtrosGastos = array($detalleOtrosGastos,$valorOtrosGastos,$validarInspector);
-		$Liquidacion->crearOtrosGastos($datosOtrosGastos);
-		$idOtrosGastos = $Liquidacion->getIdOtrosGastos();
-
-		//-----------------------
-
-		$codigoRend = $_POST["textRendicionDeGasto"];
-		$totalRend = $_POST["textTotalRendicion"];
-		$datosRendiciones = array($codigoRend,$totalRend,$validarInspector);
-		$Liquidacion->crearRenGastos($datosRendiciones);
-		$idRenGastos = $Liquidacion->getIdRendicion();
-
-		//-----------------------
-
-		$facExcenta = $_POST["textFENeto"];
-		$facAfecta = $_POST["textFANeto"];
-		$bol_honorarios = $_POST["textBHNeto"];
-		$invoice = $_POST["textIVNeto"];
-		$totalFE = $_POST["textFETotal"];
-		$totalFA = $_POST["textFATotal"];
-		$totalBH = $_POST["textBHTotal"];
-		$totalIV = $_POST["textIVTotal"];
-		$datosValoresFacturados = array ($facExcenta,$facAfecta,$bol_honorarios,$invoice,$validarInspector,$totalFE,$totalFA,$totalBH,$totalIV);
-		$Liquidacion->crearValoresFacturados($datosValoresFacturados);
-		$idValoresFacturados = $Liquidacion->getIdValoresFacturados();
-
-		//-----------------------
-
-		$detalleCF = $_POST["textDetalleConfeccion"];
-		$totalGastosCF = $_POST["textTotalConfeccion"];
-		$datosConfeccionInf = array($detalleCF,$totalGastosCF,$validarInspector);
-		$Liquidacion->crearConfInforme($datosConfeccionInf);
-		$idConfeccionInf = $Liquidacion->getIdConfeccionInf();
-
-		$totalInspectores =$_POST['textTotalGastosInsp'];
-
-		$datosLiquidacion = array(
-								$idDeProyecto,
-								$idDolar[0],
-								$idOtrosGastos,
-								$idImpresiones,
-								$idRenGastos,
-								$idValoresFacturados,
-								$idConfeccionInf,
-								$numeroDeLiquidacion,
-								$FechaCreacion,
-								$ReferenciaCliente,
-								$NumeroContenedores,
-								$textTurnosTotales,
-								$Tarifado,
-								$totalInspectores,
-								1);
-		$Liquidacion->crearLiquidacion($datosLiquidacion);
-
-		header('location:verproyecto.php?idDeProyecto='.$idDeProyecto);
-
-	}
-
-	//=====================
-	
-
 
  ?>
  <!DOCTYPE html>
@@ -295,7 +260,7 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<input type="text" name="textReferenciaCliente" placeholder="Referencia Cliente" required/>
+									<?php echo $referenciaCliente; ?>
 								</div>
 							</div> 
 
@@ -366,7 +331,7 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<input type="text" name="textNumeroContenedores" placeholder="Número de Contenedores" required />
+									<?php echo $numContenedores; ?>
 								</div>
 							</div>  
 
@@ -377,7 +342,7 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<input type="text" name="textTurnosTotales" placeholder="Turnos totales trabajados" required />
+									<?php echo $turnosTrabajados; ?>
 								</div>
 							</div> 
 
@@ -388,7 +353,7 @@
 									</div>
 								</div> 
 								<div class="span6 pull-left">
-									<input type="text" name="textTarifado" placeholder="Tarifado" required />
+									<?php echo $tafifado; ?>
 								</div>
 							</div> 
 
@@ -415,7 +380,7 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="FENeto" class="input-small" name="textFENeto" type="text" placeholder="FE NETO" required />
+										<?php echo $FENeto;  ?>
 									</div>
 								</div>
 								<div class="span2">
@@ -425,8 +390,7 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>USD$ <span id="FETotal"></span> .-</label>
-										<input id="textFETotal" type="hidden" name="textFETotal" value="0" />
+										<?php echo $FETotal; ?>
 									</div>
 								</div>
 							</div>
@@ -439,19 +403,17 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="FANeto" class="input-small" name="textFANeto" type="text" placeholder="FA NETO" required />
+										<?php echo $FANeto; ?>
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>USD$ <span id="FAIva"></span>.-</label>
-										<input id="textFAIva" type="hidden" name="textFAIva" value="0" />
+										<?php echo $FAIva; ?>
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>USD$ <span id="FATotal"></span>.-</label>
-										<input id="textFATotal" type="hidden" name="textFATotal" value="0" />
+										<?php echo $FATotal; ?>
 									</div>
 								</div>
 							</div> 
@@ -464,19 +426,17 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="textBHNeto" class="input-small" name="textBHNeto" type="text" placeholder="BH NETO" required />
+										<?php echo $BHNeto; ?>
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>USD$ <span id="BHIva"></span>.-</label>
-										<input id="textBHIva" type="hidden" name="textBHIva" value="0" />
+										<?php echo $BHIva; ?>
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>USD$ <span id="BHTotal" ></span>.-</label>
-										<input id="textBHTotal" type="hidden" name="textBHTotal" value="0" />
+										<?php echo $BHTotal; ?>
 									</div>
 								</div>
 							</div>
@@ -489,7 +449,7 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="textIVNeto" class="input-small" name="textIVNeto" type="text" placeholder="IV NETO" required />
+										<?php echo $INeto; ?>
 									</div>
 								</div>
 								<div class="span2">
@@ -499,8 +459,7 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<label>USD$ <span id="IVTotal"></span>.-</label>
-										<input id="textIVTotal" type="hidden" name="textIVTotal"value="0" />
+										<?php echo $ITotal; ?>
 									</div>
 								</div>
 							</div>
@@ -543,13 +502,13 @@
 								</div>
 								<div class="span8">
 									<div class="control-group">
-										<input class="input-xxlarge" name="textRendicionDeGasto" type="text" placeholder="N° de rendición de gasto" />
+										<?php echo $codigoRG; ?>
 									</div>
 									
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="textTotalRendicion" class="input-small TGI" name="textTotalRendicion" type="text" placeholder="0.-" required />
+										<?php echo $totalRG; ?>
 									</div>
 								</div>
 							</div>
@@ -578,27 +537,26 @@
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="textValorHoja" class="ii input-small" name="textValorHoja" type="text" placeholder="VxH" value="0" required />
+										<?php echo $valorHoja; ?>
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="textCantHoja" class="ii input-small" name="textCantHoja" type="text" placeholder="CantH" value="0" required />
+										<?php echo $cantHoja; ?>
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="textNumCopias" class="ii input-small" name="textNumCopias" type="text" placeholder="NC" value="0" required />
+										<?php echo $numCopias; ?>
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input class="input-small" name="textDetalleImpresion" type="text" placeholder="detalle" required />
+										<?php echo $detalleImpresion; ?>
 									</div>
 								</div>
 								<div class="span2">
-									<label>$ <span id="spanTotalImpresion"></span> .-</label>
-									<input class="TGI" id="textTotalImpreison" type="hidden" name="textTotalImpreison" value="0" />
+									<?php echo $totalImpresion; ?>
 								</div>
 							</div>
 
@@ -608,12 +566,12 @@
 								</div>
 								<div class="span8">
 									<div class="control-group">
-										<input type="text" name="textDetalleConfeccion" class="input-xxlarge" placeholder="CARPETA/SEPARADORES/ETC" required />
+										<?php echo $detalleGC; ?>
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="textTotalConfeccion" class="input-small TGI" type="text" name="textTotalConfeccion" value="0" />	
+										<?php echo $totalGC; ?>
 									</div>
 									
 								</div>
@@ -674,12 +632,12 @@
 								</div>
 								<div class="span8">
 									<div class="control-group">
-										<input class="input-xxlarge" name="textDetalleOtrosGastos" type="text" placeholder="Otros Gastos" required />
+										<?php echo $detalleOG; ?>
 									</div>
 								</div>
 								<div class="span2">
 									<div class="control-group">
-										<input id="textTotalOtrosGastos" class="input-small TGI" type="text" name="textTotalOtrosGastos" value="0" />	
+										<?php echo $valorOG; ?>
 									</div>
 								</div>
 							</div>
@@ -688,14 +646,12 @@
 								<div class="span10">
 								</div>
 								<div class="span2">
-									<label id="spanTotalGastosInsp">$0</label>
-									<input id="textTotalGastosInsp" type="hidden" name="textTotalGastosInsp" value="0" />
+									<?php echo $totalInspector; ?>
 								</div>
 							</div>
-
 							<div class="form-actions">
-								<input name="submitCrearLiquidacion" type="submit" class="btn btn-primary" value="Enviar Liquidación" />
-								<input type="reset" class="btn " value="limpiar" />
+								<a class="btn btn-large btn-primary" href="#"><i class="icon-print icon-white"></i> Imprimir</a>
+								<a class="btn btn-large btn-block" href="main.php"><i class="icon-home"></i> Volver</a>
 							</div>
 						 </fieldset>
 						</form>   
@@ -785,147 +741,6 @@
 	<!-- history.js for cross-browser state change on ajax -->
 	<script src="js/jquery.history.js"></script>
 	<!-- application script for Charisma demo -->
-	<script src="js/charisma.js"></script>
-
-	<!-- Nuestros Scripts -->
-	<script>
-		$(document).ready(function() {
-
-			$('#FENeto').keyup(function(){
-
-				if(isNaN($(this).val())){
-					alert('Debe Ingresar un Valor numérico');
-					$('#FENeto').val(0);
-					$('#FETotal').html(0);
-				}
-				else{
-
-					var feneto = $(this).val();
-					var fetotal = parseInt(feneto);
-
-					if (fetotal>0 || fetotal!=null) {
-						$('#textFETotal').val(fetotal);
-						$('#FETotal').html(fetotal);	
-					}
-					else{
-						$('#textFETotal').val(0);
-						$('#FETotal').html('0');
-					}
-				
-				}
-			});
-
-			$('#FANeto').keyup(function(){
-				if(isNaN($(this).val())){
-					alert('Debe Ingresar un Valor numérico');
-					$('#FANeto').val(0);
-					$('#FAIva').html(0);
-					$('#textFAIva').val(0);
-					$('#FATotal').html(0);
-					$('#textFATotal').val(0);
-
-				}
-				else{
-					var faNeto = $(this).val();
-					var faIva = faNeto * 0.19;
-					var faTotal = parseInt(faNeto) + faIva;
-
-					$('#FAIva').html(Math.round(faIva));
-					$('#textFAIva').val(Math.round(faIva));
-
-					$('#FATotal').html(Math.round(faTotal));
-					$('#textFATotal').val(Math.round(faTotal));
-
-				}
-
-			});
-
- 
-			$('#textBHNeto').keyup(function(){
-
-				if(isNaN($(this).val())){
-					alert('Debe Ingresar un Valor numérico');
-					$('#textBHNeto').val(0);
-
-					$('#BHIva').html(0);
-					$('#textBHIva').val(0);
-
-					$('#BHTotal').html(0);
-					$('#textBHTotal').val(0);
-
-				}
-				else{
-					var bhNeto = $(this).val();
-					var bhIva = bhNeto * 0.10;
-					var bhTotal = parseInt(bhNeto) - bhIva;
-
-					$('#BHIva').html(Math.round(bhIva));
-					$('#textBHIva').val(Math.round(bhIva));
-
-					$('#BHTotal').html(Math.round(bhTotal));
-					$('#textBHTotal').val(Math.round(bhTotal));
-
-				}
-
-			});
-
-			$('#textIVNeto').keyup(function(){
-
-				if(isNaN($(this).val())){
-					alert('Debe Ingresar un Valor numérico');
-					$('#textIVNeto').val(0);
-					$('#IVTotal').html(0);
-				}
-				else{
-
-					var feneto = $(this).val();
-					var fetotal = parseInt(feneto);
-
-					if (fetotal>0 || fetotal!=null) {
-						$('#textIVTotal').val(fetotal);
-						$('#IVTotal').html(fetotal);	
-					}
-					else{
-						$('#textIVTotal').val(0);
-						$('#IVTotal').html('0');
-					}
-				
-				}
-			});
-
-			$('.ii').keyup(function(){
-				var valoXHoja = $('#textValorHoja').val();
-				var valorCantHojas = $('#textCantHoja').val();
-				var textNumCopias = $('#textNumCopias').val();
-				var total;
-
-				if ( isNaN( $(this).val() ) ){
-					alert('Debe Ingresar un Valor numérico');
-					$(this).val(1);
-				}else{
-					total = parseInt(valoXHoja)*parseInt(valorCantHojas)*parseInt(textNumCopias);
-					$('#textTotalImpreison').val(total);
-					$('#spanTotalImpresion').html(total);
-				}					
-				
-			});
-
-
-			$('.TGI').change(function(){
-				var totalRendicion = $('#textTotalRendicion').val();
-				var totalImpresion = $('#textTotalImpreison').val();
-				var totalGastoInforme = $('#textTotalConfeccion').val();
-				var totalOtrosGastos = $('#textTotalOtrosGastos').val();
-				var totalGastosInspector = parseInt(totalRendicion)+parseInt(totalImpresion)+parseInt(totalGastoInforme)+parseInt(totalOtrosGastos);
-
-				$('#textTotalGastosInsp').val(totalGastosInspector);
-				$('#spanTotalGastosInsp').html(totalGastosInspector);
-
-			});
-
-		});
-	</script>
-	
-		
+	<script src="js/charisma.js"></script>		
 </body>
 </html>

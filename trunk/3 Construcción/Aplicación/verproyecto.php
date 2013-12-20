@@ -4,6 +4,8 @@
 	include ('clases/proyecto.php');
 	include ('clases/informe.php');
 	include ('clases/liquidacion.php');
+	include ('clases/proforma.php');
+	include ('clases/cliente.php');
 	if(!$_SESSION['login']){
 		header('location:index.php');
 	}
@@ -14,6 +16,8 @@
 	$Usuario = new Usuario;
 	$informe = new Informe;
 	$Liquidacion = new Liquidacion;
+	$Proforma = new Proforma;
+	$Cliente = new Cliente;
 	//Abrir y Cerrar Proyecto 
 	if (isset($_POST['cerrarProyecto'])) {
 		$Proyecto->activoProyecto('c',$idDeProyecto);
@@ -34,10 +38,25 @@
 	$CodigoDeProyecto = $Proyecto->getCodigoProyecto($idCodigoProyecto);
 	$serviciosDeProyecto = $Proyecto->getServiciosDeProyecto($idDeProyecto);
 	$inspectorACargo = $Usuario->getUserName($idResponsable);
-	if(  strtotime($fechaTermino) > strtotime(date('Y-m-d'))  ){
-		$estadoDeProyecto = "<span class='label label-warning'>En Cuerso</span>";}
-	else{
-		$estadoDeProyecto = "<span class='label label-important'>Fuera de Plazo</span>";
+
+	$proyectoFinalizado = $InformacionDelProyecto[10];
+
+
+	if ($proyectoActivo==0) {
+		$estadoDeProyecto = "<span class='label label-inverse'>Cerrado</span>";
+	}else{
+
+		if($proyectoFinalizado==1){
+			$estadoDeProyecto = "<span class='label label-success'>Finalizado</span>";
+		}else{
+
+			if(  strtotime($fechaTermino) > strtotime(date('Y-m-d'))  ){
+				$estadoDeProyecto = "<span class='label label-info'>En Curso</span>";}
+			else{
+				$estadoDeProyecto = "<span class='label label-important'>Fuera de Plazo</span>";
+			}
+
+		}
 	}
 	//
 	// Subir Informe
@@ -47,6 +66,17 @@
 		$ruta = $carpeta.mt_rand(0,999)."-".date("d-m-Y")."-".utf8_decode($_FILES['informe']['name']);
 		copy($_FILES['informe']['tmp_name'], $ruta);
 		$resultadoSubida=$informe->subirInforme($idDeProyecto,$ruta);
+	}
+	// Crear Factura
+	if(isset($_POST['btnEnviar'])){
+		$empresa =  $_POST['textEmpresa'];
+		$rut = $_POST['textRut'];
+		$direccion = $_POST['textDireccion'];
+		$comuna =  $_POST['textComuna'];
+		$ciudad = $_POST['textCiudad'];
+		$giro =  $_POST['textGiro'];
+		$datosCliente= array($empresa,$rut,$direccion,$comuna,$ciudad,$giro); 
+		$Cliente->subirDatos($datosCliente,$idDeProyecto);
 	}
 ?>
 <!DOCTYPE html>
@@ -241,7 +271,7 @@
 											$existeLiquidacion = $Liquidacion->verExistencia($idDeProyecto);
 											if($existeLiquidacion){
 										?>
-										<a class="btn btn-success" href="#" >
+										<a class="btn btn-success" href="verLiquidacion.php?idProyecto=<?php echo $idDeProyecto; ?>" >
 											<i class="icon-zoom-in icon-white"></i>  
 											Ver Liquidación                                            
 										</a>
@@ -281,29 +311,69 @@
 							</div>
 							<div class="span6">
 								<div class="control-group">
-										<legend>Documentación del Gerente</legend>
-										<h3>Proforma</h3>
-										<a class="btn btn-success" href="verProforma.php?idProyecto=<?php echo $idDeProyecto; ?>">
-											<i class="icon-zoom-in icon-white"></i>  
-											Ver Proforma                                            
-										</a>
-										<a class="btn btn-info" href="proforma.php?idProyecto=<?php echo $idDeProyecto; ?>">
-											<i class="icon-edit icon-white"></i>  
-											Crear Proforma                                           
-										</a>
+									<legend>Documentación del Gerente</legend>
+									<h3>Proforma</h3>
+									<?php 
+										if($existeInforme && $existeLiquidacion){
+										$existeProforma = $Proforma->verExistencia($idDeProyecto);
+										if($existeProforma){
+									?>
+									<a class="btn btn-success" href="verProforma.php?idProyecto=<?php echo $idDeProyecto; ?>">
+										<i class="icon-zoom-in icon-white"></i>  
+										Ver Proforma                                            
+									</a>
+									<?php 
+											$progreso+=25;
+										}
+										else{ 
+									?>
+									<a class="btn btn-info" href="proforma.php?idProyecto=<?php echo $idDeProyecto; ?>">
+										<i class="icon-edit icon-white"></i>  
+										Crear Proforma                                           
+									</a>
+									<?php 
+											} 
+										}else{ ?>
+											<div class="alert alert-block">
+											  <h4>AVISO!</h4>
+											  Para continuar ingrese la Liquidación y el Informe.
+											</div>
+										<?php }	?>
 								</div>
 
 								<div class="control-group">
 										<h3>Factura	</h3>
-										<a class="btn btn-success" href="#">
+										<?php if($existeProforma){ ?>
+										<?php 
+											$existeFactura = $Cliente->getDatosCliente($idDeProyecto);
+											if($existeProforma){
+										 ?>
+										<a class="btn btn-success" href="verFactura.php?idProyecto=<?php echo $idDeProyecto; ?>">
 											<i class="icon-zoom-in icon-white"></i>  
 											Ver Factura                                           
 										</a>
-										<a class="btn btn-info" href="#">
+										<?php 
+											$progreso+=25;
+											}else{ 
+										?>
+										<a data-toggle="modal" class="btn btn-info" href="#crearFactura">
 											<i class="icon-edit icon-white"></i>  
 											Crear Factura                                            
 										</a>
+										<?php } ?>
+										<?php }else{ ?>
+										<div class="alert alert-block">
+											  <h4>AVISO!</h4>
+											  Para continuar ingrese Proforma.
+											</div>
+										<?php } ?>
 								</div>
+
+								<?php 
+									if($progreso==100){
+										$Proyecto->finalizarProyecto($idDeProyecto);
+									}
+								?>
 							</div>
 						</div>
 						<legend>Estado de Avance</legend>
@@ -323,7 +393,7 @@
 							
 
 						<!-- Modal -->
-						  <div class="modal fade" id="subirInforme" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						  <div class="modal hide fade" id="subirInforme">
 						    <div class="modal-dialog">
 						      <div class="modal-content">
 						        <div class="modal-header">
@@ -343,6 +413,57 @@
 						    </div>
 						  </div>
 						 <!-- /.modal -->
+
+						 <!-- Modal -->
+						   <div class="modal hide fade" id="crearFactura">
+						     <div class="modal-dialog">
+						       <div class="modal-content">
+						         <div class="modal-header">
+						           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						           <h4 class="modal-title">Factura</h4>
+						         </div>
+						         <div class="modal-body">
+						           <form action='verproyecto.php?idDeProyecto=<?php echo $idDeProyecto; ?>' method="post">
+						           <div class="row-fluid">
+						           		<div class="span6">
+						           			<strong>Empresa</strong>
+						           			<input name="textEmpresa" type="text" class="input-large" required>
+						           		</div>
+						           		<div class="span6">
+						           			<strong>Rut</strong><br>
+						           			<input name="textRut" type="text" class="input-large" required>			           			
+						           		</div>
+						           </div>
+						           <div class="row-fluid">
+						           		<div class="span6">
+						           			<strong>Dirección</strong>
+						           			<input name="textDireccion" type="text" class="input-large" required>
+						           		</div>
+						           		<div class="span6">
+						           			<strong>Comuna</strong><br>
+						           			<input name="textComuna" type="text" class="input-large" required>	           			
+						           		</div>
+						           </div>
+						           <div class="row-fluid">
+						           		<div class="span6">
+						           			<strong>Ciudad</strong>
+						           			<input name="textCiudad" type="text" class="input-large" required>
+						           		</div>
+						           		<div class="span6">
+						           			<strong>Giro</strong><br>
+						           			<input name="textGiro" type="text" class="input-large" required>
+						           		</div>
+						           </div>
+						         </div>
+						         <div class="modal-footer">
+						           <input name="btnEnviar" type="submit" class="btn btn-inverse pull-left" value="Enviar">
+						           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>						           
+						         </div>
+						         </form>
+						       </div>
+						     </div>
+						   </div>
+						  <!-- /.modal -->
 						</div>
 					</div>
 				</div><!--/span-->

@@ -97,7 +97,7 @@
 							   $total_proforma);
 		$Proforma->crearProforma($CrearProforma);
 
-		header("location:main.php");
+		header('location:verproyecto.php?idDeProyecto='.$idDeProyecto);
 
 	}
 
@@ -312,7 +312,7 @@
 							 	<tbody>
 									<tr>
 										<td>
-											<input name="fechaHonorario[]" type="text" class="input input-small datepicker" id="date01" required />
+											<input name="fechaHonorario[]" type="text" class="input input-small datepicker" required />
 										</td>
 										<td>
 											<div class="row-fluid">
@@ -556,7 +556,7 @@
 
 		$('#agregarFila').click(function(){
 			var nuevaFila="<tr>"+
-							"<td><input name=\"fechaHonorario[]\" type=\"text\" class=\"input input-small datepicker\" id=\"date01\" required /></td>"+
+							"<td><input name=\"fechaHonorario[]\" type=\"text\" class=\"input input-small datepicker\" required /></td>"+
 							"<td><div class=\"row-fluid\"><textarea name=\"detalleServicio[]\" class=\"span12\" cols=\"30\" rows=\"2\" placeholder=\"Detalle de Servicio\"></textarea></div></td>"+
 							"<td><select name=\"selectLugares[]\" class=\"span12\"><?php echo $getLugares; ?></select></td>"+
 							"<td><select id=\"selectResponsable\" name=\"responsable[]\" class=\"span12\"><?php echo $getResponsables; ?></select></td>"+

@@ -99,12 +99,18 @@ function verProyectos(){
 			$this->proyectos = $this->proyectos. "<span class='label label-inverse'>Cerrado</span>";
 		}else{
 		
-			if(  strtotime($row['fecha_termino']) > strtotime(date('Y-m-d'))  ){
-				$this->proyectos = $this->proyectos. "<span class='label label-info'>En Curso</span>";
+			if($row['finalizado']==1){
+				$this->proyectos = $this->proyectos. "<span class='label label-success'>Finalizado</span>";
+			}else {
+
+				if(  strtotime($row['fecha_termino']) > strtotime(date('Y-m-d'))  ){
+					$this->proyectos = $this->proyectos. "<span class='label label-info'>En Curso</span>";
+				}
+				else{
+					$this->proyectos = $this->proyectos. "<span class='label label-important'>Fuera de Plazo</span>";
+				}
 			}
-			else{
-				$this->proyectos = $this->proyectos. "<span class='label label-important'>Fuera de Plazo</span>";
-			}
+
 		}
 
 
@@ -114,8 +120,8 @@ function verProyectos(){
 
 		$this->proyectos = $this->proyectos. "<a class='btn btn-success' target='_blank' href='verproyecto.php?idDeProyecto=".$row['id_proyectos']."'>";
 		$this->proyectos = $this->proyectos. "<i class='icon-zoom-in icon-white'></i>Ver</a> ";
-		$this->proyectos = $this->proyectos. "<a class='btn btn-info' href='#'>";
-		$this->proyectos = $this->proyectos. "<i class='icon-edit icon-white'></i>Editar</a> ";
+		//$this->proyectos = $this->proyectos. "<a class='btn btn-info' href='#'>";
+		//$this->proyectos = $this->proyectos. "<i class='icon-edit icon-white'></i>Editar</a> ";
 
 		/*echo "<a class='btn btn-danger' href='#'>";
 		echo "<i class='icon-trash icon-white'></i>Borrar</a> ";*/
@@ -210,17 +216,20 @@ function activoProyecto($accion,$idDeProyecto){
 
 }
 
+function getDirLugar($id_lugar){
 
+	$this->query = mysql_query("SELECT direccion FROM lugares where id_lugares = $id_lugar");
+
+	$this->result = mysql_fetch_array($this->query);
+
+	return $this->result;
 }
 
-/*
-$proyecto = new Proyecto;
-
-$m = $proyecto->verUltimoCodigo();
-
-echo $m;
-*/
+function finalizarProyecto($idProyecto){
+	$this->query = mysql_query("UPDATE proyectos set finalizado=1 WHERE id_proyectos = $idProyecto") or die ("Error en finalziar proyecto");
+	return "Proyecto Finalizado";
+}
 
 
-
+}
 ?>

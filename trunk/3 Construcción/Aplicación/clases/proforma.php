@@ -35,6 +35,15 @@ class Proforma{
 
 	}
 
+	function verExistencia($idProyecto){
+		$this->query = mysql_query("SELECT id_proformas FROM proformas WHERE id_proyectos='$idProyecto'")
+					or die("Error en la consulta verExistenciaProforma");
+		$this->result = mysql_fetch_array($this->query);
+
+		return $this->result;
+
+	}
+
 	function verHonProforma($idProformas){
 		$this->consulta = mysql_query("SELECT * FROM honorarios_proforma WHERE id_proformas = $idProformas") 
 			or die("Error en la consulta verHonorariosProforma");
@@ -136,6 +145,16 @@ class Proforma{
 										'$this->total_proforma')") 
 		or die("Error en la Inserción de Proforma");
 	}
-}
 
+	function getDiasProforma($id_proforma){
+
+		$this->consulta = mysql_query("SELECT fecha FROM honorarios_proforma WHERE id_proformas = $id_proforma ORDER BY fecha") or die ("Error al obtener dias");
+		$fechas = array("a");
+		while($row = mysql_fetch_array($this->consulta)){
+
+		array_push($fechas,$row[0]);
+		}
+	return $fechas;
+	}
+}
 ?>
