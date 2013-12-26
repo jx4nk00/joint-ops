@@ -67,8 +67,8 @@
 	<meta charset="utf-8">
 	<title>Proforma</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
-	<meta name="author" content="Muhammad Usman">
+	<meta name="description" content="Joint OPs, Sistema de Procesos integrados, OPServices">
+	<meta name="author" content="Joint Ops">
 
 	<!-- The styles -->
 	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
@@ -124,9 +124,9 @@
 					<li class="divider-vertical"></li>
 					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
+					<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+					<li><a class="ajax-link" href="crud.php"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
 					<li class="divider-vertical"></li>
 				</ul>
 				
@@ -321,7 +321,7 @@
 								</div>
 							</div>	
 							<div class="form-actions">
-								<a class="btn btn-large btn-primary" href="#"><i class="icon-print icon-white"></i> Imprimir</a>
+								<a class="btn btn-large btn-primary" href="printProforma.php?idProyecto=<?php echo $idDeProyecto; ?>"><i class="icon-print icon-white"></i> Imprimir</a>
 								<a class="btn btn-large btn-block" href="main.php"><i class="icon-home"></i> Volver</a>
 							</div>
 							</fieldset>

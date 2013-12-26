@@ -89,7 +89,7 @@ function verProyectos(){
 			$this->queryEncargado ="SELECT * FROM miembros WHERE id_miembros = $this->idEncargado";
 			$this->resultEncargado = mysql_query($this->queryEncargado);
 			$this->verNombreEncargado = mysql_fetch_array($this->resultEncargado);
-			$this->nombreEncargado = ucfirst($this->verNombreEncargado['p_nombre'])." ".ucfirst($this->verNombreEncargado['apellido_p']);
+			$this->nombreEncargado = utf8_encode(ucfirst($this->verNombreEncargado['p_nombre']))." ".utf8_encode(ucfirst($this->verNombreEncargado['apellido_p']));
 
 		$this->proyectos = $this->proyectos. "<td class='center'>$this->nombreEncargado</td>"; //Responsable
 		$this->proyectos = $this->proyectos. "<td class='center'>"; // Inicio de Etiqueta
@@ -138,7 +138,7 @@ function getResponsables(){
 	while($row = mysql_fetch_array($this->result)){
 		$this->responsables = $this->responsables."<option value='".$row['id_miembros']."'>".ucfirst($row['p_nombre'])." ".ucfirst($row['apellido_p'])."</option>";
 	}
-	return $this->responsables;
+	return utf8_encode($this->responsables);
 
 }
 
@@ -149,7 +149,7 @@ function getLugares(){
 	while($row = mysql_fetch_array($this->result)){
 		$this->lugares = $this->lugares."<option value='".$row['id_lugares']."'>".$row['nombre_lugar']."</option>";
 	}
-	return $this->lugares;
+	return utf8_encode($this->lugares);
 
 }
 

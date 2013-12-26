@@ -39,28 +39,6 @@
 			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
 			$Proyecto->crearServicio($DatosDelServicio);
 		}
-		if($_POST['textDescServicio2']!=""){
-			$nombre_servicio = $_POST['textDescServicio2'];
-			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
-			$Proyecto->crearServicio($DatosDelServicio);
-		}
-		if($_POST['textDescServicio3']!=""){
-			$nombre_servicio = $_POST['textDescServicio3'];
-			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
-			$Proyecto->crearServicio($DatosDelServicio);
-		}
-		if($_POST['textDescServicio4']!=""){
-			$nombre_servicio = $_POST['textDescServicio4'];
-			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
-			$Proyecto->crearServicio($DatosDelServicio);
-		}
-		if($_POST['textDescServicio5']!=""){
-			$nombre_servicio = $_POST['textDescServicio5'];
-			$DatosDelServicio = array($id_miembro,$id_proyectos,$nombre_servicio);
-			$Proyecto->crearServicio($DatosDelServicio);
-		}
-
-
 		header('location:main.php');
 	}
  ?>
@@ -71,8 +49,8 @@
 	<meta charset="utf-8">
 	<title>Estado de Proyectos</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
-	<meta name="author" content="Muhammad Usman">
+	<meta name="description" content="Joint OPs, Sistema de Procesos integrados, OPServices">
+	<meta name="author" content="Joint Ops">
 
 	<!-- The styles -->
 	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
@@ -128,9 +106,9 @@
 					<li class="divider-vertical"></li>
 					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
+					<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+					<li><a class="ajax-link" href="crud.php"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
 					<li class="divider-vertical"></li>
 				</ul>
 				
@@ -241,58 +219,7 @@
 											<div id="ser1" class="servicio1">
 												<div class="control-group">
 													<h4>Descripción del Servicio</h4>
-													<input type="text" name="textDescServicio1" placeholder="Descripción del Servicio"/>
-													<a class="btn btn-success" href="#" onclick="$('#ser2').show('slow')" >
-														<i class="icon-plus icon-white"></i>                                         
-													</a>
-												</div>
-											</div>
-											<div id="ser2" class="servicio2 hide">
-												<div class="control-group">
-													<h4>Descripción del Servicio</h4>
-													<input type="text" name="textDescServicio2" placeholder="Descripción del Servicio"/>
-													<a class="btn btn-success" href="#" onclick="$('#ser3').show('slow')" >
-														<i class="icon-plus icon-white"></i>                                         
-													</a>
-													<a class="btn btn-danger" href="#" onclick="$('#ser2').hide('slow')" >
-														<i class="icon-minus icon-white"></i>                                         
-													</a>
-												</div>
-											</div>
-
-											<div id="ser3" class="servicio3 hide">
-												<div class="control-group">
-													<h4>Descripción del Servicio</h4>
-													<input type="text" name="textDescServicio3" placeholder="Descripción del Servicio"/>
-													<a class="btn btn-success" href="#" onclick="$('#ser4').show('slow')" >
-														<i class="icon-plus icon-white"></i>                                         
-													</a>
-													<a class="btn btn-danger" href="#" onclick="$('#ser3').hide('slow')" >
-														<i class="icon-minus icon-white"></i>                                         
-													</a>
-												</div>
-											</div>
-											
-											<div id="ser4" class="servicio4 hide">
-												<div class="control-group">
-													<h4>Descripción del Servicio</h4>
-													<input type="text" name="textDescServicio4" placeholder="Descripción del Servicio"/>
-													<a class="btn btn-success" href="#" onclick="$('#ser5').show('slow')" >
-														<i class="icon-plus icon-white"></i>                                         
-													</a>
-													<a class="btn btn-danger" href="#" onclick="$('#ser4').hide('slow')" >
-														<i class="icon-minus icon-white"></i>                                         
-													</a>
-												</div>
-											</div>
-											
-											<div id="ser5" class="servicio5 hide">
-												<div class="control-group">
-													<h4>Descripción del Servicio</h4>
-													<input type="text" name="textDescServicio5" placeholder="Descripción del Servicio"/>
-													<a class="btn btn-danger" href="#" onclick="$('#ser5').hide('slow')" >
-														<i class="icon-minus icon-white"></i>                                         
-													</a>
+													<input type="text" name="textDescServicio1" placeholder="Descripción del Servicio" required/>
 												</div>
 											</div>
 										</div>

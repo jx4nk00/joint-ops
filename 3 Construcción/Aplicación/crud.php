@@ -10,6 +10,43 @@
 	$datosUsuarios = $Usuario->verUsuario();
 	$bancos = $Usuario->verBancos();
 	$privilegios = $Usuario->verPrivilegios();
+
+
+
+	// Crear Usuario
+	if (isset($_POST['crearMiembro'])) {
+
+		//Tabla Usuarios
+		$user = $_POST['textUsuario'];
+		$pass = sha1($_POST['textPassword']);
+		$DatosUsuario = array($user,$pass);
+		$idUsuario = $Usuario->creaUsuario($DatosUsuario);
+
+
+		//Tabla Datos_Miembros
+		$telefono = $_POST['textTelefono'];
+		$correo = $_POST['textCorreo'];
+		$cuentaCorriente = $_POST['textCCorriente'];
+		$DatosMiembro = array($telefono,$correo,$cuentaCorriente);
+		$idDatos = $Usuario->crearDatosMiembro($DatosMiembro);
+
+		//Tabla Miembros
+		$idBanco = $_POST['selectBanco'];
+		$idPrivilegio = $_POST['selectPrivilegio'];
+		$primerNombre = $_POST['textPNombre'];
+		$segundoNombre = $_POST['textSNombre'];
+		$apellidoMaterno = $_POST['textAPaterno'];
+		$apellidoPaterno = $_POST['textAMaterno'];
+		$rut = $_POST['textRut'];
+		$fNacimiento = date("Y-m-d",strtotime($_POST['textFNacimiento']));
+		$fCreacion = date('Y-m-d');
+		$activo = 1;
+
+		$DatosNuevoMiembro = array($idBanco,$idPrivilegio,$idUsuario,$idDatos,$primerNombre,$segundoNombre,$apellidoPaterno,$apellidoMaterno,$rut,$fNacimiento,$fCreacion,$activo);
+		$Usuario->crearMiembro($DatosNuevoMiembro);
+		
+	}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -17,8 +54,8 @@
 	<meta charset="utf-8">
 	<title>Miembros</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
-	<meta name="author" content="Muhammad Usman">
+	<meta name="description" content="Joint OPs, Sistema de Procesos integrados, OPServices">
+	<meta name="author" content="Joint Ops">
 	<!-- The styles -->
 	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
 	<style type="text/css">
@@ -68,9 +105,9 @@
 					<li class="divider-vertical"></li>
 					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
+					<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+					<li><a class="ajax-link" href="crud.php"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
 					<li class="divider-vertical"></li>
 				</ul>
 				<!-- user dropdown starts -->
@@ -121,27 +158,27 @@
 
 					  <div class="tab-content">
 					    <div class="tab-pane active" id="create">
-					    	<form action="">
+					    	<form action="crud.php" method="POST">
 					      	<legend>Datos Personales</legend>
 							<div class="row-fluid">
 								<div class="span3">
 									<label>Primer nombre</label>
-									<input type="text" class="input-large" placeholder="Primer Nombre" required/>
+									<input name="textPNombre" type="text" class="input-large" placeholder="Primer Nombre" required/>
 								</div>
 
 								<div class="span3">
 									<label>Segundo nombre</label>
-									<input type="text" class="input-large" placeholder="Segundo Nombre" required/>
+									<input name="textSNombre" type="text" class="input-large" placeholder="Segundo Nombre" required/>
 								</div>
 
 								<div class="span3">
 									<label>Apellido Paterno</label>
-									<input type="text" class="input-large" placeholder="Apellido Paterno" required/>
+									<input name="textAPaterno" type="text" class="input-large" placeholder="Apellido Paterno" required/>
 								</div>
 
 								<div class="span3">
 									<label>Apellido Materno</label>
-									<input type="text" class="input-large" placeholder="Apellido Materno" required/>
+									<input name="textAMaterno" type="text" class="input-large" placeholder="Apellido Materno" required/>
 								</div>
 
 							</div>
@@ -149,16 +186,16 @@
 							<div class="row-fluid">
 								<div class="span3">
 									<label>RUT</label>
-									<input type="text" class="input-large" placeholder="RUT" required/>
+									<input name="textRut" type="text" class="input-large" placeholder="RUT" required/>
 
 								</div>
 								<div class="span3">
 									<label>Fecha de Nacimiento</label>
-									<input type="text" class="input-large" placeholder="Fecha de Nacimiento" required/>
+									<input name="textFNacimiento" type="text" class="input-large datepicker" id="fNac" placeholder="Fecha de Nacimiento" required/>
 								</div>
 								<div class="span3">
 									<label>Teléfono</label>
-									<input type="text" class="input-large" placeholder="Teléfono" required>
+									<input name="textTelefono" type="text" class="input-large" placeholder="Teléfono" required>
 								</div>
 								<div class="span3"></div>
 							</div>
@@ -167,7 +204,7 @@
 							<div class="row-fluid">
 								<div class="span3">
 									<label>Entidad bancaria</label>
-									<select>
+									<select name="selectBanco" >
 										<?php 
 											while ($fila = mysql_fetch_array($bancos)) {
 												echo utf8_encode("<option value=".$fila['id_banco'].">".$fila['nombre_banco']."</option>");
@@ -179,12 +216,12 @@
 								</div>
 								<div class="span3">
 									<label>Cuenta corriente</label>
-									<input class="input-large" type="text" placeholder="Cuenta Corriente" required />
+									<input name="textCCorriente" class="input-large" type="text" placeholder="Cuenta Corriente" required />
 									
 								</div>
 								<div class="span3">
 									<label data-rel="popover" data-content="Debe registrar el correo con anterioridad." title="¡Atención!">Correo electrónico *</label>
-									<input class="input-large" type="text" placeholder="Correo Electrónico" required />
+									<input name="textCorreo" class="input-large" type="text" placeholder="Correo Electrónico" required />
 								</div>
 								<div class="span3"></div>
 							</div>
@@ -193,15 +230,15 @@
 							<div class="row-fluid">
 								<div class="span3">
 									<label>Nombre de usuario</label>
-									<input class="input-large" type="text" placeholder="Nombre de Usuario" required />
+									<input name="textUsuario" class="input-large" type="text" placeholder="Nombre de Usuario" required />
 								</div>
 								<div class="span3">
 									<label>Contraseña</label>
-									<input class="input-large" type="text" placeholder="Contraseña" required />
+									<input name="textPassword" class="input-large" type="text" placeholder="Contraseña" required />
 								</div>
 								<div class="span3">
 									<label>Privilegio</label>
-									<select>
+									<select name="selectPrivilegio">
 										<?php 
 
 											while($fila = mysql_fetch_array($privilegios)){
@@ -213,7 +250,11 @@
 									</select>
 								</div>
 							</div>
-
+							<div class="form-actions">
+								<button name="crearMiembro" type="submit" class="btn btn-primary">Crear miembro</button>
+								<button type="button" class="btn btn-block">Volver</button>
+							</form>
+							</div>
 					    </div>
 
 					    <div class="tab-pane" id="read">
@@ -255,11 +296,6 @@
 					  </div>
 
 					</div>    					
-					</div>
-					<div class="form-actions">
-						<button type="submit" class="btn btn-primary">Crear miembro</button>
-						<button type="button" class="btn btn-block">Volver</button>
-					</form>
 					</div>
 				</div><!--/span-->
 			</div><!--/row-->

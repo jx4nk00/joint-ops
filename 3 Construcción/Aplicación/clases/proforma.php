@@ -61,9 +61,9 @@ class Proforma{
 
 				$this->fila = $this->fila.'<tr>';
 					$this->fila = $this->fila.'<td>'.$row['fecha'].'</td>';
-					$this->fila = $this->fila.'<td><div class="row-fluid">'.$row['detalle_Servicio'].'</div></td>';
+					$this->fila = $this->fila.'<td><div class="row-fluid">'.utf8_encode($row['detalle_servicio']).'</div></td>';
 					$this->fila = $this->fila.'<td>'.$fLugar[0].'</td>';
-					$this->fila = $this->fila.'<td>'.$fResponsable[0].' '.$fResponsable[1].' '.$fResponsable[2].' '.$fResponsable[3].'</td>';
+					$this->fila = $this->fila.'<td>'.utf8_encode($fResponsable[0]).' '.utf8_encode($fResponsable[1]).' '.utf8_encode($fResponsable[2]).' '.utf8_encode($fResponsable[3]).'</td>';
 					$this->fila = $this->fila.'<td><div class="row-fluid">'.$row['calificacion'].'</div></td>';
 					$this->fila = $this->fila.'<td><div class="row-fluid">'.$row['unidad_cobro'].'</div></td>';
 					$this->fila = $this->fila.'<td>'.$row['valor_dolar'].'</td>';
@@ -156,5 +156,20 @@ class Proforma{
 		}
 	return $fechas;
 	}
+
+
+	function getHonPrint($id_proforma){
+		$this->consulta = mysql_query("SELECT * FROM honorarios_proforma WHERE id_proformas = $id_proforma")
+			or die("Error getHonPrint");
+		return $this->consulta;
+	}
+
+	function getlugar($id_lugar){
+		$this->consulta = mysql_query("SELECT nombre_lugar FROM lugares WHERE id_lugares = $id_lugar")
+			or die("Error getLugares");
+		$this->resultado = mysql_fetch_array($this->consulta);
+
+		return $this->resultado;		
+	}	
 }
 ?>

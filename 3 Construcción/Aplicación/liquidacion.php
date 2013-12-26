@@ -185,7 +185,7 @@
 </head>
 
 <body>
-				<!-- topbar starts -->
+	<!-- topbar starts -->
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container-fluid">
@@ -200,13 +200,11 @@
 					<li class="divider-vertical"></li>
 					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
+					<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+					<li><a class="ajax-link" href="crud.php"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
 					<li class="divider-vertical"></li>
 				</ul>
-				
-				
 				<!-- user dropdown starts -->
 				<div class="btn-group pull-right" >
 					<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -220,7 +218,6 @@
 					</ul>
 				</div>
 				<!-- user dropdown ends -->
-				
 			</div>
 		</div>
 	</div>

@@ -165,9 +165,9 @@
 					<li class="divider-vertical"></li>
 					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
+					<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+					<li><a class="ajax-link" href="crud.php"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
 					<li class="divider-vertical"></li>
 				</ul>
 				
@@ -650,7 +650,7 @@
 								</div>
 							</div>
 							<div class="form-actions">
-								<a class="btn btn-large btn-primary" href="#"><i class="icon-print icon-white"></i> Imprimir</a>
+								<a class="btn btn-large btn-primary" href="printLiquidacion.php?idProyecto=<?php echo $idDeProyecto; ?>"><i class="icon-print icon-white"></i> Imprimir</a>
 								<a class="btn btn-large btn-block" href="main.php"><i class="icon-home"></i> Volver</a>
 							</div>
 						 </fieldset>
