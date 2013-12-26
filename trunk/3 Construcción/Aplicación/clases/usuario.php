@@ -3,9 +3,30 @@ include('conexion.php');
 class Usuario{
 	var $query;
 	var $result;
+
 	var $fila;
-	var $idUser;
 	var $nombre;
+
+	var $idUser;
+	var $user;
+	var $password;
+
+	var $idDatos;
+	var $telefono;
+	var $correo;
+	var $cCoriente;
+
+	var $idBanco;
+	var $idPrivilegio;
+	var $idUsuarios;
+	var $pNombre;
+	var $sNombre;
+	var $aPaterno;
+	var $aMaterno;
+	var $rut;
+	var $fNac;
+	var $fCrac;
+	var $activo;
 
 function verUsuario(){
 	$this->query = mysql_query("SELECT * FROM miembros mi
@@ -17,6 +38,88 @@ function verUsuario(){
 							ON mi.id_usuarios = us.id_usuarios")
 	or die ("Error en la consulta verUsuario");
 	return $this->query;
+}
+
+function creaUsuario($datosUsuario){
+	$this->username = $datosUsuario[0];
+	$this->password = $datosUsuario[1];
+
+	$this->query = mysql_query("INSERT INTO usuarios (username,pass) VALUES ('$this->username','$this->password')")
+		or die("Error al ingresar Usuario");
+
+	$this->query = mysql_query("SELECT id_usuarios FROM usuarios ORDER BY id_usuarios DESC")
+		or die("Error al obtener Id de Usuario");
+
+	$this->result = mysql_fetch_array($this->query);
+
+	return $this->result[0];
+
+
+}
+
+function crearDatosMiembro($datosMiembro){
+	$this->telefono = $datosMiembro[0];
+	$this->correo = $datosMiembro[1];
+	$this->cCoriente = $datosMiembro[2];
+
+	$this->query = mysql_query("INSERT INTO datos_miembros (telefono,correo,cta_corriente) VALUES ('$this->telefono','$this->correo','$this->cCoriente')")
+		or die("Error al ingresar datos miembro");
+
+	$this->query = mysql_query("SELECT id_datos FROM datos_miembros ORDER BY id_datos DESC")
+		or die("Error al abtener id_miembros");
+
+	$this->result = mysql_fetch_array($this->query);
+
+	return $this->result[0];
+
+
+}
+
+function crearMiembro($datosMiembro){
+
+	$this->idBanco = $datosMiembro[0];
+	$this->idPrivilegio = $datosMiembro[1];
+	$this->idUsuarios = $datosMiembro[2];
+	$this->idDatos = $datosMiembro[3];
+	$this->pNombre = $datosMiembro[4];
+	$this->sNombre = $datosMiembro[5];
+	$this->aPaterno = $datosMiembro[6];
+	$this->aMaterno = $datosMiembro[7];
+	$this->rut = $datosMiembro[8];
+	$this->fNac = $datosMiembro[9];
+	$this->fCrac = $datosMiembro[10];
+	$this->activo = $datosMiembro[11];
+
+	$this->query = mysql_query("INSERT INTO miembros (
+											id_banco,
+											id_privilegio,
+											id_usuarios,
+											id_datos,
+											p_nombre,
+											s_nombre,
+											apellido_p,
+											apellido_m,
+											rut,
+											f_nac,
+											f_creacion,
+											activo
+											)VALUES(
+											'$this->idBanco',
+											'$this->idPrivilegio',
+											'$this->idUsuarios',
+											'$this->idDatos',
+											'$this->pNombre',
+											'$this->sNombre',
+											'$this->aPaterno',
+											'$this->aMaterno',
+											'$this->rut',
+											'$this->fNac',
+											'$this->fCrac',
+											'$this->activo'
+											)")
+		or die("Error al crear nuevo miembro");
+
+	return "Miembro Ingresado con Éxito";
 }
 
 function verBancos(){
@@ -57,7 +160,7 @@ function getUserName($id){
 	$this->fila = mysql_fetch_array($this->query);
 	$this->nombre = ucfirst($this->fila['p_nombre'])." ".ucfirst($this->fila['apellido_p']);
 
-	return $this->nombre;
+	return utf8_encode($this->nombre);
 }
 
 	function verTipoUsuario($idUsuario){
@@ -71,5 +174,4 @@ function getUserName($id){
 	}
 
 }//cierre de la clase
-
 ?>

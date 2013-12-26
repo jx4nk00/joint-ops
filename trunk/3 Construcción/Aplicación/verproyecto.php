@@ -85,8 +85,8 @@
 	<meta charset="utf-8">
 	<title>Ver Proyectos</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Charisma, a fully featured, responsive, HTML5, Bootstrap admin template.">
-	<meta name="author" content="Muhammad Usman">
+	<meta name="description" content="Joint OPs, Sistema de Procesos integrados, OPServices">
+	<meta name="author" content="Joint Ops">
 	<!-- The styles -->
 	<link id="bs-css" href="css/bootstrap-spacelab.css" rel="stylesheet">
 	<style type="text/css">
@@ -136,9 +136,9 @@
 					<li class="divider-vertical"></li>
 					<li><a class="ajax-link" href="main.php"><i class="icon-home"></i><span class="hidden-tablet"> Inicio</span></a></li>
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
+					<li><a class="ajax-link" href="nuevoproyecto.php"><i class="icon-plus"></i><span class="hidden-tablet"> Nuevo Proyecto</span></a></li> 	
 					<li class="divider-vertical"></li>
-					<li><a class="ajax-link" href="#"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
+					<li><a class="ajax-link" href="crud.php"><i class="icon-user"></i><span class="hidden-tablet"> Usuarios</span></a></li>
 					<li class="divider-vertical"></li>
 				</ul>
 				<!-- user dropdown starts -->
@@ -292,7 +292,7 @@
 										$existeInforme = $informe->verExistencia($idDeProyecto);
 										if ($existeInforme) { 
 									?>
-									<a class="btn btn-success" target="_blank" href="<?php echo $existeInforme[2]; ?>">
+									<a class="btn btn-success" target="_blank" href="<?php echo utf8_encode($existeInforme[2]); ?>">
 										<i class="icon-zoom-in icon-white"></i>  
 										Ver Informe                                            
 									</a>
@@ -346,7 +346,7 @@
 										<?php if($existeProforma){ ?>
 										<?php 
 											$existeFactura = $Cliente->getDatosCliente($idDeProyecto);
-											if($existeProforma){
+											if($existeFactura){
 										 ?>
 										<a class="btn btn-success" href="verFactura.php?idProyecto=<?php echo $idDeProyecto; ?>">
 											<i class="icon-zoom-in icon-white"></i>  
